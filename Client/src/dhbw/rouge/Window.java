@@ -2,13 +2,14 @@ package dhbw.rouge;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.PrintWriter;
 
 public class Window extends JFrame {
 
     private GameCanvas gameCanvas;
 
-    public Window() {
-        gameCanvas = new GameCanvas();
+    public Window(PrintWriter out) {
+        gameCanvas = new GameCanvas(out);
         setTitle("Clandestine Dungeons");
         setSize(1280, 720);
         setPreferredSize(new Dimension(1280, 720));

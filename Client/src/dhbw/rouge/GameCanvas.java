@@ -1,23 +1,31 @@
 package dhbw.rouge;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class GameCanvas extends Canvas implements Runnable {
+public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     private boolean running;
     private int fps;
     private int tps;
     private List<String> messages;
 
-    public GameCanvas() {
+    private PrintWriter out;
+
+    public GameCanvas(PrintWriter out) {
         running = true;
 
         messages = Collections.synchronizedList(new ArrayList<>());
+
+        addKeyListener(this);
+        this.out = out;
     }
 
     public void startThread() {
@@ -44,11 +52,8 @@ public class GameCanvas extends Canvas implements Runnable {
                 unprocessed--;
             }
 
-            {
-                frames++;
-                //maybe instead of repaint() use the other method of rendering with buffer
-                render();
-            }
+            frames++;
+            render();
 
             if (System.currentTimeMillis() - lastTimer > 1000) {
                 lastTimer += 1000;
@@ -77,7 +82,6 @@ public class GameCanvas extends Canvas implements Runnable {
         g.setColor(Color.WHITE);
         g.drawString("FPS: " + fps, 20, 20);
         g.drawString("TPS: " + tps, 20, 40);
-        //System.out.println("Messages Size: " + messages.size());
 
         int height = 0;
         for(String message : messages) {
@@ -91,5 +95,23 @@ public class GameCanvas extends Canvas implements Runnable {
 
     public void addMessage(String message) {
         messages.add(message);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(out != null) {
+            System.out.println("key typed: " + e.getKeyChar());
+            out.println(e.getKeyChar());
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("key pressed: " + e.getKeyChar());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        System.out.println("key released: " + e.getKeyChar());
     }
 }

@@ -9,14 +9,14 @@ import java.net.Socket;
 public class Client {
 
     public Client(String ip, int port) {
-        Window gameWindow = new Window();
         try {
             Socket socket = new Socket(ip, port);
-
 
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+            Window gameWindow = new Window(out);
 
             new Thread(() -> {
                 String msg;
