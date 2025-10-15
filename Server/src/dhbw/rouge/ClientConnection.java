@@ -28,10 +28,12 @@ public class ClientConnection implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("Client connected.");
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+            //out.println("Connected to the Server.");
             out.println("Connected to the Server.");
 
             String message;

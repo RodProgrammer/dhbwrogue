@@ -8,9 +8,11 @@ import java.net.Socket;
 
 public class Client {
 
-    private Client(String ip, int port) {
+    public Client(String ip, int port) {
+        Window gameWindow = new Window();
         try {
             Socket socket = new Socket(ip, port);
+
 
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
@@ -21,19 +23,22 @@ public class Client {
                 try {
                     while ((msg = input.readLine()) != null) {
                         System.out.println(msg);
+                        gameWindow.getGameCanvas().addMessage(msg);
                     }
+                    socket.close();
                 } catch (IOException e) {
                     System.out.println("[INFO] Disconnected from server.");
                 }
             }).start();
-            System.out.println("Connected to server. Type messages:");
 
-            String userInput;
-            while ((userInput = keyboard.readLine()) != null) {
-                out.println(userInput);
-            }
 
-            socket.close();
+
+            //String userInput;
+            //while ((userInput = keyboard.readLine()) != null) {
+            //    out.println(userInput);
+            //}
+
+
         } catch (IOException ex) {
             System.out.println("[ERROR] Couldn't create Socket");
         }
