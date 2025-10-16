@@ -10,7 +10,6 @@ import java.util.Objects;
 public class ClientConnection implements Runnable {
 
     private PrintWriter out;
-    private BufferedReader in;
     private Socket socket;
     private Server server;
 
@@ -22,7 +21,9 @@ public class ClientConnection implements Runnable {
     }
 
     public void sendMessage(String message) {
-        out.println(message);
+        if (out != null) {
+            out.println(message);
+        }
     }
 
     public void start() {
@@ -32,21 +33,11 @@ public class ClientConnection implements Runnable {
     @Override
     public void run() {
         System.out.println("Client connected.");
-        try {
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+            this.out = out;
+            getConnectionMessages(in, out);
 
-            //out.println("Connected to the Server.");
-            out.println("Connected to the Server.");
-
-            String username = in.readLine();
-            this.username = Objects.requireNonNullElse(username, "NoNameClient");
-
-            String message;
-            while ((message = in.readLine()) != null) {
-                System.out.println("Received: " + message);
-                server.sentMessage(this, message);
-            }
         } catch (IOException e) {
             System.out.println("Client disconnected.");
         } finally {
@@ -56,6 +47,19 @@ public class ClientConnection implements Runnable {
                 e.printStackTrace();
             }
             server.removeClient(this);
+        }
+    }
+
+    private void getConnectionMessages(BufferedReader in, PrintWriter out) throws IOException {
+        out.println("Connected to the Server.");
+
+        String username = in.readLine();
+        this.username = Objects.requireNonNullElse(username, "NoNameClient");
+
+        String message;
+        while ((message = in.readLine()) != null) {
+            System.out.println("Received: " + message);
+            server.sendMessage(this, message);
         }
     }
 

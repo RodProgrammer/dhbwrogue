@@ -29,10 +29,10 @@ public class Server {
         System.out.println("Client " + clientConnection.getUsername() + " has disconnected.");
     }
 
-    public void sentMessage(ClientConnection clientConnection, String message) {
+    public void sendMessage(ClientConnection clientConnection, String message) {
         synchronized (connections) {
-            for(ClientConnection client : connections) {
-                if(client != clientConnection) {
+            for (ClientConnection client : connections) {
+                if (client != clientConnection) {
                     client.sendMessage(message);
                 }
             }
