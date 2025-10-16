@@ -84,10 +84,12 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
         int height = 0;
 
-        List<String> messages = new CopyOnWriteArrayList<>(this.messages);
-        for(String message : messages) {
-            g.drawString(message, 10, height + 60);
-            height += 15;
+        //List<String> messages = new CopyOnWriteArrayList<>(this.messages);
+        synchronized (messages) {
+            for(String message : messages) {
+                g.drawString(message, 10, height + 60);
+                height += 15;
+            }
         }
 
         g.dispose();
@@ -101,8 +103,9 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
                     try {
                         Thread.sleep(1300);
                     } catch (InterruptedException ex) {}
-                    messages.remove(messages.getFirst());
-
+                    synchronized (messages) {
+                        messages.remove(messages.getFirst());
+                    }
                 } else {
                     try {
                         Thread.sleep(2000);
