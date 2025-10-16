@@ -4,32 +4,31 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     private boolean running;
     private int fps;
     private int tps;
-    private List<String> messages;
+    private final List<String> messages;
 
-    private PrintWriter out;
+    private ServerConnection serverConnection;
 
-    public GameCanvas(PrintWriter out) {
+    public GameCanvas() {
         running = true;
 
         messages = Collections.synchronizedList(new ArrayList<>());
 
         addKeyListener(this);
-        this.out = out;
     }
 
     public void startThread() {
         new Thread(this).start();
+        deleteMessages();
     }
 
     @Override
@@ -84,13 +83,37 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         g.drawString("TPS: " + tps, 20, 40);
 
         int height = 0;
+
+        List<String> messages = new CopyOnWriteArrayList<>(this.messages);
         for(String message : messages) {
             g.drawString(message, 10, height + 60);
-            height += 10;
+            height += 15;
         }
 
         g.dispose();
         bs.show();
+    }
+
+    private void deleteMessages() {
+        new Thread(() -> {
+            while(running) {
+                if(!messages.isEmpty()) {
+                    try {
+                        Thread.sleep(1300);
+                    } catch (InterruptedException ex) {}
+                    messages.remove(messages.getFirst());
+
+                } else {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {}
+                }
+            }
+        }).start();
+    }
+
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
     }
 
     public void addMessage(String message) {
@@ -99,19 +122,16 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(out != null) {
-            System.out.println("key typed: " + e.getKeyChar());
-            out.println(e.getKeyChar());
-        }
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("key pressed: " + e.getKeyChar());
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("key released: " + e.getKeyChar());
+
     }
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Objects;
 
 public class ClientConnection implements Runnable {
 
@@ -12,6 +13,8 @@ public class ClientConnection implements Runnable {
     private BufferedReader in;
     private Socket socket;
     private Server server;
+
+    private String username;
 
     public ClientConnection(Socket socket, Server server) {
         this.server = server;
@@ -36,6 +39,9 @@ public class ClientConnection implements Runnable {
             //out.println("Connected to the Server.");
             out.println("Connected to the Server.");
 
+            String username = in.readLine();
+            this.username = Objects.requireNonNullElse(username, "NoNameClient");
+
             String message;
             while ((message = in.readLine()) != null) {
                 System.out.println("Received: " + message);
@@ -51,5 +57,9 @@ public class ClientConnection implements Runnable {
             }
             server.removeClient(this);
         }
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
