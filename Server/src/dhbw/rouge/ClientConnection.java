@@ -15,7 +15,7 @@ public class ClientConnection implements Runnable {
     private final Socket socket;
     private final Server server;
 
-    private String username;
+    private Player lastPlayerState;
 
     public ClientConnection(Socket socket, Server server) {
         this.server = server;
@@ -43,9 +43,11 @@ public class ClientConnection implements Runnable {
     }
 
     public void sendPlayer(Player player) {
-        if(oOut != null) {
+        if (oOut != null) {
             try {
-                oOut.writeObject(player);
+                if (socket.isConnected()) {
+                    oOut.writeObject(player);
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -77,6 +79,7 @@ public class ClientConnection implements Runnable {
                 e.printStackTrace();
             }
             server.removeClient(this);
+            System.out.println("Last Client state: " + lastPlayerState);
         }
     }
 
@@ -90,6 +93,7 @@ public class ClientConnection implements Runnable {
             }
             switch (answer) {
                 case Player player -> {
+                    this.lastPlayerState = (Player) answer;
                     System.out.println(answer);
                     server.sendPlayer(this, player);
                 }
@@ -104,6 +108,6 @@ public class ClientConnection implements Runnable {
     }
 
     public String getUsername() {
-        return username;
+        return lastPlayerState.getName();
     }
 }

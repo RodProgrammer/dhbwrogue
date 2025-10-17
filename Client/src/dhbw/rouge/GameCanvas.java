@@ -66,8 +66,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
             }
 
             frames++;
-            double interpolation = unprocessed;
-            render(interpolation);
+            render();
 
             if (System.currentTimeMillis() - lastTimer > 1000) {
                 lastTimer += 1000;
@@ -81,7 +80,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    public void render(double interpolation) {
+    public void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -96,19 +95,18 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("FPS: " + fps, 20, 20);
         g.drawString("TPS: " + tps, 20, 40);
-        g.drawString("Current Players: " + Arrays.toString(players.toArray()), getWidth() - 200, 40);
 
         int height = 0;
 
         synchronized (messages) {
-            for(String message : messages) {
+            for (String message : messages) {
                 g.drawString(message, 10, height + 60);
                 height += 15;
             }
         }
 
         synchronized (entities) {
-            for(Entity entity : entities) {
+            for (Entity entity : entities) {
                 entity.draw(g);
             }
         }
@@ -151,6 +149,12 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         }
     }
 
+    public void removePlayer(String playerName) {
+        synchronized (players) {
+            players.removeIf(p -> p.getName().equals(playerName));
+        }
+    }
+
     private void deleteMessages() {
         new Thread(() -> {
             while(running) {
@@ -180,11 +184,6 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     public void addMessage(String message) {
         messages.add(message);
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -223,5 +222,10 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         if (KeyEvent.VK_D == e.getKeyCode()) {
             player.removeDirection(Direction.RIGHT);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 }

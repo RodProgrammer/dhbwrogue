@@ -34,7 +34,12 @@ public class ServerConnection {
             try {
                 while ((msg = in.readObject()) != null) {
                     switch (msg) {
-                        case String s -> gameWindow.getGameCanvas().addMessage(s);
+                        case String s -> {
+                            gameWindow.getGameCanvas().addMessage(s);
+                            if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
+                                gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
+                            }
+                        }
                         case Player player -> {
                             System.out.println(player);
                             gameWindow.getGameCanvas().addPlayer(player);

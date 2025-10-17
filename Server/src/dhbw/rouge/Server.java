@@ -30,6 +30,9 @@ public class Server {
     public void removeClient(ClientConnection clientConnection) {
         connections.remove(clientConnection);
         System.out.println("Client " + clientConnection.getUsername() + " has disconnected.");
+        for (ClientConnection connection : connections) {
+            connection.sendMessage("Disconnected: " + clientConnection.getUsername());
+        }
     }
 
     public void sendMessage(ClientConnection clientConnection, String message) {
