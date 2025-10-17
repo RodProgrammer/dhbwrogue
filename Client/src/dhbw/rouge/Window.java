@@ -44,12 +44,12 @@ public class Window extends JFrame implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        System.out.println("Closed");
+
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
-
+        System.out.println("Closed");
     }
 
     @Override

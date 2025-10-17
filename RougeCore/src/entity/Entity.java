@@ -9,6 +9,8 @@ public abstract class Entity implements Serializable {
     protected int y;
     protected final Rectangle rectangle;
 
+    protected String name;
+
     public Entity(int x, int y) {
         this.x = x;
         this.y = y;
@@ -56,5 +58,18 @@ public abstract class Entity implements Serializable {
 
     public Rectangle getRectangle() {
         return rectangle;
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" + "x=" + x + ", y=" + y + '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

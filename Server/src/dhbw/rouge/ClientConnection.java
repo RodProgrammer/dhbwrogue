@@ -1,15 +1,17 @@
 package dhbw.rouge;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import entity.Entity;
+import entity.Player;
+
+import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Objects;
 
 public class ClientConnection implements Runnable {
 
-    private PrintWriter out;
+    private ObjectOutputStream oOut;
+
     private final Socket socket;
     private final Server server;
 
@@ -21,8 +23,32 @@ public class ClientConnection implements Runnable {
     }
 
     public void sendMessage(String message) {
-        if (out != null) {
-            out.println(message);
+        if (oOut != null) {
+            try {
+                oOut.writeObject(message);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void sendEntity(Entity entity) {
+        if(oOut != null) {
+            try {
+                oOut.writeObject(entity);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void sendPlayer(Player player) {
+        if(oOut != null) {
+            try {
+                oOut.writeObject(player);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -33,13 +59,17 @@ public class ClientConnection implements Runnable {
     @Override
     public void run() {
         System.out.println("Client connected.");
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-            this.out = out;
-            getConnectionMessages(in, out);
+            try (ObjectOutputStream oOut = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream oIn = new ObjectInputStream(socket.getInputStream())) {
 
+            this.oOut = oOut;
+            getConnectionMessages(oIn);
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Client disconnected.");
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            System.out.println("Couldn't parse entity.");
         } finally {
             try {
                 socket.close();
@@ -50,16 +80,26 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    private void getConnectionMessages(BufferedReader in, PrintWriter out) throws IOException {
-        out.println("Connected to the Server.");
-
-        String username = in.readLine();
-        this.username = Objects.requireNonNullElse(username, "NoNameClient");
-
-        String message;
-        while ((message = in.readLine()) != null) {
-            System.out.println("Received: " + message);
-            server.sendMessage(this, message);
+    private void getConnectionMessages(ObjectInputStream in) throws ClassNotFoundException, IOException {
+        while (true) {
+            Object answer;
+            try {
+                answer = in.readObject();
+            } catch (SocketException | EOFException e) {
+                break;
+            }
+            switch (answer) {
+                case Player player -> {
+                    System.out.println(answer);
+                    server.sendPlayer(this, player);
+                }
+                case Entity entity -> {
+                    System.out.println(answer);
+                    server.sendEntity(this, entity);
+                }
+                case String s -> server.sendMessage(this, s);
+                default -> {}
+            }
         }
     }
 

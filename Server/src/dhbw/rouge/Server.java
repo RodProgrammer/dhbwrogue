@@ -1,5 +1,8 @@
 package dhbw.rouge;
 
+import entity.Entity;
+import entity.Player;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -39,6 +42,26 @@ public class Server {
         }
     }
 
+    public void sendEntity(ClientConnection clientConnection, Entity entity) {
+        synchronized (connections) {
+            for (ClientConnection client : connections) {
+                if (client != clientConnection) {
+                    client.sendEntity(entity);
+                }
+            }
+        }
+    }
+
+    public void sendPlayer(ClientConnection clientConnection, Player player) {
+        synchronized (connections) {
+            for (ClientConnection client : connections) {
+                if (client != clientConnection) {
+                    client.sendPlayer(player);
+                }
+            }
+        }
+    }
+
     public void startServer() {
         while (true) {
             try {
@@ -55,7 +78,6 @@ public class Server {
     private void pingClients() {
         new Thread(() -> {
             while(true) {
-
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException ex) {}

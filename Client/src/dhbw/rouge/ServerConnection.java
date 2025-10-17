@@ -1,26 +1,26 @@
 package dhbw.rouge;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import entity.Entity;
+import entity.Player;
+
+import java.io.*;
 import java.net.Socket;
+import java.util.EnumMap;
 
 public class ServerConnection {
 
-    private BufferedReader input;
-    private BufferedReader keyboard;
-    private PrintWriter out;
-    private Socket socket;
-    private Window gameWindow;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private final Socket socket;
+    private final Window gameWindow;
 
     public ServerConnection(Socket socket, Window gameWindow) {
         this.socket = socket;
         this.gameWindow = gameWindow;
         try {
-            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            keyboard = new BufferedReader(new InputStreamReader(System.in));
-            out = new PrintWriter(socket.getOutputStream(), true);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+
         } catch (IOException e) {
             System.out.println("[ERROR] Couldn't establish connection.");
             return;
@@ -30,26 +30,36 @@ public class ServerConnection {
 
     private void createContinuousConnection() {
         new Thread(() -> {
-            out.println("RobinTest " + hashCode());
-            String msg;
+            Object msg;
             try {
-                while ((msg = input.readLine()) != null) {
-                    System.out.println(msg);
-                    gameWindow.getGameCanvas().addMessage(msg);
+                while ((msg = in.readObject()) != null) {
+                    switch (msg) {
+                        case String s -> gameWindow.getGameCanvas().addMessage(s);
+                        case Player player -> {
+                            System.out.println(player);
+                            gameWindow.getGameCanvas().addPlayer(player);
+                        }
+                        case Entity entity -> gameWindow.getGameCanvas().addEntity(entity);
+                        default -> {}
+                    }
                 }
                 socket.close();
             } catch (IOException e) {
                 System.out.println("[INFO] Disconnected from server.");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }).start();
     }
 
-    public void sendMessage(String message) {
-        out.println(message);
-    }
-
     public void sendObject(Object o) {
-
+        try {
+            out.reset();
+            out.writeObject(o);
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

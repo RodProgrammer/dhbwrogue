@@ -1,14 +1,14 @@
 package dhbw.rouge;
 
 import entity.Direction;
+import entity.Entity;
 import entity.Player;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
 
 public class GameCanvas extends Canvas implements Runnable, KeyListener {
@@ -22,10 +22,15 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     private ServerConnection serverConnection;
 
+    private final List<Entity> entities;
+    private final List<Player> players;
+
     public GameCanvas() {
         running = true;
 
         messages = Collections.synchronizedList(new ArrayList<>());
+        players = Collections.synchronizedList(new ArrayList<>());
+        entities = Collections.synchronizedList(new ArrayList<>());
 
         player = new Player(0, 0);
 
@@ -54,9 +59,8 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
             while (unprocessed >= 1) {
                 ticks++;
                 player.tick();
-                if(serverConnection != null) {
+                if (serverConnection != null) {
                     serverConnection.sendObject(player);
-                    serverConnection.sendMessage("X: " + player.getX() + " Y: " + player.getY());
                 }
                 unprocessed--;
             }
@@ -92,6 +96,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("FPS: " + fps, 20, 20);
         g.drawString("TPS: " + tps, 20, 40);
+        g.drawString("Current Players: " + Arrays.toString(players.toArray()), getWidth() - 200, 40);
 
         int height = 0;
 
@@ -102,10 +107,48 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
             }
         }
 
+        synchronized (entities) {
+            for(Entity entity : entities) {
+                entity.draw(g);
+            }
+        }
+
+        synchronized (players) {
+            for (Player player : players) {
+                player.draw(g);
+            }
+        }
+
         player.draw(g);
 
         g.dispose();
         bs.show();
+    }
+
+    public void addPlayer(Player player) {
+        synchronized (players) {
+            boolean found = false;
+            for (Player p : players) {
+                if (p.getName().equals(player.getName())) {
+                    found = true;
+                    p.setX(player.getX());
+                    p.setY(player.getY());
+                    break;
+                }
+            }
+            if (!found) {
+                players.add(player);
+            }
+        }
+    }
+
+    public void addEntity(Entity entity) {
+        if(!entities.contains(entity)) {
+            entities.add(entity);
+        } else {
+            entities.remove(entity);
+            entities.add(entity);
+        }
     }
 
     private void deleteMessages() {
@@ -114,14 +157,18 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
                 if(!messages.isEmpty()) {
                     try {
                         Thread.sleep(1300);
-                    } catch (InterruptedException ex) {}
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
                     synchronized (messages) {
                         messages.remove(messages.getFirst());
                     }
                 } else {
                     try {
                         Thread.sleep(2000);
-                    } catch (InterruptedException ex) {}
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }).start();
@@ -143,24 +190,38 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (KeyEvent.VK_W == e.getKeyCode()) {
-            player.setDirection(Direction.UP);
+            player.addDirection(Direction.UP);
         }
 
         if (KeyEvent.VK_S == e.getKeyCode()) {
-            player.setDirection(Direction.DOWN);
+            player.addDirection(Direction.DOWN);
         }
 
         if (KeyEvent.VK_A == e.getKeyCode()) {
-            player.setDirection(Direction.LEFT);
+            player.addDirection(Direction.LEFT);
         }
 
         if (KeyEvent.VK_D == e.getKeyCode()) {
-            player.setDirection(Direction.RIGHT);
+            player.addDirection(Direction.RIGHT);
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        player.setDirection(Direction.NO_DIR);
+        if (KeyEvent.VK_W == e.getKeyCode()) {
+            player.removeDirection(Direction.UP);
+        }
+
+        if (KeyEvent.VK_S == e.getKeyCode()) {
+            player.removeDirection(Direction.DOWN);
+        }
+
+        if (KeyEvent.VK_A == e.getKeyCode()) {
+            player.removeDirection(Direction.LEFT);
+        }
+
+        if (KeyEvent.VK_D == e.getKeyCode()) {
+            player.removeDirection(Direction.RIGHT);
+        }
     }
 }

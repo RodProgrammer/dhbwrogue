@@ -1,39 +1,43 @@
 package entity;
 
-public class Player extends Entity {
+import java.awt.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-    private Direction dir;
+public class Player extends Entity implements Serializable {
+
+    private final Set<Direction> dirs;
 
     public Player(int x, int y) {
         super(x, y);
+        dirs = new HashSet<>();
+        name = String.valueOf(hashCode());
+    }
 
-        dir = Direction.NO_DIR;
+    @Override
+    public void draw(Graphics2D g) {
+        super.draw(g);
     }
 
     @Override
     public void tick() {
-        if (dir == Direction.UP) {
-            this.y -= 5;
-        }
-
-        if (dir == Direction.DOWN) {
-            this.y += 5;
-        }
-
-        if (dir == Direction.LEFT) {
-            this.x -= 5;
-        }
-
-        if (dir == Direction.RIGHT) {
-            this.x += 5;
-        }
+        if (dirs.contains(Direction.UP)) this.y -= 5;
+        if (dirs.contains(Direction.DOWN)) this.y += 5;
+        if (dirs.contains(Direction.LEFT)) this.x -= 5;
+        if (dirs.contains(Direction.RIGHT)) this.x += 5;
     }
 
-    public Direction getDirection() {
-        return dir;
+    public void addDirection(Direction dir) {
+        dirs.add(dir);
     }
 
-    public void setDirection(Direction dir) {
-        this.dir = dir;
+    public void removeDirection(Direction dir) {
+        dirs.remove(dir);
+    }
+
+    @Override
+    public String toString() {
+        return "Player(name: " + name +  ", x: " + x + ", y:" + y + ")";
     }
 }
