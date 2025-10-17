@@ -1,5 +1,8 @@
 package dhbw.rouge;
 
+import entity.Direction;
+import entity.Player;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,7 +10,6 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
@@ -16,12 +18,16 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
     private int tps;
     private final List<String> messages;
 
+    private final Player player;
+
     private ServerConnection serverConnection;
 
     public GameCanvas() {
         running = true;
 
         messages = Collections.synchronizedList(new ArrayList<>());
+
+        player = new Player(0, 0);
 
         addKeyListener(this);
     }
@@ -47,12 +53,17 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
             while (unprocessed >= 1) {
                 ticks++;
-                //animation update here
+                player.tick();
+                if(serverConnection != null) {
+                    serverConnection.sendObject(player);
+                    serverConnection.sendMessage("X: " + player.getX() + " Y: " + player.getY());
+                }
                 unprocessed--;
             }
 
             frames++;
-            render();
+            double interpolation = unprocessed;
+            render(interpolation);
 
             if (System.currentTimeMillis() - lastTimer > 1000) {
                 lastTimer += 1000;
@@ -66,7 +77,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    public void render() {
+    public void render(double interpolation) {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -84,13 +95,14 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
         int height = 0;
 
-        //List<String> messages = new CopyOnWriteArrayList<>(this.messages);
         synchronized (messages) {
             for(String message : messages) {
                 g.drawString(message, 10, height + 60);
                 height += 15;
             }
         }
+
+        player.draw(g);
 
         g.dispose();
         bs.show();
@@ -130,11 +142,25 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (KeyEvent.VK_W == e.getKeyCode()) {
+            player.setDirection(Direction.UP);
+        }
 
+        if (KeyEvent.VK_S == e.getKeyCode()) {
+            player.setDirection(Direction.DOWN);
+        }
+
+        if (KeyEvent.VK_A == e.getKeyCode()) {
+            player.setDirection(Direction.LEFT);
+        }
+
+        if (KeyEvent.VK_D == e.getKeyCode()) {
+            player.setDirection(Direction.RIGHT);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        player.setDirection(Direction.NO_DIR);
     }
 }

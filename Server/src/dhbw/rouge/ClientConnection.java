@@ -10,8 +10,8 @@ import java.util.Objects;
 public class ClientConnection implements Runnable {
 
     private PrintWriter out;
-    private Socket socket;
-    private Server server;
+    private final Socket socket;
+    private final Server server;
 
     private String username;
 

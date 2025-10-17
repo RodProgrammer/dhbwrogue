@@ -44,8 +44,12 @@ public class ServerConnection {
         }).start();
     }
 
-    private void sendMessage(String message) {
+    public void sendMessage(String message) {
         out.println(message);
+    }
+
+    public void sendObject(Object o) {
+
     }
 
 }
