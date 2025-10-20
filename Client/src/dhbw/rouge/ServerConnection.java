@@ -32,19 +32,24 @@ public class ServerConnection {
             Object msg;
             try {
                 while ((msg = in.readObject()) != null) {
-                    switch (msg) {
-                        case String s -> {
-                            gameWindow.getGameCanvas().addMessage(s);
-                            if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
-                                gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
+                    try {
+                        switch (msg) {
+                            case String s -> {
+                                gameWindow.getGameCanvas().addMessage(s);
+                                if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
+                                    gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
+                                }
                             }
+                            case Player player -> {
+                                System.out.println(player);
+                                gameWindow.getGameCanvas().addPlayer(player);
+                            }
+                            case Entity entity -> gameWindow.getGameCanvas().addEntity(entity);
+                            default -> {}
                         }
-                        case Player player -> {
-                            System.out.println(player);
-                            gameWindow.getGameCanvas().addPlayer(player);
-                        }
-                        case Entity entity -> gameWindow.getGameCanvas().addEntity(entity);
-                        default -> {}
+                    } catch (ClassCastException e) {
+                        System.out.println("[ERROR] Can't cast Object" + System.lineSeparator());
+                        e.printStackTrace();
                     }
                 }
                 socket.close();
