@@ -65,6 +65,10 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
                 unprocessed--;
             }
 
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {}
+
             frames++;
             render();
 
@@ -72,8 +76,8 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
                 lastTimer += 1000;
                 fps = frames;
                 tps = ticks;
-                System.out.println("FPS: " + fps);
-                System.out.println("TPS: " + tps);
+                //System.out.println("FPS: " + fps);
+                //System.out.println("TPS: " + tps);
                 frames = 0;
                 ticks = 0;
             }
@@ -83,12 +87,13 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
     public void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
-            createBufferStrategy(3);
+            createBufferStrategy(2);
             requestFocus();
             return;
         }
 
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED); //For MacOS, since I have stuttering
         g.setColor(Color.BLACK);
         g.fillRect(0,0, getWidth(), getHeight());
 

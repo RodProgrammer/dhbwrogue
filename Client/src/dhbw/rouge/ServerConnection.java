@@ -5,7 +5,6 @@ import entity.Player;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.EnumMap;
 
 public class ServerConnection {
 

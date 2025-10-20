@@ -68,6 +68,7 @@ public class ClientConnection implements Runnable {
             getConnectionMessages(oIn);
         } catch (IOException e) {
             e.printStackTrace();
+            server.removeClient(this);
             System.out.println("Client disconnected.");
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -94,11 +95,9 @@ public class ClientConnection implements Runnable {
             switch (answer) {
                 case Player player -> {
                     this.lastPlayerState = (Player) answer;
-                    System.out.println(answer);
                     server.sendPlayer(this, player);
                 }
                 case Entity entity -> {
-                    System.out.println(answer);
                     server.sendEntity(this, entity);
                 }
                 case String s -> server.sendMessage(this, s);
