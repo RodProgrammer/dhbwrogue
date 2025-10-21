@@ -24,27 +24,34 @@ In Clandestine Dungeons soll es für den Nutzer möglich sein:
 - Dungeons zu erkunden und Gegner zu bekämpfen
 - Gegenstände zu nutzen
 
+UML-Diagramm für unser Spiel: <br>
+![UML for our game](assets/UML.jpg)
+
 ### Feature 1 – Menü
 User Stories:
 - Als Spieler möchte ich das Spiel schnell über einen Knopf im Menü schließen können.
 - Als Spieler möchte ich auf die Einstellungen für Sound und Grafik zugreifen können.
 - Als Spieler möchte ich mich einloggen können.
 
-UI-Mockup für Menü:
+UI-Mockup für Menü: <br>
+![Mockup for main menu](assets/MainMenu.png)
 
 ### Feature 2 – Lobby erstellen
 User Stories:
 - Als Spieler möchte ich eine Lobby erstellen, damit andere Spieler mir beitreten können.
 - Als Spieler möchte ich die Möglichkeit haben meine Lobby mit einem Passwort zu schützen, um zu verhindern, dass ungewollte Spieler mir beitreten.
 - 
-UI Mockup:
+UI-Mockup für Lobby Erstellung: <br>
+![Mockup for lobby creation](assets/CreateLobby.png)
 
 ### Feature 3 – Lobby beitreten
 User Stories:
 - Als Spieler möchte ich eine Liste an verfügbaren Lobbys sehen.
 - Als Spieler möchte ich direkt erkennen können, wie viele Spieler in einer Lobby sind und ob sie passwortgeschützt ist.
 
-UI Mockup:
+UI-Mockup zum Lobby beitreten: <br>
+![Mockup to join lobby](assets/Lobby.png)
+
 
 ### Feature 4 – HUD
 User Stories:
@@ -52,7 +59,8 @@ User Stories:
 - Als Spieler möchte ich mein Inventar einsehen können.
 - Als Spieler möchte ich, dass ich einen Textchat nutzen kann, um mit anderen Spielern zu kommunizieren.
 
-UI Mockup:
+UI-Mockup für das Ingame HUD: <br>
+![Mockup for in game HUD](assets/HUD.png)
 
 ### Feature 5 – Bekämpfen von Gegnern
 User Stories:
