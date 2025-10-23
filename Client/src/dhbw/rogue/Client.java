@@ -1,4 +1,4 @@
-package dhbw.rouge;
+package dhbw.rogue;
 
 import java.io.IOException;
 import java.net.Socket;

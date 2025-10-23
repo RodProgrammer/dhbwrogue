@@ -1,10 +1,9 @@
-package dhbw.rouge;
+package dhbw.rogue;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.PrintWriter;
 
 public class Window extends JFrame implements WindowListener {
 

@@ -1,4 +1,4 @@
-package dhbw.rouge;
+package dhbw.rogue;
 
 import entity.Entity;
 import entity.Player;

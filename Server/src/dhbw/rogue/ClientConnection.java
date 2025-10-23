@@ -1,4 +1,4 @@
-package dhbw.rouge;
+package dhbw.rogue;
 
 import entity.Entity;
 import entity.Player;
@@ -6,7 +6,6 @@ import entity.Player;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.Objects;
 
 public class ClientConnection implements Runnable {
 
