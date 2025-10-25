@@ -16,9 +16,13 @@ public class ClientConnection implements Runnable {
 
     private Player lastPlayerState;
 
+    private volatile boolean connected;
+
     public ClientConnection(Socket socket, Server server) {
         this.server = server;
         this.socket = socket;
+
+        connected = true;
     }
 
     public void sendMessage(String message) {
@@ -42,10 +46,14 @@ public class ClientConnection implements Runnable {
     }
 
     public void sendPlayer(Player player) {
-        if (oOut != null) {
+        if (oOut != null && connected && !socket.isClosed()) {
             try {
-                if (socket.isConnected()) {
-                    oOut.writeObject(player);
+                synchronized (oOut) {
+                    if (socket.isConnected() && connected && oOut != null) {
+
+                        oOut.writeObject(player);
+                        oOut.flush();
+                    }
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -74,6 +82,7 @@ public class ClientConnection implements Runnable {
             System.out.println("Couldn't parse entity.");
         } finally {
             try {
+                connected = false;
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();

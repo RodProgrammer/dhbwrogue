@@ -3,6 +3,7 @@ package dhbw.rogue;
 import entity.Entity;
 import entity.Player;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -19,9 +20,10 @@ public class ServerConnection {
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-
         } catch (IOException e) {
             System.out.println("[ERROR] Couldn't establish connection.");
+            e.printStackTrace();
+            System.exit(0);
             return;
         }
         createContinuousConnection();
@@ -32,6 +34,7 @@ public class ServerConnection {
             Object msg;
             try {
                 while ((msg = in.readObject()) != null) {
+
                     try {
                         switch (msg) {
                             case String s -> {
@@ -52,20 +55,34 @@ public class ServerConnection {
                         e.printStackTrace();
                     }
                 }
-                socket.close();
             } catch (IOException e) {
                 System.out.println("[INFO] Disconnected from server.");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+            } catch (ArrayStoreException e) {
+                System.err.println("[ERROR] ArrayStoreException while reading object.");
+                e.printStackTrace();
+            }
+
+            try {
+                socket.close();
+            } catch (IOException e) {
+                System.out.println("[INFO] Disconnected from Server.");
             }
         }).start();
     }
 
     public void sendObject(Object o) {
         try {
-            out.reset();
-            out.writeObject(o);
-            out.flush();
+            if (out != null && !socket.isClosed()) {
+                out.reset();
+                out.writeObject(o);
+                out.flush();
+            } else {
+                System.out.println("[Info] Lost connection.");
+                JOptionPane.showMessageDialog(gameWindow, "Lost connection.", "Server Connection", JOptionPane.WARNING_MESSAGE);
+                System.exit(0);
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }

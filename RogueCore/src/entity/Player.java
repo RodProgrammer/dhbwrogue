@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Player extends Entity implements Serializable {
 
@@ -11,7 +12,7 @@ public class Player extends Entity implements Serializable {
 
     public Player(int x, int y) {
         super(x, y);
-        dirs = new HashSet<>();
+        dirs = ConcurrentHashMap.newKeySet(); //haha it will crash without it... I wanna commit not alive anymore
         name = String.valueOf(hashCode());
     }
 

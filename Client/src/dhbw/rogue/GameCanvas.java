@@ -59,15 +59,14 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
             while (unprocessed >= 1) {
                 ticks++;
                 player.tick();
-                if (serverConnection != null) {
-                    serverConnection.sendObject(player);
+
+                synchronized (player) { //ConcurrentModificationException without it :)
+                    if (serverConnection != null) {
+                        serverConnection.sendObject(player);
+                    }
                 }
                 unprocessed--;
             }
-
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {}
 
             frames++;
             render();
@@ -91,6 +90,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
             requestFocus();
             return;
         }
+        Toolkit.getDefaultToolkit().sync();
 
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED); //For MacOS, since I have stuttering
