@@ -11,7 +11,7 @@ import java.awt.image.BufferStrategy;
 import java.util.*;
 import java.util.List;
 
-public class GameCanvas extends Canvas implements Runnable, KeyListener {
+public class GameCanvas extends Canvas implements Runnable {
 
     private boolean running;
     private int fps;
@@ -21,6 +21,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
     private final Player player;
 
     private ServerConnection serverConnection;
+    private RogueKeyListener listener;
 
     private final List<Entity> entities;
     private final List<Player> players;
@@ -33,8 +34,8 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         entities = Collections.synchronizedList(new ArrayList<>());
 
         player = new Player(0, 0);
-
-        addKeyListener(this);
+        listener = new RogueKeyListener(player);
+        addKeyListener(listener);
     }
 
     public void startThread() {
@@ -191,46 +192,5 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         messages.add(message);
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (KeyEvent.VK_W == e.getKeyCode()) {
-            player.addDirection(Direction.UP);
-        }
 
-        if (KeyEvent.VK_S == e.getKeyCode()) {
-            player.addDirection(Direction.DOWN);
-        }
-
-        if (KeyEvent.VK_A == e.getKeyCode()) {
-            player.addDirection(Direction.LEFT);
-        }
-
-        if (KeyEvent.VK_D == e.getKeyCode()) {
-            player.addDirection(Direction.RIGHT);
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (KeyEvent.VK_W == e.getKeyCode()) {
-            player.removeDirection(Direction.UP);
-        }
-
-        if (KeyEvent.VK_S == e.getKeyCode()) {
-            player.removeDirection(Direction.DOWN);
-        }
-
-        if (KeyEvent.VK_A == e.getKeyCode()) {
-            player.removeDirection(Direction.LEFT);
-        }
-
-        if (KeyEvent.VK_D == e.getKeyCode()) {
-            player.removeDirection(Direction.RIGHT);
-        }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
 }
