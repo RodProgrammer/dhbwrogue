@@ -39,6 +39,10 @@ public class Server {
         synchronized (connections) {
             for (ClientConnection client : connections) {
                 if (client != clientConnection) {
+                    if(message.length() > 1 && message.split(" ")[0].equals("Message:")) {
+                        client.sendMessage(message.split(" ")[0] + " [" + client.getUsername() + "]: " + message.split(" ")[1]);
+                        continue;
+                    }
                     client.sendMessage(message);
                 }
             }

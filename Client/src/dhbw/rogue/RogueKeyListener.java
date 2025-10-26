@@ -9,12 +9,14 @@ import java.awt.event.KeyListener;
 public class RogueKeyListener implements KeyListener {
 
     private final Player player;
+    private final Chat chat;
 
     private boolean chatOpened;
 
-    public RogueKeyListener(Player player) {
+    public RogueKeyListener(Player player, Chat chat) {
         this.player = player;
         chatOpened = false;
+        this.chat = chat;
     }
 
     @Override
@@ -35,16 +37,22 @@ public class RogueKeyListener implements KeyListener {
             if (KeyEvent.VK_D == e.getKeyCode()) {
                 player.addDirection(Direction.RIGHT);
             }
-        }
 
-        if (KeyEvent.VK_ENTER == e.getKeyCode()) {
-            chatOpened = !chatOpened;
-            player.removeDirection(Direction.UP);
-            player.removeDirection(Direction.DOWN);
-            player.removeDirection(Direction.LEFT);
-            player.removeDirection(Direction.RIGHT);
-        }
+            if (KeyEvent.VK_T == e.getKeyCode()) {
+                chatOpened = !chatOpened;
+                player.removeDirection(Direction.UP);
+                player.removeDirection(Direction.DOWN);
+                player.removeDirection(Direction.LEFT);
+                player.removeDirection(Direction.RIGHT);
+            }
+        } else {
+            chat.addLetter(e);
 
+            if (KeyEvent.VK_ENTER == e.getKeyCode()) {
+                chatOpened = !chatOpened;
+                chat.sendMessage();
+            }
+        }
     }
 
     @Override
@@ -66,7 +74,6 @@ public class RogueKeyListener implements KeyListener {
                 player.removeDirection(Direction.RIGHT);
             }
         }
-
     }
 
     public boolean isChatOpened() {

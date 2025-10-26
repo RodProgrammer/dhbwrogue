@@ -60,9 +60,13 @@ public class ServerConnection {
                     gameWindow.getGameCanvas().addInformationMessage(s);
                     if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
                         gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
-                    } else if (s.split(" ").length == 2 && s.split(" ")[0].equals("Message:")) {
+                    }
+                    /*
+                    else if (s.split(" ").length == 3 && s.split(" ")[0].equals("Message:")) {
                         gameWindow.getGameCanvas().addChatMessage(s.split(" ")[1]);
                     }
+                    */
+                    System.out.println("[INFO] Message received: " + s);
                 }
                 case Player player -> {
                     System.out.println(player);
@@ -79,14 +83,16 @@ public class ServerConnection {
 
     public void sendObject(Object o) {
         try {
-            if (out != null && !socket.isClosed()) {
-                out.reset();
-                out.writeObject(o);
-                out.flush();
-            } else {
-                System.out.println("[Info] Lost connection.");
-                JOptionPane.showMessageDialog(gameWindow, "Lost connection.", "Server Connection", JOptionPane.WARNING_MESSAGE);
-                System.exit(0);
+            synchronized (out) {
+                if (out != null && !socket.isClosed()) {
+                    out.reset();
+                    out.writeObject(o);
+                    out.flush();
+                } else {
+                    System.out.println("[Info] Lost connection.");
+                    JOptionPane.showMessageDialog(gameWindow, "Lost connection.", "Server Connection", JOptionPane.WARNING_MESSAGE);
+                    System.exit(0);
+                }
             }
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -30,11 +30,11 @@ public class GameCanvas extends Canvas implements Runnable {
         informationMessages = Collections.synchronizedList(new ArrayList<>());
         players = Collections.synchronizedList(new ArrayList<>());
         entities = Collections.synchronizedList(new ArrayList<>());
+        chat = new Chat(this);
 
         player = new Player(0, 0);
-        listener = new RogueKeyListener(player);
+        listener = new RogueKeyListener(player, chat);
         addKeyListener(listener);
-        chat = new Chat(this);
     }
 
     public void startThread() {
@@ -194,6 +194,10 @@ public class GameCanvas extends Canvas implements Runnable {
 
     public void addChatMessage(String message) {
         chat.addMessage(message);
+    }
+
+    public void sendMessageToServer(String message) {
+        serverConnection.sendObject(message);
     }
 
 
