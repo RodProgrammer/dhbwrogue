@@ -34,28 +34,7 @@ public class ServerConnection {
             Object msg;
             try {
                 while ((msg = in.readObject()) != null) {
-
-                    try {
-                        switch (msg) {
-                            case String s -> {
-                                gameWindow.getGameCanvas().addInformationMessage(s);
-                                if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
-                                    gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
-                                } else if (s.split(" ").length == 2 && s.split(" ")[0].equals("Message:")) {
-                                    gameWindow.getGameCanvas().addChatMessage(s.split(" ")[1]);
-                                }
-                            }
-                            case Player player -> {
-                                System.out.println(player);
-                                gameWindow.getGameCanvas().addPlayer(player);
-                            }
-                            case Entity entity -> gameWindow.getGameCanvas().addEntity(entity);
-                            default -> {}
-                        }
-                    } catch (ClassCastException e) {
-                        System.out.println("[ERROR] Can't cast Object" + System.lineSeparator());
-                        e.printStackTrace();
-                    }
+                    receiveMessage(msg);
                 }
             } catch (IOException e) {
                 System.out.println("[INFO] Disconnected from server.");
@@ -64,14 +43,38 @@ public class ServerConnection {
             } catch (ArrayStoreException e) {
                 System.err.println("[ERROR] ArrayStoreException while reading object.");
                 e.printStackTrace();
-            }
-
-            try {
-                socket.close();
-            } catch (IOException e) {
-                System.out.println("[INFO] Disconnected from Server.");
+            } finally {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    System.out.println("[INFO] Disconnected from Server.");
+                }
             }
         }).start();
+    }
+
+    private void receiveMessage(Object msg) {
+        try {
+            switch (msg) {
+                case String s -> {
+                    gameWindow.getGameCanvas().addInformationMessage(s);
+                    if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
+                        gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
+                    } else if (s.split(" ").length == 2 && s.split(" ")[0].equals("Message:")) {
+                        gameWindow.getGameCanvas().addChatMessage(s.split(" ")[1]);
+                    }
+                }
+                case Player player -> {
+                    System.out.println(player);
+                    gameWindow.getGameCanvas().addPlayer(player);
+                }
+                case Entity entity -> gameWindow.getGameCanvas().addEntity(entity);
+                default -> {}
+            }
+        } catch (ClassCastException e) {
+            System.out.println("[ERROR] Can't cast Object" + System.lineSeparator());
+            e.printStackTrace();
+        }
     }
 
     public void sendObject(Object o) {

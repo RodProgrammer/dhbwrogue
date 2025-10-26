@@ -48,12 +48,9 @@ public class ClientConnection implements Runnable {
     public void sendPlayer(Player player) {
         if (oOut != null && connected && !socket.isClosed()) {
             try {
-                synchronized (oOut) {
-                    if (socket.isConnected() && connected && oOut != null) {
-
-                        oOut.writeObject(player);
-                        oOut.flush();
-                    }
+                if (socket.isConnected() && connected && oOut != null) {
+                    oOut.writeObject(player);
+                    oOut.flush();
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
