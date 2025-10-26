@@ -38,9 +38,11 @@ public class ServerConnection {
                     try {
                         switch (msg) {
                             case String s -> {
-                                gameWindow.getGameCanvas().addMessage(s);
+                                gameWindow.getGameCanvas().addInformationMessage(s);
                                 if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
                                     gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
+                                } else if (s.split(" ").length == 2 && s.split(" ")[0].equals("Message:")) {
+                                    gameWindow.getGameCanvas().addChatMessage(s.split(" ")[1]);
                                 }
                             }
                             case Player player -> {

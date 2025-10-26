@@ -5,9 +5,9 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class Window extends JFrame implements WindowListener {
+public class Window extends JFrame {
 
-    private GameCanvas gameCanvas;
+    private final GameCanvas gameCanvas;
 
     public Window() {
         gameCanvas = new GameCanvas();
@@ -18,7 +18,7 @@ public class Window extends JFrame implements WindowListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        addWindowListener(this);
+        //addWindowListener(this);
 
         add(gameCanvas);
         pack();
@@ -34,40 +34,5 @@ public class Window extends JFrame implements WindowListener {
 
     public void setServerConnection(ServerConnection serverConnection) {
         gameCanvas.setServerConnection(serverConnection);
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-        System.out.println("Closed");
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-
     }
 }

@@ -1,12 +1,9 @@
 package dhbw.rogue;
 
-import entity.Direction;
 import entity.Entity;
 import entity.Player;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.util.*;
 import java.util.List;
@@ -16,12 +13,13 @@ public class GameCanvas extends Canvas implements Runnable {
     private boolean running;
     private int fps;
     private int tps;
-    private final List<String> messages;
+    private final List<String> informationMessages;
 
     private final Player player;
 
     private ServerConnection serverConnection;
-    private RogueKeyListener listener;
+    private final RogueKeyListener listener;
+    private final Chat chat;
 
     private final List<Entity> entities;
     private final List<Player> players;
@@ -29,13 +27,14 @@ public class GameCanvas extends Canvas implements Runnable {
     public GameCanvas() {
         running = true;
 
-        messages = Collections.synchronizedList(new ArrayList<>());
+        informationMessages = Collections.synchronizedList(new ArrayList<>());
         players = Collections.synchronizedList(new ArrayList<>());
         entities = Collections.synchronizedList(new ArrayList<>());
 
         player = new Player(0, 0);
         listener = new RogueKeyListener(player);
         addKeyListener(listener);
+        chat = new Chat(this);
     }
 
     public void startThread() {
@@ -104,8 +103,8 @@ public class GameCanvas extends Canvas implements Runnable {
 
         int height = 0;
 
-        synchronized (messages) {
-            for (String message : messages) {
+        synchronized (informationMessages) {
+            for (String message : informationMessages) {
                 g.drawString(message, 10, height + 60);
                 height += 15;
             }
@@ -124,6 +123,7 @@ public class GameCanvas extends Canvas implements Runnable {
         }
 
         player.draw(g);
+        chat.renderChat(g);
 
         g.dispose();
         bs.show();
@@ -164,14 +164,14 @@ public class GameCanvas extends Canvas implements Runnable {
     private void deleteMessages() {
         new Thread(() -> {
             while(running) {
-                if(!messages.isEmpty()) {
+                if(!informationMessages.isEmpty()) {
                     try {
                         Thread.sleep(1300);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
-                    synchronized (messages) {
-                        messages.remove(messages.getFirst());
+                    synchronized (informationMessages) {
+                        informationMessages.remove(informationMessages.getFirst());
                     }
                 } else {
                     try {
@@ -188,8 +188,12 @@ public class GameCanvas extends Canvas implements Runnable {
         this.serverConnection = serverConnection;
     }
 
-    public void addMessage(String message) {
-        messages.add(message);
+    public void addInformationMessage(String message) {
+        informationMessages.add(message);
+    }
+
+    public void addChatMessage(String message) {
+        chat.addMessage(message);
     }
 
 
