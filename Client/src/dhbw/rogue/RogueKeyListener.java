@@ -45,17 +45,26 @@ public class RogueKeyListener implements KeyListener {
                 player.removeDirection(Direction.LEFT);
                 player.removeDirection(Direction.RIGHT);
             }
-        } else {
+
+            return;
+        }
+
+        if (KeyEvent.VK_BACK_SPACE == e.getKeyCode()) {
+            chat.deleteLetter();
+        }
+
+        if (KeyEvent.VK_ESCAPE == e.getKeyCode()) {
+            chat.clearLetters();
+            chatOpened = !chatOpened;
+        }
+
+        if (KeyEvent.VK_ENTER == e.getKeyCode()) {
+            chatOpened = !chatOpened;
+            chat.sendMessage();
+        }
+
+        if (chatOpened) {
             chat.addLetter(e);
-
-            if (KeyEvent.VK_BACK_SPACE == e.getKeyCode()) {
-                chat.deleteLetter();
-            }
-
-            if (KeyEvent.VK_ENTER == e.getKeyCode()) {
-                chatOpened = !chatOpened;
-                chat.sendMessage();
-            }
         }
     }
 

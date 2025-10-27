@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class Chat {
 
@@ -29,13 +30,16 @@ public class Chat {
 
         int y = (int) ((double) gameCanvas.getHeight()* ((double) 4/6));
         int lastPos = y;
-        for (Message message : messageList) {
-            g.drawString(message.getData(), 100, y);
-            y -= 20;
+
+        synchronized (messageList) {
+            for (Message message : messageList) {
+                g.drawString(message.getData(), 100, y);
+                y -= 20;
+            }
         }
 
         if (!characterStack.isEmpty()) {
-            g.drawString(createMessage().getData(), 100, lastPos + 20);
+            g.drawString(createMessage(), 100, lastPos + 20);
         }
     }
 
@@ -48,22 +52,32 @@ public class Chat {
 
     public void addLetter(KeyEvent e) {
         char c = e.getKeyChar();
-        characterStack.push(c);
+        if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
+            characterStack.push(c);
+        }
     }
 
     public void sendMessage() {
-        gameCanvas.sendMessageToServer(createMessage());
-        characterStack.clear();
+        if(!characterStack.isEmpty() && !createMessage().trim().isEmpty()) {
+            gameCanvas.sendMessageToServer(new Message(createMessage()));
+            characterStack.clear();
+        } else {
+            characterStack.clear();
+        }
     }
 
     public void deleteLetter() {
-        characterStack.pop();
+        if (!characterStack.isEmpty()) {
+            char g = characterStack.pop();
+        }
     }
 
-    private Message createMessage() {
-        StringBuilder message = new StringBuilder();
-        characterStack.elements().asIterator().forEachRemaining(message::append);
-        return new Message(message.toString());
+    public void clearLetters() {
+        characterStack.clear();
+    }
+
+    private String createMessage() {
+        return characterStack.stream().map(String::valueOf).collect(Collectors.joining());
     }
 
 }
