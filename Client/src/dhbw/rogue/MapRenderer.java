@@ -22,8 +22,14 @@ public class MapRenderer {
     public void render(Graphics2D g, int discrepancyX, int discrepancyY) {
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 32; j++) {
-                g.setColor(new Color(10 * map[i][j] + 20, 20 * map[i][j] + 20,  30 * map[i][j] + 10));
-                g.fillRect((i*32) + 640 - discrepancyX, (j*32) + 360 - discrepancyY, 32, 32);
+                int x = (i*32) + 640 - discrepancyX;
+                int y = (j*32) + 360 - discrepancyY;
+                if(!(x >= 1280 || x <= -32) && !(y >= 720 || y <= -32)) {
+                    g.setColor(new Color(10 * map[i][j] + 20, 20 * map[i][j] + 20,  30 * map[i][j] + 10));
+                    g.fillRect(x, y, 32, 32);
+                    g.setColor(Color.BLACK);
+                    g.drawRect(x, y, 32, 32);
+                }
             }
         }
         g.setColor(Color.WHITE);

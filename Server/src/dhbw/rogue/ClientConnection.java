@@ -128,7 +128,11 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    public String getUsername() {
+    public synchronized Player getLastPlayerState() {
+        return lastPlayerState;
+    }
+
+    public synchronized String getUsername() {
         return lastPlayerState.getName();
     }
 }

@@ -75,7 +75,7 @@ public class ServerConnection {
         }
     }
 
-    public void sendObject(Object o) {
+    public synchronized void sendObject(Object o) {
         try {
             synchronized (out) {
                 if (out != null && !socket.isClosed()) {

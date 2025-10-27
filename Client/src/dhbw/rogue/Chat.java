@@ -15,13 +15,15 @@ public class Chat {
 
     private final List<Message> messageList;
     private final GameCanvas gameCanvas;
-    private Stack<Character> characterStack;
+    private final Stack<Character> characterStack;
 
     public Chat(GameCanvas gameCanvas) {
         this.gameCanvas = gameCanvas;
 
         characterStack = new Stack<>();
         messageList = Collections.synchronizedList(new ArrayList<>());
+
+        messageDeleter();
     }
 
     public void renderChat(Graphics2D g) {
@@ -78,6 +80,21 @@ public class Chat {
 
     private String createMessage() {
         return characterStack.stream().map(String::valueOf).collect(Collectors.joining());
+    }
+
+    private void messageDeleter() {
+        new Thread(() -> {
+            while(true) {
+                int oldValue = characterStack.size();
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException ignored) {}
+
+                if (!messageList.isEmpty() && messageList.size() == oldValue) {
+                    messageList.removeLast();
+                }
+            }
+        }).start();
     }
 
 }

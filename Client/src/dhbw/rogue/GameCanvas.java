@@ -80,8 +80,6 @@ public class GameCanvas extends Canvas implements Runnable {
                 lastTimer += 1000;
                 fps = frames;
                 tps = ticks;
-                //System.out.println("FPS: " + fps);
-                //System.out.println("TPS: " + tps);
                 frames = 0;
                 ticks = 0;
             }
@@ -101,10 +99,6 @@ public class GameCanvas extends Canvas implements Runnable {
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED); //For MacOS, since I have stuttering
         g.setColor(Color.BLACK);
         g.fillRect(0,0, getWidth(), getHeight());
-
-        g.setColor(Color.WHITE);
-        g.drawString("FPS: " + fps, 20, 20);
-        g.drawString("TPS: " + tps, 20, 40);
 
         int height = 0;
 
@@ -128,6 +122,10 @@ public class GameCanvas extends Canvas implements Runnable {
                 player.drawPlayer(g, this.player.getX(), this.player.getY());
             }
         }
+
+        g.setColor(Color.WHITE);
+        g.drawString("FPS: " + fps, 20, 20);
+        g.drawString("TPS: " + tps, 20, 40);
 
         player.draw(g);
 

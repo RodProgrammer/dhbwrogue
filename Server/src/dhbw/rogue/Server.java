@@ -73,6 +73,7 @@ public class Server {
     }
 
     public void startServer() {
+        runTPS();
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
@@ -83,6 +84,42 @@ public class Server {
                 System.out.println("[ERROR] Client Connecting error");
             }
         }
+    }
+
+    private void runTPS() {
+        new Thread(() -> {
+            long lastTime = System.nanoTime();
+            final double ticks = 60D;
+            double ns = 1000000000 / ticks;
+            double delta = 0;
+
+            int tps = 0;
+
+            while (true) {
+
+                if (connections.isEmpty()) {
+                    continue;
+                }
+
+                long now = System.nanoTime();
+                delta += (now - lastTime) / ns;
+                lastTime = now;
+                if (delta >= 1) {
+                    tick(); //<- doable
+                    delta--;
+                    tps++;
+                }
+
+                if (tps >= 60) {
+                    System.out.println("TPS: " + tps);
+                    tps = 0;
+                }
+            }
+        }).start();
+    }
+
+    private void tick() {
+        //TODO: Maybe make collisions work?
     }
 
     private void pingClients() {
