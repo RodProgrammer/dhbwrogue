@@ -25,6 +25,8 @@ public class GameCanvas extends Canvas implements Runnable {
     private final List<Entity> entities;
     private final List<Player> players;
 
+    private final MapRenderer mapRenderer;
+
     public GameCanvas() {
         running = true;
 
@@ -36,6 +38,8 @@ public class GameCanvas extends Canvas implements Runnable {
         player = new Player(0, 0);
         listener = new RogueKeyListener(player, chat);
         addKeyListener(listener);
+
+        mapRenderer = new MapRenderer();
     }
 
     public void startThread() {
@@ -104,6 +108,8 @@ public class GameCanvas extends Canvas implements Runnable {
 
         int height = 0;
 
+        mapRenderer.render(g, player.getX(), player.getY());
+
         synchronized (informationMessages) {
             for (String message : informationMessages) {
                 g.drawString(message, 10, height + 60);
@@ -119,11 +125,12 @@ public class GameCanvas extends Canvas implements Runnable {
 
         synchronized (players) {
             for (Player player : players) {
-                player.draw(g);
+                player.drawPlayer(g, this.player.getX(), this.player.getY());
             }
         }
 
         player.draw(g);
+
         chat.renderChat(g);
 
         g.dispose();

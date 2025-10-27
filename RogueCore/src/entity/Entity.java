@@ -20,6 +20,7 @@ public abstract class Entity implements Serializable {
         rectangle.y = y;
     }
 
+    @Deprecated
     public Entity(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -30,6 +31,8 @@ public abstract class Entity implements Serializable {
     public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(x, y, rectangle.width, rectangle.height);
+        g.setColor(Color.RED);
+        g.drawString(name, x - (name.length() * 2), y - 8);
     }
 
     public abstract void tick();

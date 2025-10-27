@@ -2,7 +2,6 @@ package entity;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,11 +15,19 @@ public class Player extends Entity implements Serializable {
         name = String.valueOf(hashCode());
     }
 
+    public void drawPlayer(Graphics2D g, int discrepancyX, int discrepancyY) {
+        g.setColor(Color.MAGENTA);
+        g.fillRect(x - discrepancyX + 640, y - discrepancyY + 360, rectangle.width, rectangle.height);
+        g.setColor(Color.RED);
+        g.drawString(name, x - discrepancyX + 640 - (name.length()*2), y - discrepancyY + 360 - 8);
+    }
+
     @Override
     public void draw(Graphics2D g) {
-        super.draw(g);
+        g.setColor(Color.MAGENTA);
+        g.fillRect(640, 360, rectangle.width, rectangle.height);
         g.setColor(Color.RED);
-        g.drawString(name, (x - (name.length() *2)), y-8);
+        g.drawString(name, 640 - (name.length() *2), 360 - 8);
     }
 
     @Override
