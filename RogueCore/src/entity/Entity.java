@@ -18,6 +18,8 @@ public abstract class Entity implements Serializable {
 
         rectangle.x = x;
         rectangle.y = y;
+        rectangle.width = 32;
+        rectangle.height = 32;
     }
 
     @Deprecated

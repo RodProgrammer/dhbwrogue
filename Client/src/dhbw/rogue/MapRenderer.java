@@ -12,8 +12,8 @@ public class MapRenderer {
 
         Random rand = new Random();
 
-        for(int i = 0; i < 32; i++) {
-            for(int j = 0; j < 32; j++) {
+        for (int i = 0; i < 32; i++) {
+            for (int j = 0; j < 32; j++) {
                 map[i][j] = rand.nextInt(5);
             }
         }
