@@ -64,14 +64,9 @@ public class ServerConnection {
                     }
                     System.out.println("[INFO] Message received: " + s);
                 }
-                case Player player -> {
-                    //System.out.println(player);
-                    gameWindow.getGameCanvas().addPlayer(player);
-                }
+                case Player player -> gameWindow.getGameCanvas().addPlayer(player);
                 case Entity entity -> gameWindow.getGameCanvas().addEntity(entity);
-                case Message message -> {
-                    gameWindow.getGameCanvas().addChatMessage(message);
-                }
+                case Message message -> gameWindow.getGameCanvas().addChatMessage(message);
                 default -> {}
             }
         } catch (ClassCastException e) {

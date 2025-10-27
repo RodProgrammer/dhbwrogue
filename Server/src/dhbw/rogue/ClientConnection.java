@@ -26,7 +26,7 @@ public class ClientConnection implements Runnable {
         connected = true;
     }
 
-    public void sendInformation(String information) {
+    public synchronized void sendInformation(String information) {
         if (oOut != null) {
             try {
                 oOut.writeObject(information);
@@ -37,7 +37,7 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    public void sendMessage(Message message) {
+    public synchronized void sendMessage(Message message) {
         if (oOut != null) {
             try {
                 oOut.writeObject(message);
@@ -48,7 +48,7 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    public void sendEntity(Entity entity) {
+    public synchronized void sendEntity(Entity entity) {
         if (oOut != null) {
             try {
                 oOut.writeObject(entity);
@@ -59,7 +59,7 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    public void sendPlayer(Player player) {
+    public synchronized void sendPlayer(Player player) {
         if (oOut != null && connected && !socket.isClosed()) {
             try {
                 if (socket.isConnected() && connected && oOut != null) {

@@ -20,7 +20,7 @@ public class Player extends Entity implements Serializable {
     public void draw(Graphics2D g) {
         super.draw(g);
         g.setColor(Color.RED);
-        g.drawString(name, x-16, y-8);
+        g.drawString(name, (x - (name.length() *2)), y-8);
     }
 
     @Override
