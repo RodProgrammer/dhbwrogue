@@ -1,5 +1,6 @@
 package dhbw.rogue;
 
+import data.Message;
 import entity.Entity;
 import entity.Player;
 
@@ -61,18 +62,16 @@ public class ServerConnection {
                     if (s.split(" ").length == 2 && s.split(" ")[0].equals("Disconnected:")) {
                         gameWindow.getGameCanvas().removePlayer(s.split(" ")[1]);
                     }
-                    /*
-                    else if (s.split(" ").length == 3 && s.split(" ")[0].equals("Message:")) {
-                        gameWindow.getGameCanvas().addChatMessage(s.split(" ")[1]);
-                    }
-                    */
                     System.out.println("[INFO] Message received: " + s);
                 }
                 case Player player -> {
-                    System.out.println(player);
+                    //System.out.println(player);
                     gameWindow.getGameCanvas().addPlayer(player);
                 }
                 case Entity entity -> gameWindow.getGameCanvas().addEntity(entity);
+                case Message message -> {
+                    gameWindow.getGameCanvas().addChatMessage(message);
+                }
                 default -> {}
             }
         } catch (ClassCastException e) {

@@ -1,6 +1,8 @@
 package dhbw.rogue;
 
 
+import data.Message;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.Stack;
 
 public class Chat {
 
-    private final List<String> messageList;
+    private final List<Message> messageList;
     private final GameCanvas gameCanvas;
     private Stack<Character> characterStack;
 
@@ -27,17 +29,17 @@ public class Chat {
 
         int y = (int) ((double) gameCanvas.getHeight()* ((double) 4/6));
         int lastPos = y;
-        for (String message : messageList) {
-            g.drawString(message, 100, y);
+        for (Message message : messageList) {
+            g.drawString(message.getData(), 100, y);
             y -= 20;
         }
 
         if (!characterStack.isEmpty()) {
-            g.drawString(createString(), 100, lastPos + 20);
+            g.drawString(createMessage().getData(), 100, lastPos + 20);
         }
     }
 
-    public void addMessage(String message) {
+    public void addMessage(Message message) {
         messageList.addFirst(message);
         if (messageList.size() > 10) {
             messageList.remove(messageList.getLast());
@@ -50,14 +52,18 @@ public class Chat {
     }
 
     public void sendMessage() {
-        gameCanvas.sendMessageToServer("Message: " + createString());
+        gameCanvas.sendMessageToServer(createMessage());
         characterStack.clear();
     }
 
-    private String createString() {
+    public void deleteLetter() {
+        characterStack.pop();
+    }
+
+    private Message createMessage() {
         StringBuilder message = new StringBuilder();
         characterStack.elements().asIterator().forEachRemaining(message::append);
-        return message.toString();
+        return new Message(message.toString());
     }
 
 }

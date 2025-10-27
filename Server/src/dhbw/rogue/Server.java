@@ -1,5 +1,6 @@
 package dhbw.rogue;
 
+import data.Message;
 import entity.Entity;
 import entity.Player;
 
@@ -24,27 +25,29 @@ public class Server {
         }
         connections = Collections.synchronizedList(new ArrayList<>());
 
-        pingClients();
+        //pingClients();
     }
 
     public void removeClient(ClientConnection clientConnection) {
         connections.remove(clientConnection);
         System.out.println("Client " + clientConnection.getUsername() + " has disconnected.");
         for (ClientConnection connection : connections) {
-            connection.sendMessage("Disconnected: " + clientConnection.getUsername());
+            connection.sendInformation("Disconnected: " + clientConnection.getUsername());
         }
     }
 
-    public void sendMessage(ClientConnection clientConnection, String message) {
+    public void sendMessage(ClientConnection clientConnection , Message message) {
         synchronized (connections) {
             for (ClientConnection client : connections) {
-                if (client != clientConnection) {
-                    if(message.length() > 1 && message.split(" ")[0].equals("Message:")) {
-                        client.sendMessage(message.split(" ")[0] + " [" + client.getUsername() + "]: " + message.split(" ")[1]);
-                        continue;
-                    }
-                    client.sendMessage(message);
-                }
+                client.sendMessage(new Message(message, clientConnection.getUsername()));
+            }
+        }
+    }
+
+    public void sendInformation(ClientConnection clientConnection, String information) {
+        for (ClientConnection client : connections) {
+            if (client != clientConnection) {
+                client.sendInformation(information);
             }
         }
     }
@@ -89,8 +92,8 @@ public class Server {
                     Thread.sleep(2000);
                 } catch (InterruptedException ex) {}
 
-                for(ClientConnection clientConnection : connections) {
-                    clientConnection.sendMessage("Ping from Server!");
+                for (ClientConnection clientConnection : connections) {
+                    clientConnection.sendInformation("Ping from Server!");
                 }
             }
         }).start();

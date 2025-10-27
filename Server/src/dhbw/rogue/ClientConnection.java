@@ -1,5 +1,6 @@
 package dhbw.rogue;
 
+import data.Message;
 import entity.Entity;
 import entity.Player;
 
@@ -25,10 +26,22 @@ public class ClientConnection implements Runnable {
         connected = true;
     }
 
-    public void sendMessage(String message) {
+    public void sendInformation(String information) {
+        if (oOut != null) {
+            try {
+                oOut.writeObject(information);
+                oOut.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void sendMessage(Message message) {
         if (oOut != null) {
             try {
                 oOut.writeObject(message);
+                oOut.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -36,9 +49,10 @@ public class ClientConnection implements Runnable {
     }
 
     public void sendEntity(Entity entity) {
-        if(oOut != null) {
+        if (oOut != null) {
             try {
                 oOut.writeObject(entity);
+                oOut.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -105,7 +119,10 @@ public class ClientConnection implements Runnable {
                 case Entity entity -> {
                     server.sendEntity(this, entity);
                 }
-                case String s -> server.sendMessage(this, s);
+                case Message message -> {
+                    server.sendMessage(this, message);
+                }
+                case String s -> server.sendInformation(this, s);
                 default -> {}
             }
         }

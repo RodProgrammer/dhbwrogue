@@ -1,5 +1,6 @@
 package dhbw.rogue;
 
+import data.Message;
 import entity.Entity;
 import entity.Player;
 
@@ -192,11 +193,11 @@ public class GameCanvas extends Canvas implements Runnable {
         informationMessages.add(message);
     }
 
-    public void addChatMessage(String message) {
+    public void addChatMessage(Message message) {
         chat.addMessage(message);
     }
 
-    public void sendMessageToServer(String message) {
+    public void sendMessageToServer(Message message) {
         serverConnection.sendObject(message);
     }
 

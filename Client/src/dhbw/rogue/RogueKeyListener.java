@@ -48,6 +48,10 @@ public class RogueKeyListener implements KeyListener {
         } else {
             chat.addLetter(e);
 
+            if (KeyEvent.VK_BACK_SPACE == e.getKeyCode()) {
+                chat.deleteLetter();
+            }
+
             if (KeyEvent.VK_ENTER == e.getKeyCode()) {
                 chatOpened = !chatOpened;
                 chat.sendMessage();
