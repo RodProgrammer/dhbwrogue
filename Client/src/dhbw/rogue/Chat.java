@@ -54,7 +54,7 @@ public class Chat {
 
     public void addLetter(KeyEvent e) {
         char c = e.getKeyChar();
-        if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
+        if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && Character.isLetterOrDigit(c) || " #_-;.:*'?=)(|{}&%$@€+ßöäüÖÄÜ".indexOf(c) >= 0) {
             characterStack.push(c);
         }
     }
