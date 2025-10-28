@@ -34,7 +34,17 @@ User Stories:
 - Als Spieler möchte ich mich einloggen können.
 
 UI-Mockup für Menü: <br>
-![Mockup for main menu](assets/MainMenu.png)
+![Mockup for main menu](assets/MainMenu.png) <br>
+
+![Sequence diagramm for changing settings](assets/changeSettingsPicture.png) <br>
+Sequenzdiagramm zum Ändern der Einstellungen <br>
+<br>
+![Sequence diagramm for quitting the game](assets/exitGame.png) <br>
+Sequenzdiagramm zum Schließen des Spiels <br>
+
+Links zu Sequenzdiagrammen: <br>
+![Sequence diagramm for changing settings](assets/changeSettings.uxf) <br>
+![Sequence diagramm for quitting the game](assets/ExitGame.uxf) <br>
 
 ### Feature 2 – Lobby erstellen
 User Stories:
