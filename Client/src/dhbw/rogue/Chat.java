@@ -30,7 +30,7 @@ public class Chat {
 
         g.setColor(Color.WHITE);
 
-        int y = (int) ((double) gameCanvas.getHeight()* ((double) 4/6));
+        int y = (int) ((double) gameCanvas.getHeight() * ((double) 4/6));
         int lastPos = y;
 
         synchronized (messageList) {
@@ -41,7 +41,7 @@ public class Chat {
         }
 
         if (!characterStack.isEmpty()) {
-            g.drawString(createMessage(), 100, lastPos + 20);
+            g.drawString(">: "  + createMessage(), 100, lastPos + 20);
         }
     }
 
@@ -54,7 +54,7 @@ public class Chat {
 
     public void addLetter(KeyEvent e) {
         char c = e.getKeyChar();
-        if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && Character.isLetterOrDigit(c) || " #_-;.:*'?=)(|{}&%$@€+ßöäüÖÄÜ".indexOf(c) >= 0) {
+        if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && Character.isLetterOrDigit(c) || " §#_-;.:*'?!/,<>^°=)(|{}&%$@€+ßöäüÖÄÜ".indexOf(c) >= 0) {
             characterStack.push(c);
         }
     }
