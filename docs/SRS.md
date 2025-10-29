@@ -76,8 +76,8 @@ UI-Mockup für das Ingame HUD: <br>
 User Stories:
 - Als Spieler möchte ich Gegner in der Spielwelt bekämpfen, um Gegenstände und Erfahrungspunkte zu erbeuten.
 
-ULM-Aktivitätsdiagramm zum Kampfsystem: <br>
-![ULM Activity combat system](assets/Combat_Activity_UML.png)
+UML-Aktivitätsdiagramm zum Kampfsystem: <br>
+![UML Activity combat system](assets/Combat_Activity_UML.png)
 
 ### Feature 6 – Erkunden der Welt
 User Stories:
@@ -87,15 +87,15 @@ User Stories:
 User Stories:
 - Als Spieler möchte ich meinen Character leveln können, um immer weiter zu kommen.
 
-ULM-Aktivitätsdiagramm zum Skillsystem: <br>
-![ULM Activity Skillsystem](assets/Skilltree_Activity_UML.png)
+UML-Aktivitätsdiagramm zum Skillsystem: <br>
+![UML Activity Skillsystem](assets/Skilltree_Activity_UML.png)
 
 ### Feature 8 - Lootsystem
 User Stories:
 -
 
-ULM-Aktivitätsdiagramm zum Lootsystem: <br>
-![ULM Activity Skillsystem](assets/Looting_Activity_UML.png)
+UML-Aktivitätsdiagramm zum Lootsystem: <br>
+![UML Activity Skillsystem](assets/Looting_Activity_UML.png)
 
 ## Nicht-funktionale Anforderungen
 | Kategorie  | Beschreibung |
