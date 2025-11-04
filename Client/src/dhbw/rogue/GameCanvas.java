@@ -3,6 +3,7 @@ package dhbw.rogue;
 import data.Message;
 import entity.Entity;
 import entity.Player;
+import utility.Settings;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -51,12 +52,12 @@ public class GameCanvas extends Canvas implements Runnable {
     public void run() {
         long lastTime = System.nanoTime();
         double unprocessed = 0;
-        double nsPerTick = 1000000000.0 / 60.0;
+        double nsPerTick = 1000000000.0 / Settings.TPS;
         int ticks = 0;
         int frames = 0;
         long lastTimer = System.currentTimeMillis();
 
-        while(running) {
+        while (running) {
             long now = System.nanoTime();
             unprocessed += (now - lastTime) / nsPerTick;
             lastTime = now;

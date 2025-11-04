@@ -1,5 +1,7 @@
 package dhbw.rogue;
 
+import utility.Settings;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -20,15 +22,15 @@ public class MapRenderer {
     }
 
     public void render(Graphics2D g, int discrepancyX, int discrepancyY) {
-        for (int i = 0; i < 32; i++) {
-            for (int j = 0; j < 32; j++) {
-                int x = (i*32) + 640 - discrepancyX;
-                int y = (j*32) + 360 - discrepancyY;
-                if(!(x >= 1280 || x <= -32) && !(y >= 720 || y <= -32)) {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                int x = (i* Settings.SCALED_TILE_SIZE) + (Settings.SCREEN_WIDTH/2) - discrepancyX;
+                int y = (j*Settings.SCALED_TILE_SIZE) + (Settings.SCREEN_HEIGHT/2) - discrepancyY;
+                if(!(x >= Settings.SCREEN_WIDTH || x <= -1 * Settings.SCALED_TILE_SIZE) && !(y >= Settings.SCREEN_HEIGHT || y <= -1 * Settings.SCALED_TILE_SIZE)) {
                     g.setColor(new Color(10 * map[i][j] + 20, 20 * map[i][j] + 20,  30 * map[i][j] + 10));
-                    g.fillRect(x, y, 32, 32);
+                    g.fillRect(x, y, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
                     g.setColor(Color.BLACK);
-                    g.drawRect(x, y, 32, 32);
+                    g.drawRect(x, y, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
                 }
             }
         }

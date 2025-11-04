@@ -1,5 +1,7 @@
 package entity;
 
+import utility.Settings;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -17,17 +19,17 @@ public class Player extends Entity implements Serializable {
 
     public void drawPlayer(Graphics2D g, int discrepancyX, int discrepancyY) {
         g.setColor(Color.MAGENTA);
-        g.fillRect(x - discrepancyX + 640, y - discrepancyY + 360, rectangle.width, rectangle.height);
+        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT), rectangle.width, rectangle.height);
         g.setColor(Color.RED);
-        g.drawString(name, x - discrepancyX + 640 - (name.length()*2), y - discrepancyY + 360 - 8);
+        g.drawString(name, x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), y - discrepancyY + (Settings.SCREEN_HEIGHT) - 8);
     }
 
     @Override
     public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);
-        g.fillRect(640, 360, rectangle.width, rectangle.height);
+        g.fillRect(Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, rectangle.width, rectangle.height);
         g.setColor(Color.RED);
-        g.drawString(name, 640 - (name.length() *2), 360 - 8);
+        g.drawString(name, (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), (Settings.SCREEN_HEIGHT / 2) - 8);
     }
 
     @Override

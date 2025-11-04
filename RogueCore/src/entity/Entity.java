@@ -1,5 +1,7 @@
 package entity;
 
+import utility.Settings;
+
 import java.awt.*;
 import java.io.Serializable;
 
@@ -14,12 +16,12 @@ public abstract class Entity implements Serializable {
     public Entity(int x, int y) {
         this.x = x;
         this.y = y;
-        rectangle = new Rectangle(32, 32);
+        rectangle = new Rectangle(Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
 
         rectangle.x = x;
         rectangle.y = y;
-        rectangle.width = 32;
-        rectangle.height = 32;
+        rectangle.width = Settings.SCALED_TILE_SIZE;
+        rectangle.height = Settings.SCALED_TILE_SIZE;
     }
 
     @Deprecated
