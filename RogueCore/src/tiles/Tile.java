@@ -1,5 +1,7 @@
 package tiles;
 
+import utility.Settings;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -10,11 +12,11 @@ public class Tile {
     private BufferedImage image;
 
     public Tile(int x, int y) {
-        rect = new Rectangle(x,y,32,32);
+        rect = new Rectangle(x,y, Settings.SCALED_TILE_SIZE,Settings.SCALED_TILE_SIZE);
         rect.x = x;
         rect.y = y;
-        rect.width = 32;
-        rect.height = 32;
+        rect.width = Settings.SCALED_TILE_SIZE;
+        rect.height = Settings.SCALED_TILE_SIZE;
     }
 
     public void render(Graphics2D g) {
