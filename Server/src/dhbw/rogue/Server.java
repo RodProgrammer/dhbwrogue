@@ -24,7 +24,7 @@ public class Server {
             System.out.println("[ERROR] Server couldn't create ServerSocket");
         }
         connections = Collections.synchronizedList(new ArrayList<>());
-
+        System.out.println("[INFO] Server has been started.");
         //pingClients();
     }
 

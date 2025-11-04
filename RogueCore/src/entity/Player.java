@@ -19,9 +19,9 @@ public class Player extends Entity implements Serializable {
 
     public void drawPlayer(Graphics2D g, int discrepancyX, int discrepancyY) {
         g.setColor(Color.MAGENTA);
-        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT), rectangle.width, rectangle.height);
+        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2), rectangle.width, rectangle.height);
         g.setColor(Color.RED);
-        g.drawString(name, x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), y - discrepancyY + (Settings.SCREEN_HEIGHT) - 8);
+        g.drawString(name, x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 8);
     }
 
     @Override
