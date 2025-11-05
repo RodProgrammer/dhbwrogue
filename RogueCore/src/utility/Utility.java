@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 public class Utility {
 
-    private Utility(){}
+    private Utility() {}
 
     /**
      * This exists so the renderer doesn't have to rescale each time it draws the picture,
@@ -19,6 +19,50 @@ public class Utility {
         graphics2D.dispose();
 
         return scaledImage;
+    }
+
+    public static BufferedImage[][] getImages(BufferedImage originalImage, int width, int height) {
+        int imageWidth = originalImage.getWidth() / width;
+        int imageHeight = originalImage.getHeight() / height;
+
+        BufferedImage[][] images = new BufferedImage[imageWidth][imageHeight];
+
+        int i = 0;
+        int j = 0;
+        for (int x = 0; x < images.length; x++){
+            for (int y = 0; y < images[x].length; y++){
+                BufferedImage image = originalImage.getSubimage(i, j, width, height);
+                if (!isEmpty(image)){
+                    images[x][y] = scaleImage(image);
+                }
+                j += width;
+            }
+            j = 0;
+            i += height;
+        }
+
+        return images;
+    }
+
+    private static boolean isEmpty(BufferedImage image) {
+        if (image.getTransparency() == Transparency.OPAQUE) {
+            return false;
+        }
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int pixel = image.getRGB(x, y);
+                int alpha = (pixel >> 24) & 0xff;
+                if (alpha != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 

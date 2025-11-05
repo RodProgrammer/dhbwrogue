@@ -1,5 +1,6 @@
 package dhbw.rogue;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -16,6 +17,10 @@ public class Client {
         } catch (IOException ex) {
             System.out.println("[ERROR] Couldn't create Socket");
         }
+
+        File test = new File("resource/entities/chomb/chomb.png");
+        System.out.println("[INFO] File: " + test.getAbsolutePath());
+        System.out.println("[INFO] Finding it : " + test.exists());
 
     }
 

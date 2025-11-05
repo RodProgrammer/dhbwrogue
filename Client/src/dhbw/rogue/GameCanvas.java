@@ -2,6 +2,7 @@ package dhbw.rogue;
 
 import data.Message;
 import entity.Entity;
+import entity.Mascot;
 import entity.Player;
 import utility.Settings;
 
@@ -28,6 +29,8 @@ public class GameCanvas extends Canvas implements Runnable {
 
     private final MapRenderer mapRenderer;
 
+    private final Mascot test;
+
     public GameCanvas() {
         running = true;
 
@@ -41,6 +44,8 @@ public class GameCanvas extends Canvas implements Runnable {
         addKeyListener(listener);
 
         mapRenderer = new MapRenderer();
+
+        test = new Mascot(0, 0);
     }
 
     public void startThread() {
@@ -129,6 +134,8 @@ public class GameCanvas extends Canvas implements Runnable {
         g.drawString("TPS: " + tps, 20, 40);
 
         player.draw(g);
+
+        test.draw(g);
 
         chat.renderChat(g);
 
