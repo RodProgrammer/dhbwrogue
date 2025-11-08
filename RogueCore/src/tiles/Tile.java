@@ -9,7 +9,7 @@ public class Tile {
 
     private final Rectangle rect;
 
-    private BufferedImage image;
+    private transient BufferedImage image;
 
     public Tile(int x, int y) {
         rect = new Rectangle(x,y, Settings.SCALED_TILE_SIZE,Settings.SCALED_TILE_SIZE);

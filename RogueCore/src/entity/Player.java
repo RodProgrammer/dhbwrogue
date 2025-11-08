@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Player extends Entity implements Serializable {
 
-    private final Set<Direction> dirs;
+    private transient final Set<Direction> dirs;
 
     public Player(int x, int y) {
         super(x, y);

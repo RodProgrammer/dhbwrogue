@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class Mascot extends Entity {
 
-    private BufferedImage[][] images;
+    private transient BufferedImage[][] images;
 
     public Mascot(int x, int y) {
         super(x, y);
