@@ -15,7 +15,7 @@ public class Mascot extends Entity {
     private transient BufferedImage[][] images;
 
     public Mascot(int x, int y) {
-        super(x, y);
+        super(x, y, 1, 0);
 
         loadImages();
     }

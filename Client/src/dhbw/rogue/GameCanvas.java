@@ -135,7 +135,7 @@ public class GameCanvas extends Canvas implements Runnable {
 
         player.draw(g);
 
-        test.draw(g);
+        //test.draw(g);
 
         chat.renderChat(g);
 

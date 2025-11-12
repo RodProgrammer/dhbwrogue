@@ -11,25 +11,27 @@ public abstract class Entity implements Serializable {
     protected int y;
     protected final Rectangle rectangle;
 
+    protected int health;
+    protected int maxHealth;
+    protected int mana;
+    protected int maxMana;
+
     protected String name;
 
-    public Entity(int x, int y) {
+    public Entity(int x, int y, int maxHealth, int maxMana) {
         this.x = x;
         this.y = y;
-        rectangle = new Rectangle(Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+        this.rectangle = new Rectangle(Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
 
-        rectangle.x = x;
-        rectangle.y = y;
-        rectangle.width = Settings.SCALED_TILE_SIZE;
-        rectangle.height = Settings.SCALED_TILE_SIZE;
-    }
+        this.rectangle.x = x;
+        this.rectangle.y = y;
+        this.rectangle.width = Settings.SCALED_TILE_SIZE;
+        this.rectangle.height = Settings.SCALED_TILE_SIZE;
 
-    @Deprecated
-    public Entity(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-
-        rectangle = new Rectangle(width, height);
+        this.maxHealth = maxHealth;
+        this.maxMana = maxMana;
+        this.health = maxHealth;
+        this.mana = maxMana;
     }
 
     public void draw(Graphics2D g) {
