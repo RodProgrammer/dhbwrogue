@@ -1,6 +1,7 @@
 package dhbw.rogue;
 
 import data.Message;
+import entity.Dwarf;
 import entity.Entity;
 import entity.Mascot;
 import entity.Player;
@@ -29,8 +30,6 @@ public class GameCanvas extends Canvas implements Runnable {
 
     private final MapRenderer mapRenderer;
 
-    private final Mascot test;
-
     public GameCanvas() {
         running = true;
 
@@ -39,13 +38,11 @@ public class GameCanvas extends Canvas implements Runnable {
         entities = Collections.synchronizedList(new ArrayList<>());
         chat = new Chat(this);
 
-        player = new Player(0, 0);
+        player = new Dwarf(0, 0);
         listener = new RogueKeyListener(player, chat);
         addKeyListener(listener);
 
         mapRenderer = new MapRenderer();
-
-        test = new Mascot(0, 0);
     }
 
     public void startThread() {
@@ -70,6 +67,12 @@ public class GameCanvas extends Canvas implements Runnable {
             while (unprocessed >= 1) {
                 ticks++;
                 player.tick();
+
+                synchronized (players) {
+                    for (Player player : players) {
+                        player.tick(); //TODO maybe just Change it so we all have smth else lmao
+                    }
+                }
 
                 synchronized (player) { //ConcurrentModificationException without it :)
                     if (serverConnection != null) {
@@ -151,10 +154,13 @@ public class GameCanvas extends Canvas implements Runnable {
                     found = true;
                     p.setX(player.getX());
                     p.setY(player.getY());
+                    p.setCurrDirectionImage(player.getCurrDirectionImage());
+                    p.setCurrImage(player.getCurrImage());
                     break;
                 }
             }
             if (!found) {
+                player.loadImages();
                 players.add(player);
             }
         }

@@ -15,12 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Player extends Entity implements Serializable {
 
-    private transient final Set<Direction> dirs;
-    private transient BufferedImage[][] images;
+    private final Set<Direction> dirs;
+    protected transient BufferedImage[][] images;
 
     private transient int animTick;
-    private transient int currImage;
-    private transient int currDirectionImage;
+    protected int currImage;
+    protected int currDirectionImage;
 
     public Player(int x, int y) {
         super(x, y, 100, 100);
@@ -37,16 +37,15 @@ public class Player extends Entity implements Serializable {
     public void drawPlayer(Graphics2D g, int discrepancyX, int discrepancyY) {
         g.setColor(Color.MAGENTA);
         g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2), rectangle.width, rectangle.height);
-        //g.drawImage(images[0][0], x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2), rectangle.width, rectangle.height);
         g.setColor(Color.RED);
         g.drawString(name, x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 8);
     }
 
     @Override
     public void draw(Graphics2D g) {
-        //g.setColor(Color.MAGENTA);
-        //g.fillRect(Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, rectangle.width, rectangle.height);
-        g.drawImage(images[currImage][currDirectionImage], Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, null);
+        g.setColor(Color.MAGENTA);
+        g.fillRect(Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, rectangle.width, rectangle.height);
+        //g.drawImage(images[currImage][currDirectionImage], Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, null);
 
         g.setColor(Color.RED);
         g.drawString(name, (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), (Settings.SCREEN_HEIGHT / 2) - 8);
@@ -70,8 +69,7 @@ public class Player extends Entity implements Serializable {
             this.x += 5;
             currDirectionImage = Direction.RIGHT.value;
         }
-
-        if(dirs.contains(Direction.UP) && dirs.contains(Direction.DOWN) || dirs.contains(Direction.LEFT) && dirs.contains(Direction.RIGHT)) {
+        if (dirs.contains(Direction.UP) && dirs.contains(Direction.DOWN) || dirs.contains(Direction.LEFT) && dirs.contains(Direction.RIGHT)) {
             currImage = 0;
             return;
         }
@@ -106,16 +104,22 @@ public class Player extends Entity implements Serializable {
     }
 
     public void loadImages() {
-        BufferedImage originalImage = null;
-        try {
-            originalImage = ImageIO.read(new File("resource/entities/dwarf/mhap_male_dwarf_03.png"));
-        } catch (IOException ex) {}
+        return;
+    }
 
-        if (originalImage != null) {
-            images = Utility.getImages(originalImage, 16,16);
-            System.out.println("[INFO]: Loaded Dwarf Images");
-            System.out.println("[INFO]: Loaded " + Arrays.deepToString(images));
-            System.out.println("[INFO]: Length: " + images.length);
-        }
+    public int getCurrImage() {
+        return currImage;
+    }
+
+    public void setCurrImage(int currImage) {
+        this.currImage = currImage;
+    }
+
+    public int getCurrDirectionImage() {
+        return currDirectionImage;
+    }
+
+    public void setCurrDirectionImage(int currDirectionImage) {
+        this.currDirectionImage = currDirectionImage;
     }
 }
