@@ -115,7 +115,7 @@ public class GameCanvas extends Canvas implements Runnable {
 
         synchronized (informationMessages) {
             for (String message : informationMessages) {
-                g.drawString(message, 10, height + 60);
+                g.drawString(message, 20, height + 80);
                 height += 15;
             }
         }
@@ -131,6 +131,11 @@ public class GameCanvas extends Canvas implements Runnable {
                 player.drawPlayer(g, this.player.getX(), this.player.getY());
             }
         }
+
+        g.setColor(Color.GREEN);
+        g.fillRect(20, 48, Settings.SCALED_TILE_SIZE, 16);
+        g.setColor(Color.BLUE);
+        g.fillRect(20, 64, Settings.SCALED_TILE_SIZE, 16);
 
         g.setColor(Color.WHITE);
         g.drawString("FPS: " + fps, 20, 20);
