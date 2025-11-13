@@ -1,4 +1,4 @@
-package dhbw.rogue;
+package dhbw.rogue.functionality;
 
 import entity.Direction;
 import entity.Player;

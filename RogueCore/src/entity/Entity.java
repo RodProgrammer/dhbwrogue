@@ -1,5 +1,6 @@
 package entity;
 
+import spritemanager.ResourceManager;
 import utility.Settings;
 
 import java.awt.*;
@@ -18,7 +19,9 @@ public abstract class Entity implements Serializable {
 
     protected String name;
 
-    public Entity(int x, int y, int maxHealth, int maxMana) {
+    protected transient ResourceManager resourceManager;
+
+    public Entity(int x, int y, int maxHealth, int maxMana, ResourceManager resourceManager) {
         this.x = x;
         this.y = y;
         this.rectangle = new Rectangle(Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
@@ -32,6 +35,8 @@ public abstract class Entity implements Serializable {
         this.maxMana = maxMana;
         this.health = maxHealth;
         this.mana = maxMana;
+
+        this.resourceManager = resourceManager;
     }
 
     public void draw(Graphics2D g) {
@@ -80,5 +85,13 @@ public abstract class Entity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ResourceManager getResourceManager() {
+        return resourceManager;
+    }
+
+    public void setResourceManager(ResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
     }
 }

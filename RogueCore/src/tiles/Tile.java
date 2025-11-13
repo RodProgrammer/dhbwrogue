@@ -5,11 +5,14 @@ import utility.Settings;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Tile {
+public abstract class Tile {
 
-    private final Rectangle rect;
+    protected final Rectangle rect;
 
-    private transient BufferedImage image;
+    protected transient BufferedImage image;
+
+    protected int x;
+    protected int y;
 
     public Tile(int x, int y) {
         rect = new Rectangle(x,y, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
@@ -18,22 +21,23 @@ public class Tile {
         rect.width = Settings.SCALED_TILE_SIZE;
         rect.height = Settings.SCALED_TILE_SIZE;
 
+        this.x = x;
+        this.y = y;
+
         image = new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
         g2d.setColor(Color.MAGENTA);
         g2d.drawRect(x, y, rect.width, rect.height);
     }
 
-    public void render(Graphics2D g) {
-        g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
-    }
-
-    public void tick() {
-        //TODO: possible animation?
-    }
+    public abstract void tick();
 
     public Rectangle getRectangle() {
         return rect;
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 
 }

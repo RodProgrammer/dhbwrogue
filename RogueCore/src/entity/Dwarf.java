@@ -1,20 +1,16 @@
 package entity;
 
+import spritemanager.ResourceManager;
 import utility.Settings;
-import utility.Utility;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class Dwarf extends Player implements Serializable {
 
-    public Dwarf(int x, int y) {
-        super(x, y);
+    public Dwarf(int x, int y, ResourceManager resourceManager) {
+        super(x, y, resourceManager);
+        
+        loadImages();
     }
 
     @Override
@@ -37,17 +33,8 @@ public class Dwarf extends Player implements Serializable {
         g.drawString(name, (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), (Settings.SCREEN_HEIGHT / 2) - 8);
     }
 
-    public void loadImages() {
-        BufferedImage originalImage = null;
-        try {
-            originalImage = ImageIO.read(new File("resource/entities/dwarf/mhap_male_dwarf_03.png"));
-        } catch (IOException ex) {}
 
-        if (originalImage != null) {
-            images = Utility.getImages(originalImage, 16,16);
-            System.out.println("[INFO]: Loaded Dwarf Images");
-            System.out.println("[INFO]: Loaded " + Arrays.deepToString(images));
-            System.out.println("[INFO]: Length: " + images.length);
-        }
+    public void loadImages() {
+        images = resourceManager.getSpritesheet("dwarf");
     }
 }

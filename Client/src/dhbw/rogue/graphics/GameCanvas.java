@@ -1,10 +1,13 @@
-package dhbw.rogue;
+package dhbw.rogue.graphics;
 
 import data.Message;
+import dhbw.rogue.functionality.Chat;
+import dhbw.rogue.functionality.RogueKeyListener;
+import dhbw.rogue.connection.ServerConnection;
 import entity.Dwarf;
 import entity.Entity;
-import entity.Mascot;
 import entity.Player;
+import spritemanager.ResourceManager;
 import utility.Settings;
 
 import java.awt.*;
@@ -30,7 +33,9 @@ public class GameCanvas extends Canvas implements Runnable {
 
     private final MapRenderer mapRenderer;
 
-    public GameCanvas() {
+    private final ResourceManager resourceManager;
+
+    public GameCanvas(ResourceManager resourceManager) {
         running = true;
 
         informationMessages = Collections.synchronizedList(new ArrayList<>());
@@ -38,11 +43,13 @@ public class GameCanvas extends Canvas implements Runnable {
         entities = Collections.synchronizedList(new ArrayList<>());
         chat = new Chat(this);
 
-        player = new Dwarf(0, 0);
+        this.resourceManager = resourceManager;
+
+        player = new Dwarf(0, 0, resourceManager);
         listener = new RogueKeyListener(player, chat);
         addKeyListener(listener);
 
-        mapRenderer = new MapRenderer();
+        mapRenderer = new MapRenderer(resourceManager);
     }
 
     public void startThread() {
@@ -67,12 +74,6 @@ public class GameCanvas extends Canvas implements Runnable {
             while (unprocessed >= 1) {
                 ticks++;
                 player.tick();
-
-                synchronized (players) {
-                    for (Player player : players) {
-                        player.tick(); //TODO maybe just Change it so we all have smth else lmao
-                    }
-                }
 
                 synchronized (player) { //ConcurrentModificationException without it :)
                     if (serverConnection != null) {
@@ -165,6 +166,7 @@ public class GameCanvas extends Canvas implements Runnable {
                 }
             }
             if (!found) {
+                player.setResourceManager(resourceManager);
                 player.loadImages();
                 players.add(player);
             }

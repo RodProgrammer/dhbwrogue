@@ -1,7 +1,8 @@
-package dhbw.rogue;
+package dhbw.rogue.functionality;
 
 
 import data.Message;
+import dhbw.rogue.graphics.GameCanvas;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

@@ -1,8 +1,10 @@
-package dhbw.rogue;
+package dhbw.rogue.connection;
 
 import data.Message;
+import dhbw.rogue.graphics.Window;
 import entity.Entity;
 import entity.Player;
+import spritemanager.ResourceManager;
 
 import javax.swing.*;
 import java.io.*;
@@ -15,9 +17,12 @@ public class ServerConnection {
     private final Socket socket;
     private final Window gameWindow;
 
-    public ServerConnection(Socket socket, Window gameWindow) {
+    private final ResourceManager resourceManager;
+
+    public ServerConnection(Socket socket, Window gameWindow, ResourceManager resourceManager) {
         this.socket = socket;
         this.gameWindow = gameWindow;
+        this.resourceManager = resourceManager;
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());

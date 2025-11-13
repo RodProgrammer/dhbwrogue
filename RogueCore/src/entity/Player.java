@@ -1,5 +1,6 @@
 package entity;
 
+import spritemanager.ResourceManager;
 import utility.Settings;
 import utility.Utility;
 
@@ -22,8 +23,8 @@ public class Player extends Entity implements Serializable {
     protected int currImage;
     protected int currDirectionImage;
 
-    public Player(int x, int y) {
-        super(x, y, 100, 100);
+    public Player(int x, int y, ResourceManager resourceManager) {
+        super(x, y, 100, 100, resourceManager);
         dirs = ConcurrentHashMap.newKeySet(); //haha it will crash without it... I wanna commit not alive anymore
         name = String.valueOf(hashCode());
 

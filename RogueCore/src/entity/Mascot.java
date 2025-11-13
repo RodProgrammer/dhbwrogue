@@ -1,5 +1,6 @@
 package entity;
 
+import spritemanager.ResourceManager;
 import utility.Settings;
 import utility.Utility;
 
@@ -14,8 +15,8 @@ public class Mascot extends Entity {
 
     private transient BufferedImage[][] images;
 
-    public Mascot(int x, int y) {
-        super(x, y, 1, 0);
+    public Mascot(int x, int y, ResourceManager resourceManager) {
+        super(x, y, 1, 0, resourceManager);
 
         loadImages();
     }
