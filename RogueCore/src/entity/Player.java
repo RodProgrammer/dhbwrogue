@@ -2,15 +2,10 @@ package entity;
 
 import spritemanager.ResourceManager;
 import utility.Settings;
-import utility.Utility;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
