@@ -36,18 +36,22 @@ public class Player extends Entity implements Serializable {
     }
 
     public void drawPlayer(Graphics2D g, int discrepancyX, int discrepancyY) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2), rectangle.width, rectangle.height);
+        g.drawImage(images[currImage][currDirectionImage], x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2), null);
         g.setColor(Color.RED);
-        g.drawString(name, x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 8);
+        g.drawString(name, x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 24);
+
+        g.setColor(Color.GREEN);
+        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 16, Settings.SCALED_TILE_SIZE, 8);
+        g.setColor(Color.BLUE);
+        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 8, Settings.SCALED_TILE_SIZE, 8);
     }
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, rectangle.width, rectangle.height);
+        g.drawImage(images[currImage][currDirectionImage], Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, null);
+
         g.setColor(Color.RED);
-        g.drawString(name, (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), (Settings.SCREEN_HEIGHT / 2) - 24);
+        g.drawString(name, (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), (Settings.SCREEN_HEIGHT / 2) - 8);
     }
 
     @Override
