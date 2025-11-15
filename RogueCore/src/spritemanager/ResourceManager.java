@@ -28,5 +28,7 @@ public class ResourceManager {
 
         SpriteSheet cave = new SpriteSheet("resource/maps/cave/RA_Caverns.png");
         spritesheet.put("cave", cave);
+
+        //SpriteSheet elf = new SpriteSheet("resource/entities/elf/elf.png");
     }
 }

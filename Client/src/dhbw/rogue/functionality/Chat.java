@@ -80,7 +80,11 @@ public class Chat {
     }
 
     private String createMessage() {
-        return characterStack.stream().map(String::valueOf).collect(Collectors.joining());
+        String result;
+        synchronized (characterStack) {
+            result = characterStack.stream().map(String::valueOf).collect(Collectors.joining());
+        }
+        return result;
     }
 
     private void messageDeleter() {
