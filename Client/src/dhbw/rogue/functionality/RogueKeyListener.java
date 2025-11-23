@@ -2,9 +2,12 @@ package dhbw.rogue.functionality;
 
 import entity.Direction;
 import entity.Player;
+import particle.Particle;
+import particle.TextParticle;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 public class RogueKeyListener implements KeyListener {
 
@@ -12,11 +15,13 @@ public class RogueKeyListener implements KeyListener {
     private final Chat chat;
 
     private boolean chatOpened;
+    private List<Particle> particles;
 
-    public RogueKeyListener(Player player, Chat chat) {
+    public RogueKeyListener(Player player, Chat chat, List<Particle> particles) {
         this.player = player;
         chatOpened = false;
         this.chat = chat;
+        this.particles = particles;
     }
 
     @Override
@@ -36,6 +41,10 @@ public class RogueKeyListener implements KeyListener {
 
             if (KeyEvent.VK_D == e.getKeyCode()) {
                 player.addDirection(Direction.RIGHT);
+            }
+
+            if (KeyEvent.VK_SPACE == e.getKeyCode()) {
+                particles.add(new TextParticle("Test", player.getX(), player.getY()));
             }
 
             if (KeyEvent.VK_T == e.getKeyCode()) {

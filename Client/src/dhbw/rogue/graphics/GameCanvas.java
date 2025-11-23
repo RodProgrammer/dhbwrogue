@@ -9,6 +9,7 @@ import entity.Dwarf;
 import entity.Entity;
 import entity.Player;
 import mapmanager.MapManager;
+import particle.Particle;
 import spritemanager.ResourceManager;
 import utility.Settings;
 
@@ -31,6 +32,7 @@ public class GameCanvas extends Canvas implements Runnable {
     private final Chat chat;
 
     private final List<Entity> entities;
+    private final List<Particle> particles;
     private final List<Player> players;
 
     private final MapRenderer mapRenderer;
@@ -44,12 +46,14 @@ public class GameCanvas extends Canvas implements Runnable {
         informationMessages = Collections.synchronizedList(new ArrayList<>());
         players = Collections.synchronizedList(new ArrayList<>());
         entities = Collections.synchronizedList(new ArrayList<>());
+        particles = Collections.synchronizedList(new ArrayList<>());
+
         chat = new Chat(this);
 
         this.resourceManager = resourceManager;
 
         player = new Dwarf(0, 0, resourceManager);
-        listener = new RogueKeyListener(player, chat);
+        listener = new RogueKeyListener(player, chat, particles);
         addKeyListener(listener);
 
         mapRenderer = new MapRenderer(resourceManager, mapManager);
@@ -86,6 +90,12 @@ public class GameCanvas extends Canvas implements Runnable {
                         serverConnection.sendObject(player);
                     }
                 }
+
+                synchronized (particles) {
+                    particles.forEach(Particle::tick);
+                    particles.removeIf(Particle::toRemove);
+                }
+
                 unprocessed--;
             }
 
@@ -141,7 +151,13 @@ public class GameCanvas extends Canvas implements Runnable {
 
         player.draw(g);
 
-        lightRenderer.renderLight(g, player.getX(), player.getY());
+        synchronized (particles) {
+            for(Particle particle : particles) {
+                particle.render(g, player.getX(), player.getY());
+            }
+        }
+
+        //lightRenderer.renderLight(g, player.getX(), player.getY());
 
         for (Effect effect : player.getEffects()) {
             g.drawImage(effect.getEffectIcon(), 48, Settings.SCREEN_HEIGHT-96, null);
