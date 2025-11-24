@@ -34,9 +34,6 @@ public class TextParticle extends Particle {
             g.setColor(new Color(0, 255, 255));
             g.drawString(msg, x + (Settings.SCREEN_WIDTH / 2)  - discrepancyX, y - (int) (zz) + (Settings.SCREEN_HEIGHT / 2) - discrepancyY);
         }
-
-        System.out.println(this.x);
-        System.out.println(this.y);
     }
 
     @Override

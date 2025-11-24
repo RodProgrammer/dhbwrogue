@@ -1,7 +1,6 @@
 package spritemanager;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferDouble;
 import java.util.HashMap;
 
 public class ResourceManager {

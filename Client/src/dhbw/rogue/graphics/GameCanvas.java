@@ -157,7 +157,7 @@ public class GameCanvas extends Canvas implements Runnable {
             }
         }
 
-        //lightRenderer.renderLight(g, player.getX(), player.getY());
+        lightRenderer.renderLight(g, player.getX(), player.getY());
 
         for (Effect effect : player.getEffects()) {
             g.drawImage(effect.getEffectIcon(), 48, Settings.SCREEN_HEIGHT-96, null);

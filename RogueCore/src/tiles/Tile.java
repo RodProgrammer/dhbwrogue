@@ -40,9 +40,7 @@ public abstract class Tile {
 
     public abstract void tick();
 
-    public void reloadLight() {
-
-    }
+    public void reloadLight() {}
 
     public Rectangle getRectangle() {
         return rect;
