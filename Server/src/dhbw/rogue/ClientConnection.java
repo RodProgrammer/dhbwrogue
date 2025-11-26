@@ -13,14 +13,14 @@ public class ClientConnection implements Runnable {
     private ObjectOutputStream oOut;
 
     private final Socket socket;
-    private final Server server;
+    private final Lobby lobby;
 
     private Player lastPlayerState;
 
     private volatile boolean connected;
 
-    public ClientConnection(Socket socket, Server server) {
-        this.server = server;
+    public ClientConnection(Lobby lobby, Socket socket) {
+        this.lobby = lobby;
         this.socket = socket;
 
         connected = true;
@@ -86,7 +86,7 @@ public class ClientConnection implements Runnable {
             getConnectionMessages(oIn);
         } catch (IOException e) {
             e.printStackTrace();
-            server.removeClient(this);
+            lobby.removeClient(this);
             System.out.println("Client disconnected.");
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -98,7 +98,7 @@ public class ClientConnection implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            server.removeClient(this);
+            lobby.removeClient(this);
             System.out.println("Last Client state: " + lastPlayerState);
         }
     }
@@ -114,15 +114,15 @@ public class ClientConnection implements Runnable {
             switch (answer) {
                 case Player player -> {
                     this.lastPlayerState = (Player) answer;
-                    server.sendPlayer(this, player);
+                    lobby.sendPlayer(this, player);
                 }
                 case Entity entity -> {
-                    server.sendEntity(this, entity);
+                    lobby.sendEntity(this, entity);
                 }
                 case Message message -> {
-                    server.sendMessage(this, message);
+                    lobby.sendMessage(this, message);
                 }
-                case String s -> server.sendInformation(this, s);
+                case String s -> lobby.sendInformation(this, s);
                 default -> {}
             }
         }

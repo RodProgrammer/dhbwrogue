@@ -18,8 +18,6 @@ public class Server {
 
     private final List<ClientConnection> connections;
 
-    private final List<Entity> monster; //for possible Monsters in the future
-
     public Server(int port) {
         try {
             serverSocket = new ServerSocket(port);
@@ -27,145 +25,30 @@ public class Server {
             System.out.println("[ERROR] Server couldn't create ServerSocket");
         }
         connections = Collections.synchronizedList(new ArrayList<>());
-        monster = Collections.synchronizedList(new ArrayList<>());
 
         System.out.println("[INFO] Server has been started.");
         //pingClients();
     }
 
-    public synchronized void removeClient(ClientConnection clientConnection) {
-        connections.remove(clientConnection);
-        System.out.println("Client " + clientConnection.getUsername() + " has disconnected.");
-        for (ClientConnection connection : connections) {
-            connection.sendInformation("Disconnected: " + clientConnection.getUsername());
-            connection.sendMessage(new Message("Disconnected Player", clientConnection.getLastPlayerState()));
-        }
-    }
 
-    public synchronized void sendMessage(ClientConnection clientConnection , Message message) {
-        synchronized (connections) {
-            for (ClientConnection client : connections) {
-                client.sendMessage(new Message(message, clientConnection.getUsername()));
-            }
-        }
-    }
 
-    public synchronized void sendInformation(ClientConnection clientConnection, String information) {
-        for (ClientConnection client : connections) {
-            if (client != clientConnection) {
-                client.sendInformation(information);
-            }
-        }
-    }
 
-    public synchronized void sendEntity(ClientConnection clientConnection, Entity entity) {
-        synchronized (connections) {
-            for (ClientConnection client : connections) {
-                if (client != clientConnection) {
-                    client.sendEntity(entity);
-                }
-            }
-        }
-    }
-
-    public synchronized void sendPlayer(ClientConnection clientConnection, Player player) {
-        synchronized (connections) {
-            for (ClientConnection client : connections) {
-                if (client != clientConnection) {
-                    client.sendPlayer(player);
-                }
-            }
-        }
-    }
-
-    public synchronized void updatePlayer(ClientConnection clientConnection, Player player) {
-        synchronized (connections) {
-            for (ClientConnection client : connections) {
-                if (client == clientConnection) {
-                    client.sendPlayer(player);
-                    break;
-                }
-            }
-        }
-    }
 
     public void startServer() {
-        runTPS();
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                ClientConnection client = new ClientConnection(socket, this);
-                connections.add(client);
-                client.start();
+                new Thread(() -> {
+                    //getClient Lobby connection, after that it should go to the lobby or not
+                    Lobby lobby = new Lobby("");
+                    ClientConnection client = new ClientConnection(lobby, socket);
+                    connections.add(client);
+                    client.start();
+                }).start();
             } catch (IOException e) {
                 System.out.println("[ERROR] Client Connecting error");
             }
         }
-    }
-
-    private void runTPS() {
-        new Thread(() -> {
-            long lastTime = System.nanoTime();
-            final double ticks = 60D;
-            double ns = 1000000000 / ticks;
-            double delta = 0;
-
-            int tps = 0;
-
-            while (true) {
-
-                if (connections.isEmpty()) continue;
-
-                long now = System.nanoTime();
-                delta += (now - lastTime) / ns;
-                lastTime = now;
-                if (delta >= 1) {
-                    tick();
-                    delta--;
-                    tps++;
-                }
-
-                if (tps >= 60) {
-                    tps = 0;
-                }
-            }
-        }).start();
-    }
-
-    private void tick() {
-        for (ClientConnection client : connections) {
-            Player player = client.getLastPlayerState();
-            if (player != null) {
-
-                if (player.getX() < 0 && player.getY() < 0) {
-                    player.setX(0);
-                    player.setY(0);
-                    updatePlayer(client, player);
-                }
-
-                if (player.getX() < 0) {
-                    player.setX(0);
-                    updatePlayer(client, player);
-                } else if (player.getY() < 0) {
-                    player.setY(0);
-                    updatePlayer(client, player);
-                }
-            }
-        }
-    }
-
-    private void pingClients() {
-        new Thread(() -> {
-            while(true) {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {}
-
-                for (ClientConnection clientConnection : connections) {
-                    clientConnection.sendInformation("Ping from Server!");
-                }
-            }
-        }).start();
     }
 
     public static void main(String[] args) {

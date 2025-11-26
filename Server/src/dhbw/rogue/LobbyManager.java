@@ -12,8 +12,12 @@ public class LobbyManager {
         lobbies = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void createLobby() {
+    public void createLobby(String lobbyName) {
+        lobbies.add(new Lobby(lobbyName));
+    }
 
+    public List<Lobby> getLobbyList() {
+        return lobbies;
     }
 
 }
