@@ -39,7 +39,7 @@
 ## Merkmal: Zuverlässigkeit
 ### Verfeinert: Serverstabilität
 - **Z2 – Server läuft 12h ohne Neustart stabil**  
-  (Nutzen: dauerhafter Multiplayer-Betrieb; Risiko: Memory Leaks) **Medium****High**
+  (Nutzen: dauerhafter Multiplayer-Betrieb; Risiko: Memory Leaks) **Medium**, **High**
  - **Quelle:** Serverbetrieb  
 - **Auslöser:** Dauerhafter Multiplayer-Betrieb  
 - **Artefakt:** Serverprozess  
