@@ -11,13 +11,13 @@ import java.util.List;
 
 public class Lobby implements Runnable {
 
-    private final transient List<ClientConnection> clients;
+    private final List<ClientConnection> clients;
 
-    private final transient List<Entity> entities;
+    private final List<Entity> entities;
 
     private final String name;
 
-    private transient Map map;
+    private Map map;
 
     public Lobby(String name) {
         clients = Collections.synchronizedList(new ArrayList<>());

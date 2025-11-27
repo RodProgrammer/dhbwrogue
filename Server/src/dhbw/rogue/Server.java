@@ -27,11 +27,7 @@ public class Server {
         connections = Collections.synchronizedList(new ArrayList<>());
 
         System.out.println("[INFO] Server has been started.");
-        //pingClients();
     }
-
-
-
 
 
     public void startServer() {
