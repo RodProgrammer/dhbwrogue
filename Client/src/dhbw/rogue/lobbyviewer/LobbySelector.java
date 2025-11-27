@@ -23,7 +23,7 @@ public class LobbySelector extends JFrame {
         button.addActionListener(e -> {
 
         });
-        add(button, BorderLayout.NORTH);
+        add(button, BorderLayout.SOUTH);
 
         lobbylist = new JPanel();
         JScrollPane scrollPane = new JScrollPane(lobbylist);
@@ -61,8 +61,6 @@ public class LobbySelector extends JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Invalid or Username already in use", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-
-
 
     }
 

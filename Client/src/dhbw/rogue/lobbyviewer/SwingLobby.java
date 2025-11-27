@@ -7,14 +7,16 @@ public class SwingLobby extends JPanel {
 
     private final String name;
     private int count;
+    private final JLabel countLabel;
 
     public SwingLobby(String name, int count, LobbySelector lobbySelector) {
         setLayout(new GridLayout(1, 3));
         add(new JLabel(name));
-        add(new JLabel(String.valueOf(count)));
+        countLabel = new JLabel(String.valueOf(count));
+        add(countLabel);
         JButton button = new JButton("Join");
         button.addActionListener(e -> {
-            lobbySelector.setVisible(false);
+            //lobbySelector.setVisible(false);
         });
         add(button);
 
@@ -28,6 +30,7 @@ public class SwingLobby extends JPanel {
 
     public void setCount(int count) {
         this.count = count;
+        countLabel.setText(String.valueOf(count));
     }
 
     public String getName() {

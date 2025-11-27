@@ -8,8 +8,7 @@ import utility.Settings;
 public class SimpleTestMap extends Map {
 
     public SimpleTestMap(int width, int height, ResourceManager resourceManager) {
-        super(width, height, resourceManager);
-
+        super("Test Map :)", width, height, Difficulty.EASY, resourceManager);
     }
 
     @Override
