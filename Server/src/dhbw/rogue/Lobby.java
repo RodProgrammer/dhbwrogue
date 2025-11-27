@@ -17,7 +17,7 @@ public class Lobby implements Runnable {
 
     private final String name;
 
-    private Map map;
+    private Map map; //TODO: add make to test :)
 
     public Lobby(String name) {
         clients = Collections.synchronizedList(new ArrayList<>());
@@ -36,7 +36,6 @@ public class Lobby implements Runnable {
         int tps = 0;
 
         while (true) {
-
             if (clients.isEmpty()) continue;
 
             long now = System.nanoTime();
@@ -74,6 +73,10 @@ public class Lobby implements Runnable {
                 }
             }
         }
+    }
+
+    public synchronized void addClient(ClientConnection client) {
+        clients.add(client);
     }
 
     public synchronized void sendMessage(ClientConnection clientConnection , Message message) {
@@ -123,10 +126,6 @@ public class Lobby implements Runnable {
         }
     }
 
-    public void addClient(ClientConnection client) {
-        clients.add(client);
-    }
-
     public synchronized void removeClient(ClientConnection clientConnection) {
         clients.remove(clientConnection);
         System.out.println("Client " + clientConnection.getUsername() + " has disconnected from the lobby: " + name + ".");
@@ -136,9 +135,7 @@ public class Lobby implements Runnable {
         }
     }
 
-    public synchronized void sendMessage(Message message) {
-        for (ClientConnection c : clients) {
-            c.sendMessage(message);
-        }
+    public void start() {
+        new Thread(this).start();
     }
 }

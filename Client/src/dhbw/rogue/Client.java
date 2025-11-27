@@ -12,7 +12,7 @@ public class Client {
 
     private Socket socket;
 
-    public Client(String ip, int port) {
+    public Client(String username, String ip, int port) {
 
         ResourceManager resourceManager = new ResourceManager();
         MapManager mapManager = new MapManager(resourceManager);

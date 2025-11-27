@@ -56,12 +56,11 @@ public class LobbySelector extends JFrame {
         String input = JOptionPane.showInputDialog(null, "Please enter your Username", "Username", JOptionPane.INFORMATION_MESSAGE);
 
         if (input != null && !input.isEmpty()) {
-            new LobbySelector(input);
-            new Client("localhost", 4000);
+            LobbySelector lobbySelector = new LobbySelector(input);
+            new Client(lobbySelector.username, "localhost", 4000);
         } else {
             JOptionPane.showMessageDialog(null, "Invalid or Username already in use", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
 }

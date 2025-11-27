@@ -83,6 +83,8 @@ public class ClientConnection implements Runnable {
                     ObjectInputStream oIn = new ObjectInputStream(socket.getInputStream())) {
 
             this.oOut = oOut;
+
+            //this is for the Lobby, but before that we need to do something with it before we go
             getConnectionMessages(oIn);
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,6 +103,10 @@ public class ClientConnection implements Runnable {
             lobby.removeClient(this);
             System.out.println("Last Client state: " + lastPlayerState);
         }
+    }
+
+    private void getLobbyMessages(ObjectInputStream oIn) throws IOException, ClassNotFoundException {
+
     }
 
     private void getConnectionMessages(ObjectInputStream in) throws ClassNotFoundException, IOException {

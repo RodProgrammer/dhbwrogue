@@ -1,10 +1,5 @@
 package dhbw.rogue;
 
-import data.Message;
-import entity.Entity;
-import entity.Player;
-import utility.Settings;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,31 +11,43 @@ public class Server {
 
     private ServerSocket serverSocket;
 
+    private final LobbyManager lobbyManager;
+
     private final List<ClientConnection> connections;
+
+    private final List<Thread> threads;
 
     public Server(int port) {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            System.out.println("[ERROR] Server couldn't create ServerSocket");
+            System.err.println("[ERROR] Server couldn't create ServerSocket");
+            System.exit(-1);
         }
         connections = Collections.synchronizedList(new ArrayList<>());
+        threads = Collections.synchronizedList(new ArrayList<>());
+
+
+        lobbyManager = new LobbyManager();
 
         System.out.println("[INFO] Server has been started.");
     }
 
 
     public void startServer() {
+        Lobby lobby = lobbyManager.createLobby("");
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                new Thread(() -> {
-                    //getClient Lobby connection, after that it should go to the lobby or not
-                    Lobby lobby = new Lobby("");
+                Thread thread = new Thread(() -> {
                     ClientConnection client = new ClientConnection(lobby, socket);
+                    lobby.addClient(client);
                     connections.add(client);
                     client.start();
-                }).start();
+                    lobby.start();
+                });
+                threads.add(thread);
+                thread.start();
             } catch (IOException e) {
                 System.out.println("[ERROR] Client Connecting error");
             }
