@@ -15,8 +15,6 @@ public class Server {
 
     private final List<ClientConnection> connections;
 
-    private final List<Thread> threads;
-
     public Server(int port) {
         try {
             serverSocket = new ServerSocket(port);
@@ -25,8 +23,6 @@ public class Server {
             System.exit(-1);
         }
         connections = Collections.synchronizedList(new ArrayList<>());
-        threads = Collections.synchronizedList(new ArrayList<>());
-
 
         lobbyManager = new LobbyManager();
 
@@ -39,15 +35,14 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                Thread thread = new Thread(() -> {
+                new Thread(() -> {
                     ClientConnection client = new ClientConnection(lobby, socket);
                     lobby.addClient(client);
                     connections.add(client);
                     client.start();
                     lobby.start();
-                });
-                threads.add(thread);
-                thread.start();
+                }).start();
+
             } catch (IOException e) {
                 System.out.println("[ERROR] Client Connecting error");
             }
