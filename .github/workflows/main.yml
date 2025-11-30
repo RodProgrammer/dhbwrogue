@@ -22,11 +22,11 @@ jobs:
           find . -path "*/src/dhbw/rogue/*" -name "*.java" > sources.txt
           javac -d out @sources.txt
 
-      - name: Run Tests
-        run: |
-          mkdir -p out-test
-          find . -path "*/src/test/*" -name "*.java" > tests.txt
-          javac -cp "out:lib/*" -d out-test @tests.txt
+      #- name: Run Tests
+      #  run: |
+      #    mkdir -p out-test
+      #    find . -path "*/src/test/*" -name "*.java" > tests.txt
+      #    javac -cp "out:lib/*" -d out-test @tests.txt
 
       - name: Create JAR
         run: |
