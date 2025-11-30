@@ -1,9 +1,9 @@
 package dhbw.rogue.connection;
 
-import data.Message;
+import dhbw.rogue.data.Message;
 import dhbw.rogue.graphics.Window;
-import entity.Entity;
-import entity.Player;
+import dhbw.rogue.entity.Entity;
+import dhbw.rogue.entity.Player;
 
 import javax.swing.*;
 import java.io.*;

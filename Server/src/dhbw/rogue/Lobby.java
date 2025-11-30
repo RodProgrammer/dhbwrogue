@@ -1,9 +1,9 @@
 package dhbw.rogue;
 
-import data.Message;
-import entity.Entity;
-import entity.Player;
-import mapmanager.maps.Map;
+import dhbw.rogue.data.Message;
+import dhbw.rogue.entity.Entity;
+import dhbw.rogue.entity.Player;
+import dhbw.rogue.mapmanager.maps.Map;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,11 +1,11 @@
 package dhbw.rogue.graphics;
 
-import data.Message;
+import dhbw.rogue.data.Message;
 import dhbw.rogue.connection.ServerConnection;
-import entity.Entity;
-import entity.Player;
-import mapmanager.MapManager;
-import spritemanager.ResourceManager;
+import dhbw.rogue.entity.Entity;
+import dhbw.rogue.entity.Player;
+import dhbw.rogue.mapmanager.MapManager;
+import dhbw.rogue.spritemanager.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;

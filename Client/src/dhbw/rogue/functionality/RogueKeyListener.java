@@ -1,9 +1,9 @@
 package dhbw.rogue.functionality;
 
-import entity.Direction;
-import entity.Player;
-import particle.Particle;
-import particle.TextParticle;
+import dhbw.rogue.entity.Direction;
+import dhbw.rogue.entity.Player;
+import dhbw.rogue.particle.Particle;
+import dhbw.rogue.particle.TextParticle;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

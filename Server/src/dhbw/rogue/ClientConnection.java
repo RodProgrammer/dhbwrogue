@@ -1,8 +1,8 @@
 package dhbw.rogue;
 
-import data.Message;
-import entity.Entity;
-import entity.Player;
+import dhbw.rogue.data.Message;
+import dhbw.rogue.entity.Entity;
+import dhbw.rogue.entity.Player;
 
 import java.io.*;
 import java.net.Socket;

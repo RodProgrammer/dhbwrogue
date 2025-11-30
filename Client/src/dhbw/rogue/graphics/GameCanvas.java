@@ -1,17 +1,17 @@
 package dhbw.rogue.graphics;
 
-import data.Message;
+import dhbw.rogue.data.Message;
 import dhbw.rogue.functionality.Chat;
 import dhbw.rogue.functionality.RogueKeyListener;
 import dhbw.rogue.connection.ServerConnection;
-import effects.Effect;
-import entity.Dwarf;
-import entity.Entity;
-import entity.Player;
-import mapmanager.MapManager;
-import particle.Particle;
-import spritemanager.ResourceManager;
-import utility.Settings;
+import dhbw.rogue.effects.Effect;
+import dhbw.rogue.entity.Dwarf;
+import dhbw.rogue.entity.Entity;
+import dhbw.rogue.entity.Player;
+import dhbw.rogue.mapmanager.MapManager;
+import dhbw.rogue.particle.Particle;
+import dhbw.rogue.spritemanager.ResourceManager;
+import dhbw.rogue.utility.Settings;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

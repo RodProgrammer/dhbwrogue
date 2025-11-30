@@ -1,7 +1,7 @@
 package dhbw.rogue.graphics;
 
-import tiles.Tile;
-import utility.Settings;
+import dhbw.rogue.tiles.Tile;
+import dhbw.rogue.utility.Settings;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

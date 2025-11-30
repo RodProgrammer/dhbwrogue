@@ -2,8 +2,8 @@ package dhbw.rogue;
 
 import dhbw.rogue.connection.ServerConnection;
 import dhbw.rogue.graphics.Window;
-import mapmanager.MapManager;
-import spritemanager.ResourceManager;
+import dhbw.rogue.mapmanager.MapManager;
+import dhbw.rogue.spritemanager.ResourceManager;
 
 import java.io.IOException;
 import java.net.Socket;

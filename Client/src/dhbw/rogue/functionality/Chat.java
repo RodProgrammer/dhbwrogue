@@ -1,7 +1,7 @@
 package dhbw.rogue.functionality;
 
 
-import data.Message;
+import dhbw.rogue.data.Message;
 import dhbw.rogue.graphics.GameCanvas;
 
 import java.awt.*;

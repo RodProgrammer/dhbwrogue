@@ -1,9 +1,9 @@
 package dhbw.rogue.graphics;
 
-import mapmanager.MapManager;
-import spritemanager.ResourceManager;
-import tiles.Tile;
-import utility.Settings;
+import dhbw.rogue.mapmanager.MapManager;
+import dhbw.rogue.spritemanager.ResourceManager;
+import dhbw.rogue.tiles.Tile;
+import dhbw.rogue.utility.Settings;
 
 import java.awt.*;
 
