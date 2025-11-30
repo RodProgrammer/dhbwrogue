@@ -31,4 +31,4 @@ jobs:
       - name: Create JAR
         run: |
           mkdir -p dist
-          jar --create --file dist/app.jar -C out
+          jar --create --file dist/app.jar -C out .
