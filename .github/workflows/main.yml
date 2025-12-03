@@ -16,19 +16,5 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Compile
-        run: |
-          mkdir -p out
-          find . -path "*/src/dhbw/rogue/*" -name "*.java" > sources.txt
-          javac -d out @sources.txt
-
-      #- name: Run Tests
-      #  run: |
-      #    mkdir -p out-test
-      #    find . -path "*/src/test/*" -name "*.java" > tests.txt
-      #    javac -cp "out:lib/*" -d out-test @tests.txt
-
-      - name: Create JAR
-        run: |
-          mkdir -p dist
-          jar --create --file dist/app.jar -C out .
+      - name: Build with Maven
+        run: mvn -B clean package
