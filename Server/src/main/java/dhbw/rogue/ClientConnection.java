@@ -13,16 +13,19 @@ public class ClientConnection implements Runnable {
     private ObjectOutputStream oOut;
 
     private final Socket socket;
-    private final Lobby lobby;
+    private final LobbyManager lobbyManager;
 
+    private Lobby lobby;
     private Player lastPlayerState;
 
     private volatile boolean connected;
+    private volatile Status status;
 
-    public ClientConnection(Lobby lobby, Socket socket) {
-        this.lobby = lobby;
+    public ClientConnection(LobbyManager lobbyManager, Socket socket) {
+        this.lobby = null; //no Lobby
+        this.lobbyManager = lobbyManager;
         this.socket = socket;
-
+        status = Status.CONNECTED;
         connected = true;
     }
 
@@ -84,8 +87,13 @@ public class ClientConnection implements Runnable {
 
             this.oOut = oOut;
 
-            //this is for the Lobby, but before that we need to do something with it before we go
-            getConnectionMessages(oIn);
+            //so we got it so it goes from connection to connection.
+            switch(status) {
+                case LOBBY -> getLobbyMessages(oIn);
+                case CONNECTED -> getConnectionMessages(oIn);
+                case IN_GAME -> getGameMessages(oIn);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
             lobby.removeClient(this);
@@ -105,11 +113,25 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    private void getLobbyMessages(ObjectInputStream oIn) throws IOException, ClassNotFoundException {
+    private void getConnectionMessages(ObjectInputStream in) throws IOException, ClassNotFoundException {
 
     }
 
-    private void getConnectionMessages(ObjectInputStream in) throws ClassNotFoundException, IOException {
+    private void getLobbyMessages(ObjectInputStream oIn) throws IOException, ClassNotFoundException {
+        while(true) {
+            Object answer;
+            try {
+                answer = oIn.readObject();
+            } catch (SocketException | EOFException e) {
+                break;
+            }
+            if (answer instanceof String) {
+                // we need to do something here so it goes from CONNECTED to LOBBY, so we end up having it working :)
+            }
+        }
+    }
+
+    private void getGameMessages(ObjectInputStream in) throws ClassNotFoundException, IOException {
         while (true) {
             Object answer;
             try {

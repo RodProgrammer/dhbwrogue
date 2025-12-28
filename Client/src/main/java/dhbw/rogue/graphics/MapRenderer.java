@@ -48,7 +48,8 @@ public class MapRenderer {
     public void reloadMap(String mapName) {
         var newMap = mapManager.getMap(mapName);
         newMap.loadMap();
-
+        newMap.setResourceManager(resourceManager); //loading the textures into RAM
+        map = newMap.getMap(); //throwing away the old map and loading in the new one
     }
 
 }

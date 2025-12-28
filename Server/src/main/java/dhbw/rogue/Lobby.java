@@ -57,20 +57,16 @@ public class Lobby implements Runnable {
         for (ClientConnection client : clients) {
             Player player = client.getLastPlayerState();
             if (player != null) {
+                checkCollision();
+            }
+        }
+    }
 
-                if (player.getX() < 0 && player.getY() < 0) {
-                    player.setX(0);
-                    player.setY(0);
-                    updatePlayer(client, player);
-                }
-
-                if (player.getX() < 0) {
-                    player.setX(0);
-                    updatePlayer(client, player);
-                } else if (player.getY() < 0) {
-                    player.setY(0);
-                    updatePlayer(client, player);
-                }
+    public synchronized void checkCollision() {
+        synchronized (clients) {
+            for(ClientConnection client : clients) {
+                Player player = client.getLastPlayerState();
+                //check Collision here
             }
         }
     }
