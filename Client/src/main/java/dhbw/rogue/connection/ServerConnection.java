@@ -39,6 +39,7 @@ public class ServerConnection {
                     receiveMessage(msg);
                 }
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("[INFO] Disconnected from server.");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -49,6 +50,7 @@ public class ServerConnection {
                 try {
                     socket.close();
                 } catch (IOException e) {
+                    System.out.println("[ERROR] " + e.getMessage());
                     System.out.println("[INFO] Disconnected from Server.");
                 }
             }

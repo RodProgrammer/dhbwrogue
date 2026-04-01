@@ -21,11 +21,11 @@ public class ClientConnection implements Runnable {
     private volatile boolean connected;
     private volatile Status status;
 
-    public ClientConnection(LobbyManager lobbyManager, Socket socket) {
-        this.lobby = null; //no Lobby
-        this.lobbyManager = lobbyManager;
+    public ClientConnection(Lobby lobby, Socket socket) {
+        this.lobby = lobby; //no Lobby
+        this.lobbyManager = null;
         this.socket = socket;
-        status = Status.CONNECTED;
+        status = Status.IN_GAME;
         connected = true;
     }
 
@@ -137,6 +137,7 @@ public class ClientConnection implements Runnable {
             try {
                 answer = in.readObject();
             } catch (SocketException | EOFException e) {
+                System.out.println("[ERROR]: " + e.getMessage());
                 break;
             }
             switch (answer) {

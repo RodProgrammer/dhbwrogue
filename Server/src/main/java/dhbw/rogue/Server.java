@@ -36,7 +36,7 @@ public class Server {
             try {
                 Socket socket = serverSocket.accept();
                 new Thread(() -> {
-                    ClientConnection client = new ClientConnection(lobbyManager, socket);
+                    ClientConnection client = new ClientConnection(lobby, socket);
                     lobby.addClient(client);
                     connections.add(client);
                     client.start();
