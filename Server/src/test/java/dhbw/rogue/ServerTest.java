@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ServerTest {
@@ -14,10 +15,10 @@ public class ServerTest {
 
         boolean isActiveServer;
 
-        try (Socket socket = new Socket("localhost", 4001)) {
-            isActiveServer = true;
-        } catch (IOException e) {
+        try (ServerSocket socket = new ServerSocket(4001)) {
             isActiveServer = false;
+        } catch (IOException e) {
+            isActiveServer = true;
             System.out.println("Could not connect to the server" + e.getMessage());
         }
 
