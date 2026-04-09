@@ -9,6 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
+/**
+ * This class represents the input of the keyboard to the game.
+ */
 public class RogueKeyListener implements KeyListener {
 
     private final Player player;
@@ -17,6 +20,13 @@ public class RogueKeyListener implements KeyListener {
     private boolean chatOpened;
     private List<Particle> particles;
 
+    /**
+     * This constructor just takes in all the objects and declares the attributes with it.
+     *
+     * @param player    The current Player
+     * @param chat      The Chat
+     * @param particles The particles - TODO: delete later
+     */
     public RogueKeyListener(Player player, Chat chat, List<Particle> particles) {
         this.player = player;
         chatOpened = false;
@@ -24,6 +34,11 @@ public class RogueKeyListener implements KeyListener {
         this.particles = particles;
     }
 
+    /**
+     * This method listens to keystrokes and fowards it
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if(!chatOpened) {
@@ -77,6 +92,10 @@ public class RogueKeyListener implements KeyListener {
         }
     }
 
+    /**
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if(!chatOpened) {

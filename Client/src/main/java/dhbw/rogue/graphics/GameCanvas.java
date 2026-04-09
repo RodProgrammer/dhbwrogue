@@ -18,6 +18,9 @@ import java.awt.image.BufferStrategy;
 import java.util.*;
 import java.util.List;
 
+/**
+ * This class represents the Game Drawing Board aka Canvas. It's where everything being rendered... yea I cant scooby doo this anymore
+ */
 public class GameCanvas extends Canvas implements Runnable {
 
     private boolean running;
@@ -40,6 +43,12 @@ public class GameCanvas extends Canvas implements Runnable {
     private final ResourceManager resourceManager;
     private final LightRenderer lightRenderer;
 
+    /**
+     * This constructor initializes all Characters, Players, Messages, and renderer.
+     *
+     * @param resourceManager   The Manager which holds all the Sprites
+     * @param mapManager        The Manager that holds all the Maps
+     */
     public GameCanvas(ResourceManager resourceManager, MapManager mapManager) {
         running = true;
 
@@ -61,11 +70,18 @@ public class GameCanvas extends Canvas implements Runnable {
 
     }
 
+    /**
+     * This method starts this object thread.
+     */
     public void startThread() {
         new Thread(this).start();
         deleteMessages();
     }
 
+    /**
+     * This Method is a Method from Runnable, it starts once a thread is being started.
+     * It also has all the tick and render tick logic.
+     */
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -112,6 +128,9 @@ public class GameCanvas extends Canvas implements Runnable {
         }
     }
 
+    /**
+     * This method goes through the process of actually rendering the objects on the screen.
+     */
     public void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
@@ -178,6 +197,12 @@ public class GameCanvas extends Canvas implements Runnable {
         bs.show();
     }
 
+    /**
+     * This method adds a Player or updates a current Player.
+     * It also uses the Resource Manager to give the Player their model.
+     *
+     * @param player    The Player to add or to update
+     */
     public synchronized void addPlayer(Player player) {
         if (this.player.getName().equals(player.getName())) {
             this.player.updatePlayer(player);
@@ -185,6 +210,7 @@ public class GameCanvas extends Canvas implements Runnable {
         }
 
         synchronized (players) {
+            //it first looks if the player already exists, and updates it
             for (Player p : players) {
                 if (p.getName().equals(player.getName())) {
                     p.updatePlayer(player);
@@ -201,6 +227,11 @@ public class GameCanvas extends Canvas implements Runnable {
         }
     }
 
+    /**
+     * This method adds a new Entity
+     *
+     * @param entity    Entity to add
+     */
     public void addEntity(Entity entity) {
         if (!entities.contains(entity)) {
             entities.add(entity);
@@ -210,12 +241,20 @@ public class GameCanvas extends Canvas implements Runnable {
         }
     }
 
+    /**
+     * This method removes a Player when its disconnected
+     *
+     * @param player    Player to remove
+     */
     public void removePlayer(Player player) {
         synchronized (players) {
             players.removeIf(p -> p.getName().equals(player.getName()));
         }
     }
 
+    /**
+     * This method automatically deletes information Messages after a short time.
+     */
     private void deleteMessages() {
         new Thread(() -> {
             while(running) {

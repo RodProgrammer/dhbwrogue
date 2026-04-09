@@ -7,8 +7,10 @@ import dhbw.rogue.utility.Settings;
 
 import java.awt.*;
 
+/**
+ *
+ */
 public class MapRenderer {
-
 
     private ResourceManager resourceManager;
     private MapManager mapManager;

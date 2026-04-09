@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * This class is representing the connection to the Server.
+ * It sends and receives Objects to and from the Server.
+ */
 public class ServerConnection {
 
     private ObjectOutputStream out;
@@ -16,6 +20,12 @@ public class ServerConnection {
     private final Socket socket;
     private final Window gameWindow;;
 
+    /**
+     * The Constructor creates the ObjectInput- and ObjectOutputStream out of the Socket.
+     *
+     * @param socket        The socket to the Server
+     * @param gameWindow    The Game
+     */
     public ServerConnection(Socket socket, Window gameWindow) {
         this.socket = socket;
         this.gameWindow = gameWindow;
@@ -31,6 +41,9 @@ public class ServerConnection {
         createContinuousConnection();
     }
 
+    /**
+     * It's a connection to the server in a never-ending loop.
+     */
     private void createContinuousConnection() {
         new Thread(() -> {
             Object msg;
@@ -57,6 +70,11 @@ public class ServerConnection {
         }).start();
     }
 
+    /**
+     * This method is taking in an Object from the Server and evaluates it.
+     *
+     * @param msg The input Object
+     */
     private synchronized void receiveMessage(Object msg) {
         try {
             switch (msg) {
@@ -72,6 +90,11 @@ public class ServerConnection {
         }
     }
 
+    /**
+     * This method sends an Object to the Server.
+     *
+     * @param o The Object
+     */
     public synchronized void sendObject(Object o) {
         try {
             synchronized (out) {
@@ -80,7 +103,7 @@ public class ServerConnection {
                     out.writeObject(o);
                     out.flush();
                 } else {
-                    System.out.println("[Info] Lost connection.");
+                    System.out.println("[INFO] Lost connection.");
                     JOptionPane.showMessageDialog(gameWindow, "Lost connection.", "Server Connection", JOptionPane.WARNING_MESSAGE);
                     System.exit(0);
                 }
