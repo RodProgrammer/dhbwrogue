@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>672</x>
+      <y>136</y>
+      <w>536</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+Server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>672</x>
+      <y>384</y>
+      <w>536</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+Client</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>328</x>
+      <y>296</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+RogueCore</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>688</x>
+      <y>440</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+View</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>920</x>
+      <y>440</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+ServerConnection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>824</x>
+      <y>480</y>
+      <w>136</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=[GUI]-[INTERNAL]</panel_attributes>
+    <additional_attributes>20.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1056</x>
+      <y>376</y>
+      <w>120</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=[SOCKET]-[SOCKET]</panel_attributes>
+    <additional_attributes>110.0;10.0;110.0;140.0;30.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>704</x>
+      <y>184</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+Lobby</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>944</x>
+      <y>184</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+ClientConnection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>320</y>
+      <w>56</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=[SOCKET]-[SOCKET]</panel_attributes>
+    <additional_attributes>30.0;10.0;30.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1080</x>
+      <y>216</y>
+      <w>96</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=[SOCKET]-[SOCKET]</panel_attributes>
+    <additional_attributes>30.0;10.0;80.0;10.0;80.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>328</y>
+      <w>96</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=)-</panel_attributes>
+    <additional_attributes>90.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>336</y>
+      <w>128</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=()-[v]</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;180.0;140.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>192</y>
+      <w>88</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>832</x>
+      <y>216</y>
+      <w>160</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=[INTERNAL]-[INTERNAL]</panel_attributes>
+    <additional_attributes>40.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>584</y>
+      <w>888</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Aus Vereinfachungsgründen wurden alle einzelnen Verbindungen / Dependencies 
+nicht mit ins Komponentendiagramm aufgenommen, sowie wurde auch nur eine einfache Lobby mit ClientConnection zur 
+Veranschaulichung verwendet.
+Hier kann man gut erkennen, wie die Verbindung zwischen Server und Client über Sockets läuft.
+"INTERNAL" bedeuter hier einfach die Objektreferenz, da es nicht direkt bspw. GUI oder SOCKET ist.
+Dazu benutzen beide vom Komponenten RogueCore, welche eine direkte Verbindung benutzt. 
+Damit haben beide die gleichen Objekttypen, somit kann es nicht zu kollisionen führen bei der Socketverbindung.
+Dazu können auch dadurch mehrere Clients an dem Server sich verbinden, hier könnte man
+zur Veranschaulichung einfach den client copy-pasten. 
+
+
+fontsize=18
+lw=5</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
