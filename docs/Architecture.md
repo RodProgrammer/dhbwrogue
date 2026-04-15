@@ -75,12 +75,12 @@ Diese Strategie ist geeignet, da ein Roguelike typischerweise viele wiederverwen
 
 # Bausteinsicht
 
-![Component diagramm](docs/assets/Komponentendiagramm.png) <br>
-![Package diagramm](docs/assets/Paketdiagramm.png)
+![Component diagramm](assets/Komponentendiagramm.png) <br>
+![Package diagramm](assets/Paketdiagramm.png) <br>
 
 # Laufzeitsicht
 
-![Component diagramm](docs/assets/Sequenzdiagramm.png)
+![Component diagramm](assets/Sequenzdiagramm.png) <br>
 
 # Verteilungssicht
 <i>TODO</i>
