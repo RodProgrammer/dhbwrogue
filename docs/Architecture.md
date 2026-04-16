@@ -112,7 +112,7 @@ Angenommen <br>
 - Schlecht, weil mehr Bandbreite benötigt wird
 
 # Qualitätsanforderungen
-![Quality Utility Management](docs/assets/Quality%20Utility%20Management.png)
+![Quality Utility Management](assets/Quality%20Utility%20Management.png)
 
 # Risiken und technische Schulden
 <i>TODO</i>
