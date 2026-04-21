@@ -115,4 +115,19 @@ Angenommen <br>
 ![Quality Utility Management](assets/Quality%20Utility%20Management.png)
 
 # Risiken und technische Schulden
-<i>TODO</i>
+| Risiko ID | Beschreibung | Wahrscheinlichkeitsklasse | Schadenshöhe | Risiko-Score | Minimierungs-Strategie | Indikatoren | Notfallplan | Status | Verantwortlicher | Datum der letzten Aktualisierung |
+|---|---|---|---|---:|---|---|---|---|---|---|
+| 1 | Technisches Risiko: Probleme bei der Implementierung der Spiellogik | mittel | hoch | 6 | Frühe Demo präsentieren, Aufteilung in Klassen, Tests | Fehler in Kernfunktionen, Verzögerungen | Funktionsumfang reduzieren und nur wichtigesten Features fertigstellen | offen | Lead Developer (Robin) | 21.04.2026 |
+| 2 | Technisches Risiko: Schwierigkeiten beim Zusammenspiel von UI und Eingaben | mittel | mittel | 4 | So früh wie möglich testen, Logik und UI klar trennen | Einzelne Eingaben/Interaktionen funktionieren, aber zusammengesetzt gibt es Fehler | UI vereinfachen und problematische Zusatzfunktionen entfernen | offen | Nico | 21.04.2026 |
+| 3 | Zeitbezogen: Zeitplanung ist zu optimistisch und das Projekt wird nicht fertig | hoch | hoch | 9 | Realistischen Zeitplan mit Puffer erstellen | Meilensteine werden nicht erreicht, viele unerledigte Aufgaben kurz vor Abgabe | Fokus nur auf absolute wichtigsten Anforderungen | offen | Scrum-Master (Felix) | 21.04.2026 |
+| 4 | Personenbezogen: Teammitglieder fallen aus wegen Krankheit oder anderen unvorhersehbaren Gründen | mittel | hoch | 6 | Wissen im Team verteilen, Aufgaben dokumentieren | Aufgaben werden nicht erledigt, geringe Beteiligung von Mitgliedern | Aufgaben umverteilen und weniger wichtige Features verschieben | offen | Scrum-Master (Felix) | 21.04.2026 |
+| 5 | Technisches Risiko: Zu wenige Tests führen zu Bugs oder Abstürzen | mittel | hoch | 6 | Tests für wichtigsten Funktionen erstellen und regelmäßig testen, funktionierende Zwischenversionen speichern | Häufige Abstürze, bekannte Bugs | Fehlerhafte Features deaktivieren und nur getestete Funktionen abgeben | offen | Entwickler (Joan) | 21.04.2026 |
+| 6 | Probleme bei der Zusammenarbeit mit Github | niedrig | niedrig | 1 | Kleine Commits, Absprache mit Teammitgliedern | Merge-Konflikte, verlorener Code | Auf letzte stabile Version zurückgehen und Absprache im Team | offen | Alle Entwickler | 21.04.2026 |
+
+**Berechnung des Risiko-Scores**
+
+Score = Wahrscheinlichkeitsklasse × Schadenshöhe
+
+- Niedrig = 1
+- Mittel = 2
+- Hoch = 3
