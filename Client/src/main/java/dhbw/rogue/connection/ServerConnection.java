@@ -18,7 +18,7 @@ public class ServerConnection {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private final Socket socket;
-    private final Window gameWindow;;
+    private final Window gameWindow;
 
     /**
      * The Constructor creates the ObjectInput- and ObjectOutputStream out of the Socket.
@@ -73,12 +73,12 @@ public class ServerConnection {
     /**
      * This method is taking in an Object from the Server and evaluates it.
      *
-     * @param msg The input Object
+     * @param objectInput The input Object
      */
-    private synchronized void receiveMessage(Object msg) {
+    private synchronized void receiveMessage(Object objectInput) {
         try {
-            switch (msg) {
-                case String s -> gameWindow.addInformationMessage(s);
+            switch (objectInput) {
+                case String informationMessage -> gameWindow.addInformationMessage(informationMessage);
                 case Player player -> gameWindow.update_player(player);
                 case Entity entity -> gameWindow.update_entity(entity);
                 case Message message -> gameWindow.addChatMessage(message);
