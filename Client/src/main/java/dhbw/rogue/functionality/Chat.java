@@ -39,24 +39,24 @@ public class Chat {
     /**
      * This method draws the Chat onto the screen with the given graphics object.
      *
-     * @param g The Graphics2D object from the Game
+     * @param graphics The Graphics2D object from the Game
      */
-    public void renderChat(Graphics2D g) {
+    public void renderChat(Graphics2D graphics) {
 
-        g.setColor(Color.WHITE);
+        graphics.setColor(Color.WHITE);
 
         int y = (int) ((double) gameCanvas.getHeight() * ((double) 4/6));
         int lastPos = y;
 
         synchronized (messageList) {
             for (Message message : messageList) {
-                g.drawString(message.getData(), 100, y);
+                graphics.drawString(message.getData(), 100, y);
                 y -= 20;
             }
         }
 
         if (!characterStack.isEmpty()) {
-            g.drawString(">: "  + createMessage(), 100, lastPos + 20);
+            graphics.drawString(">: "  + createMessage(), 100, lastPos + 20);
         }
     }
 
@@ -79,7 +79,7 @@ public class Chat {
      */
     public void addLetter(KeyEvent e) {
         char c = e.getKeyChar();
-        if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && Character.isLetterOrDigit(c) || " §#_-;.:*'?!/,<>^°=)(|{}&%$@€+ßöäüÖÄÜ".indexOf(c) >= 0) {
+        if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE && Character.isLetterOrDigit(c) || isValidSpecialCharacter(c)) {
             characterStack.push(c);
         }
     }
@@ -131,15 +131,19 @@ public class Chat {
     private void messageDeleter() {
         new Thread(() -> {
             while(true) {
-                int oldValue = characterStack.size();
+                int oldValue = messageList.size();
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException ignored) {}
 
-                if (!messageList.isEmpty() && messageList.size() == oldValue) {
+                if (!messageList.isEmpty() && messageList.size() >= oldValue) {
                     messageList.removeLast();
                 }
             }
         }).start();
+    }
+
+    private boolean isValidSpecialCharacter(char c) {
+        return " §#_-;.:*'?!/,<>^°=)(|{}&%$@€+ßöäüÖÄÜ".indexOf(c) >= 0;
     }
 }

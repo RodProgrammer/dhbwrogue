@@ -24,19 +24,28 @@ public class Light {
         drawLight();
     }
 
-    public void render(Graphics2D g) {
-        g.drawImage(light, x - radius + (Settings.SCALED_TILE_SIZE / 2), y - radius + (Settings.SCALED_TILE_SIZE / 2), null);
+    public void render(Graphics2D graphics) {
+        graphics.drawImage(light
+                , x - radius + (Settings.SCALED_TILE_SIZE / 2)
+                , y - radius + (Settings.SCALED_TILE_SIZE / 2)
+                , null
+        );
     }
 
     public void drawLight() {
-        Graphics2D g = (Graphics2D) light.getGraphics();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Graphics2D graphics = (Graphics2D) light.getGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g.setColor(new Color(0, 0, 0, luminosity));
+        graphics.setColor(new Color(0, 0, 0, luminosity));
         int iterations = radius / Settings.LIGHT_STEP;
         for (int i = 0; i < iterations; i++) {
-            g.fillOval(radius - (i * Settings.LIGHT_STEP), radius - (i * Settings.LIGHT_STEP), i * Settings.LIGHT_STEP * 2, i * Settings.LIGHT_STEP * 2);
+            graphics.fillOval(
+                    radius - (i * Settings.LIGHT_STEP)
+                    , radius - (i * Settings.LIGHT_STEP)
+                    , i * Settings.LIGHT_STEP * 2
+                    , i * Settings.LIGHT_STEP * 2
+            );
         }
-        g.dispose();
+        graphics.dispose();
     }
 }

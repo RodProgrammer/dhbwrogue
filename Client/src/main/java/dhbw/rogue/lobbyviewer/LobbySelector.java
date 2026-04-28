@@ -20,9 +20,7 @@ public class LobbySelector extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         JButton button = new JButton("Add Lobby");
-        button.addActionListener(e -> {
-
-        });
+        button.addActionListener(e -> {});
         add(button, BorderLayout.SOUTH);
 
         lobbylist = new JPanel();
@@ -53,13 +51,23 @@ public class LobbySelector extends JFrame {
     }
 
     public static void main(String[] args) {
-        String input = JOptionPane.showInputDialog(null, "Please enter your Username", "Username", JOptionPane.INFORMATION_MESSAGE);
+        String input = JOptionPane.showInputDialog(
+                null
+                , "Please enter your Username"
+                , "Username"
+                , JOptionPane.INFORMATION_MESSAGE
+        );
 
         if (input != null && !input.isEmpty()) {
             LobbySelector lobbySelector = new LobbySelector(input);
             new Client(lobbySelector.username, "localhost", 4000);
         } else {
-            JOptionPane.showMessageDialog(null, "Invalid or Username already in use", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null
+                    , "Invalid or Username already in use"
+                    , "ERROR"
+                    , JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 

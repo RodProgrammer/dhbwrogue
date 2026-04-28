@@ -67,7 +67,6 @@ public class GameCanvas extends Canvas implements Runnable {
 
         mapRenderer = new MapRenderer(resourceManager, mapManager);
         lightRenderer = new LightRenderer(mapRenderer.getMap());
-
     }
 
     /**
@@ -140,60 +139,60 @@ public class GameCanvas extends Canvas implements Runnable {
         }
         Toolkit.getDefaultToolkit().sync();
 
-        Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED); //For MacOS, since I have stuttering
-        g.setColor(Color.BLACK);
-        g.fillRect(0,0, getWidth(), getHeight());
+        Graphics2D graphics = (Graphics2D) bs.getDrawGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED); //For MacOS, since I have stuttering
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0,0, getWidth(), getHeight());
 
         int height = 0;
 
-        mapRenderer.render(g, player.getX(), player.getY());
+        mapRenderer.render(graphics, player.getX(), player.getY());
 
         synchronized (informationMessages) {
             for (String message : informationMessages) {
-                g.drawString(message, 20, height + 80);
+                graphics.drawString(message, 20, height + 80);
                 height += 15;
             }
         }
 
         synchronized (entities) {
             for (Entity entity : entities) {
-                entity.draw(g);
+                entity.draw(graphics);
             }
         }
 
         synchronized (players) {
             for (Player player : players) {
-                player.drawPlayer(g, this.player.getX(), this.player.getY());
+                player.drawPlayer(graphics, this.player.getX(), this.player.getY());
             }
         }
 
-        player.draw(g);
+        player.draw(graphics);
 
         synchronized (particles) {
             for(Particle particle : particles) {
-                particle.render(g, player.getX(), player.getY());
+                particle.render(graphics, player.getX(), player.getY());
             }
         }
 
-        lightRenderer.renderLight(g, player.getX(), player.getY());
+        lightRenderer.renderLight(graphics, player.getX(), player.getY());
 
         for (Effect effect : player.getEffects()) {
-            g.drawImage(effect.getEffectIcon(), 48, Settings.SCREEN_HEIGHT-96, null);
+            graphics.drawImage(effect.getEffectIcon(), 48, Settings.SCREEN_HEIGHT-96, null);
         }
 
-        g.setColor(Color.GREEN);
-        g.fillRect(20, 48, Settings.SCALED_TILE_SIZE, 16);
-        g.setColor(Color.BLUE);
-        g.fillRect(20, 64, Settings.SCALED_TILE_SIZE, 16);
+        graphics.setColor(Color.GREEN);
+        graphics.fillRect(20, 48, Settings.SCALED_TILE_SIZE, 16);
+        graphics.setColor(Color.BLUE);
+        graphics.fillRect(20, 64, Settings.SCALED_TILE_SIZE, 16);
 
-        g.setColor(Color.WHITE);
-        g.drawString("FPS: " + fps, 20, 20);
-        g.drawString("TPS: " + tps, 20, 40);
+        graphics.setColor(Color.WHITE);
+        graphics.drawString("FPS: " + fps, 20, 20);
+        graphics.drawString("TPS: " + tps, 20, 40);
 
-        chat.renderChat(g);
+        chat.renderChat(graphics);
 
-        g.dispose();
+        graphics.dispose();
         bs.show();
     }
 
@@ -211,17 +210,17 @@ public class GameCanvas extends Canvas implements Runnable {
 
         synchronized (players) {
             //it first looks if the player already exists, and updates it
-            for (Player p : players) {
-                if (p.getName().equals(player.getName())) {
-                    p.updatePlayer(player);
+            for (Player existingPlayer : players) {
+                if (existingPlayer.getName().equals(player.getName())) {
+                    existingPlayer.updatePlayer(player);
                    return;
                 }
             }
             player.setResourceManager(resourceManager);
             player.loadImages();
-            for(Effect p : player.getEffects()) {
-                p.setResourceManager(resourceManager);
-                p.loadEffect();
+            for(Effect effect : player.getEffects()) {
+                effect.setResourceManager(resourceManager);
+                effect.loadEffect();
             }
             players.add(player);
         }

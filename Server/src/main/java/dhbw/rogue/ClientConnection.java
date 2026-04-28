@@ -10,7 +10,7 @@ import java.net.SocketException;
 
 public class ClientConnection implements Runnable {
 
-    private ObjectOutputStream oOut;
+    private ObjectOutputStream out;
 
     private final Socket socket;
     private final LobbyManager lobbyManager;
@@ -18,7 +18,7 @@ public class ClientConnection implements Runnable {
     private Lobby lobby;
     private Player lastPlayerState;
 
-    private volatile boolean connected;
+    private volatile boolean isConnected;
     private volatile Status status;
 
     public ClientConnection(Lobby lobby, Socket socket) {
@@ -26,14 +26,14 @@ public class ClientConnection implements Runnable {
         this.lobbyManager = null;
         this.socket = socket;
         status = Status.IN_GAME;
-        connected = true;
+        isConnected = true;
     }
 
     public synchronized void sendInformation(String information) {
-        if (oOut != null) {
+        if (out != null) {
             try {
-                oOut.writeObject(information);
-                oOut.flush();
+                out.writeObject(information);
+                out.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -41,10 +41,10 @@ public class ClientConnection implements Runnable {
     }
 
     public synchronized void sendMessage(Message message) {
-        if (oOut != null) {
+        if (out != null) {
             try {
-                oOut.writeObject(message);
-                oOut.flush();
+                out.writeObject(message);
+                out.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -52,10 +52,10 @@ public class ClientConnection implements Runnable {
     }
 
     public synchronized void sendEntity(Entity entity) {
-        if (oOut != null) {
+        if (out != null) {
             try {
-                oOut.writeObject(entity);
-                oOut.flush();
+                out.writeObject(entity);
+                out.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -63,11 +63,11 @@ public class ClientConnection implements Runnable {
     }
 
     public synchronized void sendPlayer(Player player) {
-        if (oOut != null && connected && !socket.isClosed()) {
+        if (out != null && isConnected && !socket.isClosed()) {
             try {
-                if (socket.isConnected() && connected && oOut != null) {
-                    oOut.writeObject(player);
-                    oOut.flush();
+                if (socket.isConnected() && isConnected && out != null) {
+                    out.writeObject(player);
+                    out.flush();
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -82,16 +82,16 @@ public class ClientConnection implements Runnable {
     @Override
     public void run() {
         System.out.println("Client connected.");
-            try (ObjectOutputStream oOut = new ObjectOutputStream(socket.getOutputStream());
-                    ObjectInputStream oIn = new ObjectInputStream(socket.getInputStream())) {
+            try (ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
-            this.oOut = oOut;
+            this.out = out;
 
             //so we got it so it goes from connection to connection.
             switch(status) {
-                case LOBBY -> getLobbyMessages(oIn);
-                case CONNECTED -> getConnectionMessages(oIn);
-                case IN_GAME -> getGameMessages(oIn);
+                case LOBBY -> getLobbyMessages(in);
+                case CONNECTED -> getConnectionMessages(in);
+                case IN_GAME -> getGameMessages(in);
             }
 
         } catch (IOException e) {
@@ -103,7 +103,7 @@ public class ClientConnection implements Runnable {
             System.out.println("Couldn't parse entity.");
         } finally {
             try {
-                connected = false;
+                isConnected = false;
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -126,7 +126,7 @@ public class ClientConnection implements Runnable {
                 break;
             }
             if (answer instanceof String) {
-                // we need to do something here so it goes from CONNECTED to LOBBY, so we end up having it working :)
+                // TODO: we need to do something here so it goes from CONNECTED to LOBBY, so we end up having it working :)
             }
         }
     }

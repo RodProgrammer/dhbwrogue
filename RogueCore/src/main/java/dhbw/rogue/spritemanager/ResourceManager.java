@@ -29,7 +29,11 @@ public class ResourceManager {
         SpriteSheet cave = new SpriteSheet("resource/maps/cave/RA_Caverns.png");
         spritesheet.put("cave", cave);
 
-        SpriteSheet basicCircler = new SpriteSheet("resource/effects/circler/GandalfHardcore Circler Projectiles1.png", 100, 100);
+        SpriteSheet basicCircler = new SpriteSheet(
+                "resource/effects/circler/GandalfHardcore Circler Projectiles1.png"
+                , 100
+                , 100
+        );
 
         spritesheet.put("basicCircler", basicCircler);
 

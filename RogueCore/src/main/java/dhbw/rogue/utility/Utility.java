@@ -14,9 +14,9 @@ public class Utility {
     public static BufferedImage scaleImage(BufferedImage originalImage) {
 
         BufferedImage scaledImage = new BufferedImage(Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, 2);
-        Graphics2D graphics2D = scaledImage.createGraphics();
-        graphics2D.drawImage(originalImage, 0, 0, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, null);
-        graphics2D.dispose();
+        Graphics2D graphics = scaledImage.createGraphics();
+        graphics.drawImage(originalImage, 0, 0, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, null);
+        graphics.dispose();
 
         return scaledImage;
     }
@@ -28,23 +28,23 @@ public class Utility {
     public static BufferedImage scaleImage(BufferedImage originalImage, int tileSize) {
 
         BufferedImage scaledImage = new BufferedImage(tileSize, tileSize, 2);
-        Graphics2D graphics2D = scaledImage.createGraphics();
+        Graphics2D graphics = scaledImage.createGraphics();
 
         int size = Settings.SCALED_TILE_SIZE;
 
-        if(tileSize >= Settings.SCALED_TILE_SIZE) {
+        if (tileSize >= Settings.SCALED_TILE_SIZE) {
             size = tileSize;
         }
 
-        graphics2D.drawImage(originalImage, 0, 0, size, size, null);
-        graphics2D.dispose();
+        graphics.drawImage(originalImage, 0, 0, size, size, null);
+        graphics.dispose();
 
         return scaledImage;
     }
 
     /**
      * We split the PNG into multiple BufferedImages, so we got a SpriteSheet ::)))
-     * also we basically load everything into RAM, so we go vroom vroom
+     * also we basically load everything into RAM
      */
     public static BufferedImage[][] getImages(BufferedImage originalImage, int width, int height, int tileSize) {
         int imageWidth = originalImage.getWidth() / width;

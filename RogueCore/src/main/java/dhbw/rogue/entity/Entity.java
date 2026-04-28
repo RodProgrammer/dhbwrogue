@@ -50,11 +50,11 @@ public abstract class Entity implements Serializable {
         this.effects = new ArrayList<>();
     }
 
-    public void draw(Graphics2D g) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(x, y, rectangle.width, rectangle.height);
-        g.setColor(Color.RED);
-        g.drawString(name, x - (name.length() * 2), y - 8);
+    public void draw(Graphics2D graphics) {
+        graphics.setColor(Color.MAGENTA);
+        graphics.fillRect(x, y, rectangle.width, rectangle.height);
+        graphics.setColor(Color.RED);
+        graphics.drawString(name, x - (name.length() * 2), y - 8);
     }
 
     public abstract void tick();

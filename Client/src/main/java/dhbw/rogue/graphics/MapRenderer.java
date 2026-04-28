@@ -22,17 +22,18 @@ public class MapRenderer {
         map = mapManager.getMap("TestMap").getMap();
     }
 
-    public void render(Graphics2D g, int discrepancyX, int discrepancyY) {
+    public void render(Graphics2D graphics, int discrepancyX, int discrepancyY) {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 int x = (i * Settings.SCALED_TILE_SIZE) + (Settings.SCREEN_WIDTH / 2) - discrepancyX;
                 int y = (j * Settings.SCALED_TILE_SIZE) + (Settings.SCREEN_HEIGHT / 2) - discrepancyY;
-                if (!(x >= Settings.SCREEN_WIDTH || x <= -1 * Settings.SCALED_TILE_SIZE) && !(y >= Settings.SCREEN_HEIGHT || y <= -1 * Settings.SCALED_TILE_SIZE)) {
-                    map[i][j].draw(g, x, y);
+                if (!(x >= Settings.SCREEN_WIDTH || x <= -1 * Settings.SCALED_TILE_SIZE)
+                        && !(y >= Settings.SCREEN_HEIGHT || y <= -1 * Settings.SCALED_TILE_SIZE)) {
+                    map[i][j].draw(graphics, x, y);
                 }
             }
         }
-        g.setColor(Color.WHITE);
+        graphics.setColor(Color.WHITE);
     }
 
     public void tick() {

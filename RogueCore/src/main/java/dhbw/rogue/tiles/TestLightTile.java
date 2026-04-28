@@ -15,9 +15,9 @@ public class TestLightTile extends Tile {
     }
 
     @Override
-    public void draw(Graphics2D g, int x, int y) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(x, y, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+    public void draw(Graphics2D graphics, int x, int y) {
+        graphics.setColor(Color.MAGENTA);
+        graphics.fillRect(x, y, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
     }
 
     @Override
@@ -26,6 +26,11 @@ public class TestLightTile extends Tile {
     }
 
     public void reloadLight() {
-        light = new Light(x, y, Settings.SCALED_TILE_SIZE * 2, new Random().nextInt(10, 101));
+        light = new Light(
+                x
+                , y
+                , Settings.SCALED_TILE_SIZE * 2
+                , new Random().nextInt(10, 101)
+        );
     }
 }

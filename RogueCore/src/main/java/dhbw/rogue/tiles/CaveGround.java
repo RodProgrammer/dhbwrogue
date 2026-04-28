@@ -16,8 +16,8 @@ public class CaveGround extends Tile {
     }
 
     @Override
-    public void draw(Graphics2D g, int x, int y) {
-        g.drawImage(image, x, y, null);
+    public void draw(Graphics2D graphics, int x, int y) {
+        graphics.drawImage(image, x, y, null);
     }
 
     @Override
