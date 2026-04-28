@@ -12,51 +12,83 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Player extends Entity implements Serializable {
 
-    private final Set<Direction> dirs;
+    private final Set<Direction> directions;
     protected transient BufferedImage[][] images;
 
-    private transient int animTick;
-    protected int currImage;
-    protected int currDirectionImage;
+    private transient int animationTick;
+    protected int currentImage;
+    protected int currentDirectionImage;
 
     public Player(int x, int y, ResourceManager resourceManager) {
         super(x, y, 100, 100, resourceManager);
-        dirs = ConcurrentHashMap.newKeySet(); //haha it will crash without it... I wanna commit not alive anymore
+        directions = ConcurrentHashMap.newKeySet(); //it will crash without this
         name = String.valueOf(hashCode());
 
-        animTick = 0;
-        currImage = 0;
-        currDirectionImage = 0;
+        animationTick = 0;
+        currentImage = 0;
+        currentDirectionImage = 0;
 
         loadImages();
     }
 
-    public void drawPlayer(Graphics2D g, int discrepancyX, int discrepancyY) {
-        g.drawImage(images[currImage][currDirectionImage], x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2), null);
-        g.setColor(Color.RED);
-        g.drawString(name, x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 24);
+    public void drawPlayer(Graphics2D graphics, int discrepancyX, int discrepancyY) {
+        graphics.drawImage(
+                images[currentImage][currentDirectionImage]
+                , x - discrepancyX + (Settings.SCREEN_WIDTH / 2)
+                , y - discrepancyY + (Settings.SCREEN_HEIGHT / 2)
+                , null
+        );
+        graphics.setColor(Color.RED);
+        graphics.drawString(
+                name
+                , x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2)
+                , y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 24
+        );
 
         for (Effect effect : effects) {
-            effect.render(g, x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2));
+            effect.render(
+                    graphics
+                    , x - discrepancyX + (Settings.SCREEN_WIDTH / 2)
+                    , y - discrepancyY + (Settings.SCREEN_HEIGHT / 2)
+            );
         }
 
-        g.setColor(Color.GREEN);
-        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 16, Settings.SCALED_TILE_SIZE, 8);
-        g.setColor(Color.BLUE);
-        g.fillRect(x - discrepancyX + (Settings.SCREEN_WIDTH / 2), y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 8, Settings.SCALED_TILE_SIZE, 8);
+        graphics.setColor(Color.GREEN);
+        graphics.fillRect(
+                x - discrepancyX + (Settings.SCREEN_WIDTH / 2)
+                , y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 16
+                , Settings.SCALED_TILE_SIZE
+                , 8
+        );
+        graphics.setColor(Color.BLUE);
+        graphics.fillRect(
+                x - discrepancyX + (Settings.SCREEN_WIDTH / 2)
+                , y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 8
+                , Settings.SCALED_TILE_SIZE
+                , 8
+        );
 
     }
 
     @Override
-    public void draw(Graphics2D g) {
-        g.drawImage(images[currImage][currDirectionImage], Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2, null);
+    public void draw(Graphics2D graphics) {
+        graphics.drawImage(
+                images[currentImage][currentDirectionImage]
+                , Settings.SCREEN_WIDTH / 2
+                , Settings.SCREEN_HEIGHT / 2
+                , null
+        );
 
         for(Effect effect : effects) {
-            effect.render(g, Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2);
+            effect.render(graphics, Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2);
         }
 
-        g.setColor(Color.RED);
-        g.drawString(name, (Settings.SCREEN_WIDTH / 2) - (name.length() * 2), (Settings.SCREEN_HEIGHT / 2) - 8);
+        graphics.setColor(Color.RED);
+        graphics.drawString(
+                name
+                , (Settings.SCREEN_WIDTH / 2) - (name.length() * 2)
+                , (Settings.SCREEN_HEIGHT / 2) - 8
+        );
 
     }
 
@@ -67,39 +99,42 @@ public class Player extends Entity implements Serializable {
             effect.tick();
         }
 
-        if (dirs.contains(Direction.UP)) {
+        if (directions.contains(Direction.UP)) {
             this.y -= speed;
-            currDirectionImage = Direction.UP.value;
+            currentDirectionImage = Direction.UP.value;
         }
-        if (dirs.contains(Direction.DOWN)) {
+        if (directions.contains(Direction.DOWN)) {
             this.y += speed;
-            currDirectionImage = Direction.DOWN.value;
+            currentDirectionImage = Direction.DOWN.value;
         }
-        if (dirs.contains(Direction.LEFT)) {
+        if (directions.contains(Direction.LEFT)) {
             this.x -= speed;
-            currDirectionImage = Direction.LEFT.value;
+            currentDirectionImage = Direction.LEFT.value;
         }
-        if (dirs.contains(Direction.RIGHT)) {
+        if (directions.contains(Direction.RIGHT)) {
             this.x += speed;
-            currDirectionImage = Direction.RIGHT.value;
+            currentDirectionImage = Direction.RIGHT.value;
         }
-        if (dirs.contains(Direction.UP) && dirs.contains(Direction.DOWN) || dirs.contains(Direction.LEFT) && dirs.contains(Direction.RIGHT)) {
-            currImage = 0;
+        if (
+                directions.contains(Direction.UP) && directions.contains(Direction.DOWN)
+                || directions.contains(Direction.LEFT) && directions.contains(Direction.RIGHT)
+        ) {
+            currentImage = 0;
             return;
         }
 
-        if (dirs.isEmpty()) {
-            currImage = 0;
+        if (directions.isEmpty()) {
+            currentImage = 0;
             return;
         }
 
-        animTick++;
-        if (animTick >= 15) {
-            animTick = 0;
-            currImage++;
+        animationTick++;
+        if (animationTick >= 15) {
+            animationTick = 0;
+            currentImage++;
 
-            if (currImage >= images.length) {
-                currImage = 0;
+            if (currentImage >= images.length) {
+                currentImage = 0;
             }
         }
     }
@@ -107,8 +142,8 @@ public class Player extends Entity implements Serializable {
     public void updatePlayer(Player player) {
         this.x = player.x;
         this.y = player.y;
-        this.currImage = player.currImage;
-        this.currDirectionImage = player.currDirectionImage;
+        this.currentImage = player.currentImage;
+        this.currentDirectionImage = player.currentDirectionImage;
         this.speed = player.speed;
         this.effects = player.effects;
         for(Effect effect : effects) {
@@ -117,12 +152,12 @@ public class Player extends Entity implements Serializable {
         }
     }
 
-    public void addDirection(Direction dir) {
-        dirs.add(dir);
+    public void addDirection(Direction direction) {
+        directions.add(direction);
     }
 
-    public void removeDirection(Direction dir) {
-        dirs.remove(dir);
+    public void removeDirection(Direction direction) {
+        directions.remove(direction);
     }
 
     @Override
@@ -134,19 +169,19 @@ public class Player extends Entity implements Serializable {
         return;
     }
 
-    public int getCurrImage() {
-        return currImage;
+    public int getCurrentImage() {
+        return currentImage;
     }
 
-    public void setCurrImage(int currImage) {
-        this.currImage = currImage;
+    public void setCurrentImage(int currentImage) {
+        this.currentImage = currentImage;
     }
 
-    public int getCurrDirectionImage() {
-        return currDirectionImage;
+    public int getCurrentDirectionImage() {
+        return currentDirectionImage;
     }
 
-    public void setCurrDirectionImage(int currDirectionImage) {
-        this.currDirectionImage = currDirectionImage;
+    public void setCurrentDirectionImage(int currentDirectionImage) {
+        this.currentDirectionImage = currentDirectionImage;
     }
 }

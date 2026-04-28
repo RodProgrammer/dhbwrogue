@@ -23,7 +23,11 @@ public class LightRenderer {
 
         if (tile == null) return;
 
-        lightMap = new BufferedImage(tile.length * Settings.SCALED_TILE_SIZE, tile[0].length * Settings.SCALED_TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+        lightMap = new BufferedImage(
+                tile.length * Settings.SCALED_TILE_SIZE
+                , tile[0].length * Settings.SCALED_TILE_SIZE
+                , BufferedImage.TYPE_INT_ARGB
+        );
 
         drawLight(tile);
     }
@@ -31,12 +35,17 @@ public class LightRenderer {
     /**
      * This method actually draws the Light Map onto the screen.
      *
-     * @param g             Graphics2D
+     * @param graphics             Graphics2D
      * @param discrepancyX  it lets you draw the difference on the x-axes
      * @param discrepancyY  it lets you draw the difference on the y-axes
      */
-    public void renderLight(Graphics2D g, int discrepancyX, int discrepancyY) {
-        g.drawImage(lightMap, (Settings.SCREEN_WIDTH / 2) - discrepancyX, (Settings.SCREEN_HEIGHT / 2) - discrepancyY, null);
+    public void renderLight(Graphics2D graphics, int discrepancyX, int discrepancyY) {
+        graphics.drawImage(
+                lightMap
+                , (Settings.SCREEN_WIDTH / 2) - discrepancyX
+                , (Settings.SCREEN_HEIGHT / 2) - discrepancyY
+                , null
+        );
     }
 
     /**
@@ -45,20 +54,25 @@ public class LightRenderer {
      * @param allTiles  the Map it needs as reference
      */
     private void drawLight(Tile[][] allTiles) {
-        Graphics2D g = (Graphics2D) lightMap.getGraphics();
+        Graphics2D graphics = (Graphics2D) lightMap.getGraphics();
 
-        g.setColor(new Color(0, 0, 0, 255));
-        g.fillRect(0, 0, allTiles.length * Settings.SCALED_TILE_SIZE, allTiles[0].length * Settings.SCALED_TILE_SIZE);
+        graphics.setColor(new Color(0, 0, 0, 255));
+        graphics.fillRect(
+                0
+                , 0
+                , allTiles.length * Settings.SCALED_TILE_SIZE
+                , allTiles[0].length * Settings.SCALED_TILE_SIZE
+        );
 
-        g.setComposite(AlphaComposite.DstOut);
+        graphics.setComposite(AlphaComposite.DstOut);
         for (Tile[] allTile : allTiles) {
             for (Tile tile : allTile) {
                 if (tile.getLight() != null) {
-                    tile.getLight().render(g);
+                    tile.getLight().render(graphics);
                 }
             }
         }
-        g.dispose();
+        graphics.dispose();
     }
 
 }

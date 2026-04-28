@@ -22,8 +22,8 @@ public class CirclerBasic extends Effect implements Serializable {
     }
 
     @Override
-    public void render(Graphics2D g, int x, int y) {
-        g.drawImage(images[currImageX][currImageY], x - 25, y - 25, null);
+    public void render(Graphics2D graphics, int x, int y) {
+        graphics.drawImage(images[currImageX][currImageY], x - 25, y - 25, null);
     }
 
     @Override

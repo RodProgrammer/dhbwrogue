@@ -20,7 +20,7 @@ public class LobbyManager {
 
     public synchronized void removeLobby(Lobby lobby) {
         synchronized (lobbies) {
-           lobbies.removeIf(s -> s.equals(lobby));
+           lobbies.removeIf(existingLobby -> existingLobby.equals(lobby));
         }
     }
 

@@ -66,7 +66,7 @@ public class Lobby implements Runnable {
         synchronized (clients) {
             for(ClientConnection client : clients) {
                 Player player = client.getLastPlayerState();
-                //check Collision here
+                //TODO: check Collision here
             }
         }
     }

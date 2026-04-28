@@ -31,12 +31,12 @@ public abstract class Tile {
         light = null;
 
         image = new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = image.createGraphics();
-        g2d.setColor(Color.MAGENTA);
-        g2d.drawRect(x, y, rect.width, rect.height);
+        Graphics2D graphics = image.createGraphics();
+        graphics.setColor(Color.MAGENTA);
+        graphics.drawRect(x, y, rect.width, rect.height);
     }
 
-    public abstract void draw(Graphics2D g, int x, int y);
+    public abstract void draw(Graphics2D graphics, int x, int y);
 
     public abstract void tick();
 

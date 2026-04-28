@@ -5,14 +5,14 @@ import java.util.Random;
 
 public abstract class Particle {
 
-    protected Random rand;
+    protected Random random;
     protected boolean remove;
 
     protected int x;
     protected int y;
 
     public Particle(int x, int y) {
-        rand = new Random();
+        random = new Random();
         this.x = x;
         this.y = y;
     }
