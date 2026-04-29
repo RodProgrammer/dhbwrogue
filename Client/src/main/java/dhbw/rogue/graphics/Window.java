@@ -1,9 +1,6 @@
 package dhbw.rogue.graphics;
 
-import dhbw.rogue.data.Message;
-import dhbw.rogue.connection.ServerConnection;
-import dhbw.rogue.entity.Entity;
-import dhbw.rogue.entity.Player;
+import dhbw.rogue.controller.Controller;
 import dhbw.rogue.mapmanager.MapManager;
 import dhbw.rogue.spritemanager.ResourceManager;
 
@@ -31,27 +28,11 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
-    public synchronized void update_entity(Entity entity) {
-        gameCanvas.addEntity(entity);
+    public GameCanvas getGameCanvas() {
+        return gameCanvas;
     }
 
-    public synchronized void update_player(Player player) {
-        gameCanvas.addPlayer(player);
-    }
-
-    public synchronized void addChatMessage(Message message) {
-        if (message.getPlayer() != null) {
-            gameCanvas.removePlayer(message.getPlayer());
-            return;
-        }
-        gameCanvas.addChatMessage(message);
-    }
-
-    public synchronized void addInformationMessage(String information) {
-        gameCanvas.addInformationMessage(information);
-    }
-
-    public void setServerConnection(ServerConnection serverConnection) {
-        gameCanvas.setServerConnection(serverConnection);
+    public void setController(Controller controller) {
+        gameCanvas.setController(controller);
     }
 }

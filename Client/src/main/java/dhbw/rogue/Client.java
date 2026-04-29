@@ -1,6 +1,7 @@
 package dhbw.rogue;
 
 import dhbw.rogue.connection.ServerConnection;
+import dhbw.rogue.controller.Controller;
 import dhbw.rogue.graphics.Window;
 import dhbw.rogue.mapmanager.MapManager;
 import dhbw.rogue.spritemanager.ResourceManager;
@@ -18,9 +19,10 @@ public class Client {
         MapManager mapManager = new MapManager(resourceManager);
         try {
             socket = new Socket(ip, port);
-            Window gameWindow = new Window(resourceManager, mapManager);
-            ServerConnection serverConnection = new ServerConnection(socket, gameWindow);
-            gameWindow.setServerConnection(serverConnection);
+            //Window gameWindow = new Window(resourceManager, mapManager);
+            //ServerConnection serverConnection = new ServerConnection(socket, gameWindow);
+            //gameWindow.setServerConnection(serverConnection);
+            new Controller(resourceManager, mapManager, socket);
         } catch (IOException ex) {
             System.out.println("[ERROR] Couldn't create Socket");
         }

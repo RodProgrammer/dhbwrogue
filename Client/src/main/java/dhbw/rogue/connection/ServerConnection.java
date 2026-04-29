@@ -1,5 +1,6 @@
 package dhbw.rogue.connection;
 
+import dhbw.rogue.controller.Controller;
 import dhbw.rogue.data.Message;
 import dhbw.rogue.graphics.Window;
 import dhbw.rogue.entity.Entity;
@@ -18,17 +19,17 @@ public class ServerConnection {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private final Socket socket;
-    private final Window gameWindow;
+    private Controller controller;
 
     /**
      * The Constructor creates the ObjectInput- and ObjectOutputStream out of the Socket.
      *
      * @param socket        The socket to the Server
-     * @param gameWindow    The Game
+     * @param controller    The Controller
      */
-    public ServerConnection(Socket socket, Window gameWindow) {
+    public ServerConnection(Socket socket, Controller controller) {
         this.socket = socket;
-        this.gameWindow = gameWindow;
+        this.controller = controller;
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
@@ -78,10 +79,10 @@ public class ServerConnection {
     private synchronized void receiveMessage(Object objectInput) {
         try {
             switch (objectInput) {
-                case String informationMessage -> gameWindow.addInformationMessage(informationMessage);
-                case Player player -> gameWindow.update_player(player);
-                case Entity entity -> gameWindow.update_entity(entity);
-                case Message message -> gameWindow.addChatMessage(message);
+                case String informationMessage -> controller.addInformationMessage(informationMessage);
+                case Player player -> controller.update_player(player);
+                case Entity entity -> controller.update_entity(entity);
+                case Message message -> controller.addChatMessage(message);
                 default -> {}
             }
         } catch (ClassCastException e) {
@@ -104,7 +105,8 @@ public class ServerConnection {
                     out.flush();
                 } else {
                     System.out.println("[INFO] Lost connection.");
-                    JOptionPane.showMessageDialog(gameWindow, "Lost connection.", "Server Connection", JOptionPane.WARNING_MESSAGE);
+
+                    //JOptionPane.showMessageDialog(gameWindow, "Lost connection.", "Server Connection", JOptionPane.WARNING_MESSAGE);
                     System.exit(0);
                 }
             }

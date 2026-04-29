@@ -1,5 +1,6 @@
 package dhbw.rogue.graphics;
 
+import dhbw.rogue.controller.Controller;
 import dhbw.rogue.data.Message;
 import dhbw.rogue.functionality.Chat;
 import dhbw.rogue.functionality.RogueKeyListener;
@@ -30,7 +31,6 @@ public class GameCanvas extends Canvas implements Runnable {
 
     private final Player player;
 
-    private ServerConnection serverConnection;
     private final RogueKeyListener listener;
     private final Chat chat;
 
@@ -42,6 +42,8 @@ public class GameCanvas extends Canvas implements Runnable {
 
     private final ResourceManager resourceManager;
     private final LightRenderer lightRenderer;
+
+    private Controller controller;
 
     /**
      * This constructor initializes all Characters, Players, Messages, and renderer.
@@ -101,9 +103,7 @@ public class GameCanvas extends Canvas implements Runnable {
                 mapRenderer.tick(); // maybe animations for maps?
 
                 synchronized (player) { //ConcurrentModificationException without it :)
-                    if (serverConnection != null) {
-                        serverConnection.sendObject(player);
-                    }
+                    controller.sendObject(player);
                 }
 
                 synchronized (particles) {
@@ -277,8 +277,8 @@ public class GameCanvas extends Canvas implements Runnable {
         }).start();
     }
 
-    public void setServerConnection(ServerConnection serverConnection) {
-        this.serverConnection = serverConnection;
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public void addInformationMessage(String message) {
@@ -290,6 +290,6 @@ public class GameCanvas extends Canvas implements Runnable {
     }
 
     public void sendMessageToServer(Message message) {
-        serverConnection.sendObject(message);
+        controller.sendObject(message);
     }
 }
