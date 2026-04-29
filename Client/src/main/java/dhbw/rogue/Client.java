@@ -19,9 +19,6 @@ public class Client {
         MapManager mapManager = new MapManager(resourceManager);
         try {
             socket = new Socket(ip, port);
-            //Window gameWindow = new Window(resourceManager, mapManager);
-            //ServerConnection serverConnection = new ServerConnection(socket, gameWindow);
-            //gameWindow.setServerConnection(serverConnection);
             new Controller(resourceManager, mapManager, socket);
         } catch (IOException ex) {
             System.out.println("[ERROR] Couldn't create Socket");
