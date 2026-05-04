@@ -11,6 +11,7 @@ import dhbw.rogue.entity.Player;
 import dhbw.rogue.mapmanager.MapManager;
 import dhbw.rogue.particle.Particle;
 import dhbw.rogue.spritemanager.ResourceManager;
+import dhbw.rogue.tiles.Tile;
 import dhbw.rogue.utility.Settings;
 
 import java.awt.*;

@@ -15,7 +15,7 @@ public class SimpleTestMap extends Map {
     public void loadMap() {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                if (i % 8 == 0 && j % 8 == 0) {
+                if (i % 8 == 2 && j % 8 == 2) {
                     map[i][j] = new TestLightTile(i* Settings.SCALED_TILE_SIZE, j*Settings.SCALED_TILE_SIZE);
                     continue;
                 }

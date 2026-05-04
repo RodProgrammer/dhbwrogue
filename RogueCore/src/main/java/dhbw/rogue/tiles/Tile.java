@@ -50,4 +50,8 @@ public abstract class Tile {
         return light;
     }
 
+    public boolean getHasCollision() {
+        return hasCollision;
+    }
+
 }

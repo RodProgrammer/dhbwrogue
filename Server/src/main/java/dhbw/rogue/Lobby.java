@@ -64,9 +64,10 @@ public class Lobby implements Runnable {
 
     public synchronized void checkCollision() {
         synchronized (clients) {
-            for(ClientConnection client : clients) {
+            for (ClientConnection client : clients) {
                 Player player = client.getLastPlayerState();
-                //check Collision here
+                CollisionDetector.checkEntityCollision(player);
+                player.resolveCollisions();
             }
         }
     }
