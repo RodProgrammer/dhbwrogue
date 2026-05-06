@@ -1,0 +1,22 @@
+package dhbw.rogue.sound;
+
+import javax.sound.sampled.Clip;
+import java.util.HashMap;
+
+public class SoundManager {
+
+    private HashMap<String, Clip> clips;
+
+    public SoundManager() {
+        clips = new HashMap<>();
+        addAllSounds();
+    }
+
+    private void addAllSounds() {
+
+    }
+
+    private Clip getClip(String name) {
+        return clips.get(name);
+    }
+}
