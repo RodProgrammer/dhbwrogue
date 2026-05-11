@@ -1,5 +1,4 @@
-package dhbw.rogue;
-
+package dhbw.rogue.functionality;
 
 import dhbw.rogue.entity.Entity;
 import dhbw.rogue.mapmanager.maps.Map;
@@ -29,5 +28,4 @@ public class CollisionDetector {
             }
         }
     }
-
 }

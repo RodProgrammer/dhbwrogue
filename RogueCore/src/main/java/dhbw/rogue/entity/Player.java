@@ -1,6 +1,7 @@
 package dhbw.rogue.entity;
 
 import dhbw.rogue.effects.Effect;
+import dhbw.rogue.functionality.CollisionDetector;
 import dhbw.rogue.spritemanager.ResourceManager;
 import dhbw.rogue.utility.Settings;
 
@@ -83,6 +84,10 @@ public class Player extends Entity implements Serializable {
             this.x += speed;
             currDirectionImage = Direction.RIGHT.value;
         }
+
+        CollisionDetector.checkEntityCollision(this);
+        this.resolveCollisions();
+
         if (dirs.contains(Direction.UP) && dirs.contains(Direction.DOWN) || dirs.contains(Direction.LEFT) && dirs.contains(Direction.RIGHT)) {
             currImage = 0;
             return;
