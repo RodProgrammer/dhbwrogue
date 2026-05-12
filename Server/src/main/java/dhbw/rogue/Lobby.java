@@ -17,7 +17,7 @@ public class Lobby implements Runnable {
 
     private final String name;
 
-    private Map map; //TODO: add make to test :[
+    private Map map; //TODO: add make to test :D
 
     public Lobby(String name) {
         clients = Collections.synchronizedList(new ArrayList<>());
