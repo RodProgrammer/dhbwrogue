@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+      -
+permissions:
+  contents: write
 
 jobs:
   tag:
@@ -30,8 +33,8 @@ jobs:
 
       - name: Create and push tag
         run: |
-          git config user.email ${{ secrets.BOT_E_MAIL }}
-          git config user.password ${{ secrets.BOT_PASSWORD }}
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
 
           git tag ${{ steps.bump.outputs.new }}
           git push origin ${{ steps.bump.outputs.new }}
