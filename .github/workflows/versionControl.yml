@@ -23,7 +23,7 @@ jobs:
         run: |
           git fetch --tags
 
-          LATEST=$(git tag --sort=-v:refname | head -n 1)
+          LATEST=$(git tag --sort=-v:version | head -n 1)
 
           if [ -z "$LATEST" ]; then
             LATEST="v0.0.0"
