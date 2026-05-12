@@ -37,4 +37,4 @@ jobs:
           git config user.email "github-actions@github.com"
 
           git tag ${{ steps.bump.outputs.new }}
-          git push origin ${{ steps.bump.outputs.new }}
+          git push origin ${{ steps.bump.outputs.new }} #test
