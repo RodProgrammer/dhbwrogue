@@ -45,7 +45,7 @@ jobs:
 
           PATCH=$((PATCH + 1))
 
-          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+          NEW_TAG="v0.0.$PATCH"
 
           echo "new=$NEW_TAG" >> $GITHUB_OUTPUT
 
