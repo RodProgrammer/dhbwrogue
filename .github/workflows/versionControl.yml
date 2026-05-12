@@ -43,7 +43,7 @@ jobs:
 
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
 
-          PATCH=$((PATCH + 1))
+          PATCH=$((PATCH + 2))
 
           NEW_TAG="v0.0.$PATCH"
 
