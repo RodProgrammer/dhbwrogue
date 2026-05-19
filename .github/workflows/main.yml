@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p tools
           curl -L -o tools/ck.jar \
-            https://github.com/mauricioaniche/ck/releases/latest/download/ck.jar
+            https://github.com/mauricioaniche/ck/releases/download/0.7.1/ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar
 
       - name: Run CK Metrics
         run: |
