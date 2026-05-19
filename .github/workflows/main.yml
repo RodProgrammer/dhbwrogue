@@ -22,8 +22,14 @@ jobs:
       - name: Set up CK tool
         run: |
           mkdir -p tools
-          curl -L -o tools/ck.jar \
-            https://github.com/mauricioaniche/ck/releases/download/0.7.1/ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar
+
+          URL=$(curl -s https://api.github.com/repos/mauricioaniche/ck/releases/latest \
+            | grep browser_download_url \
+            | grep jar \
+            | cut -d '"' -f 4)
+
+          echo "Downloading CK from: $URL"
+          curl -L -o tools/ck.jar "$URL"
 
       - name: Run CK Metrics
         run: |
