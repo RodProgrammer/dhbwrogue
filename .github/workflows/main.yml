@@ -18,3 +18,29 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean package
+
+      - name: Clone CK tool
+        run: |
+          git clone https://github.com/mauricioaniche/ck.git tools/ck
+          
+      - name: Build CK tool
+        run: |
+          cd tools/ck
+          mvn -DskipTests clean package
+
+      - name: Run CK Metrics
+        run: |
+          JAR=$(find tools/ck/target -name "*jar-with-dependencies.jar")
+          echo "Using JAR: $JAR"
+          java -jar "$JAR" . true 0 false
+
+      - name: Show class metrics
+        run: |
+          cat class.csv
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ck-reports
+          path: |
+            class.csv
