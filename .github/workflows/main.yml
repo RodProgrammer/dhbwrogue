@@ -18,3 +18,18 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean package
+
+      - name: Run CK Metrics
+        run: |
+          java -jar tools/ck.jar . true 0 false
+
+      - name: Show class metrics
+        run: |
+          cat class.csv
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ck-reports
+          path: |
+            class.csv

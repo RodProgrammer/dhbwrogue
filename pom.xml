@@ -37,6 +37,11 @@
                 <version>5.10.2</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>com.github.mauricioaniche</groupId>
+                <artifactId>ck</artifactId>
+                <version>X.Y.Z</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
