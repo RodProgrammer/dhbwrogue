@@ -30,7 +30,9 @@ jobs:
 
       - name: Run CK Metrics
         run: |
-          java -jar tools/ck/target/ck-*.jar . true 0 false
+          JAR=$(find tools/ck/target -name "*jar-with-dependencies.jar")
+          echo "Using JAR: $JAR"
+          java -jar "$JAR" . true 0 false
 
       - name: Show class metrics
         run: |
