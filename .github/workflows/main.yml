@@ -19,6 +19,12 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package
 
+      - name: Set up CK tool
+        run: |
+          mkdir -p tools
+          curl -L -o tools/ck.jar \
+            https://github.com/mauricioaniche/ck/releases/latest/download/ck.jar
+
       - name: Run CK Metrics
         run: |
           java -jar tools/ck.jar . true 0 false
