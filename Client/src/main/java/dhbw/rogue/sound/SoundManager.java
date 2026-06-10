@@ -17,6 +17,7 @@ public class SoundManager {
     }
 
     private void addAllSounds() {
+        //lets first get Music playing :D
 
     }
 }
