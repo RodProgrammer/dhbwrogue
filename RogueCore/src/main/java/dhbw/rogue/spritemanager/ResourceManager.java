@@ -1,22 +1,34 @@
 package dhbw.rogue.spritemanager;
 
+import dhbw.rogue.sound.Sound;
+
+import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class ResourceManager {
 
     private final HashMap<String, SpriteSheet> spritesheet;
+    private final HashMap<String, Sound> sounds;
 
     public ResourceManager()
     {
         spritesheet = new HashMap<>();
+        sounds = new HashMap<>();
 
         loadSpriteSheets();
+
+        loadMusic();
     }
 
     public BufferedImage[][] getSpritesheet(String sheet)
     {
         return spritesheet.get(sheet).getTileset();
+    }
+
+    public Sound getSound(String name)
+    {
+        return sounds.get(name);
     }
 
     private void loadSpriteSheets() {
@@ -41,5 +53,10 @@ public class ResourceManager {
         spritesheet.put("iconSheet", iconSheet);
 
         //SpriteSheet elf = new SpriteSheet("resource/entities/elf/elf.png");
+    }
+
+    private void loadMusic() {
+        Sound titleMusic = new Sound("resource/music/TITLE_SCREEN_LOOPSTART.wav", "resource/music/TITLE_SCREEN_LOOP.wav");
+        sounds.put("title_music", titleMusic);
     }
 }

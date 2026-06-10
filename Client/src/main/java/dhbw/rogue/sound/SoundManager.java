@@ -1,23 +1,21 @@
 package dhbw.rogue.sound;
 
-import javax.sound.sampled.Clip;
-import java.util.HashMap;
+import dhbw.rogue.spritemanager.ResourceManager;
 
 public class SoundManager {
 
-    private HashMap<String, Clip> clips;
+    private final ResourceManager resourceManager;
 
-    public SoundManager() {
-        clips = new HashMap<>();
-        addAllSounds();
+    public SoundManager(ResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
     }
 
-    private Clip getClip(String name) {
-        return clips.get(name);
+    public void playTitleMusic()
+    {
+        resourceManager.getSound("title_music");
     }
 
-    private void addAllSounds() {
-        //lets first get Music playing :D
-
+    public Sound getSound(String name) {
+        return resourceManager.getSound(name);
     }
 }
