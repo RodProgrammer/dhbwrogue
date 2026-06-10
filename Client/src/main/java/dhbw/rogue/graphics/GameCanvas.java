@@ -11,6 +11,7 @@ import dhbw.rogue.entity.Entity;
 import dhbw.rogue.entity.Player;
 import dhbw.rogue.mapmanager.MapManager;
 import dhbw.rogue.particle.Particle;
+import dhbw.rogue.sound.SoundManager;
 import dhbw.rogue.spritemanager.ResourceManager;
 import dhbw.rogue.utility.Settings;
 
@@ -40,6 +41,7 @@ public class GameCanvas extends Canvas implements Runnable {
 
     private final MapRenderer mapRenderer;
 
+    private final SoundManager soundManager;
     private final ResourceManager resourceManager;
     private final LightRenderer lightRenderer;
 
@@ -69,6 +71,8 @@ public class GameCanvas extends Canvas implements Runnable {
 
         mapRenderer = new MapRenderer(resourceManager, mapManager);
         lightRenderer = new LightRenderer(mapRenderer.getMap());
+
+        soundManager = new SoundManager(resourceManager);
     }
 
     /**

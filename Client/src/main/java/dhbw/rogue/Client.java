@@ -1,8 +1,6 @@
 package dhbw.rogue;
 
-import dhbw.rogue.connection.ServerConnection;
 import dhbw.rogue.controller.Controller;
-import dhbw.rogue.graphics.Window;
 import dhbw.rogue.mapmanager.MapManager;
 import dhbw.rogue.spritemanager.ResourceManager;
 
