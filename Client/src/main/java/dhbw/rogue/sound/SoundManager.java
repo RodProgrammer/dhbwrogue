@@ -12,11 +12,11 @@ public class SoundManager {
         addAllSounds();
     }
 
-    private void addAllSounds() {
-
-    }
-
     private Clip getClip(String name) {
         return clips.get(name);
+    }
+
+    private void addAllSounds() {
+
     }
 }
