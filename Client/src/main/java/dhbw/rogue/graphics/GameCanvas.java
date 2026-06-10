@@ -73,6 +73,7 @@ public class GameCanvas extends Canvas implements Runnable {
         lightRenderer = new LightRenderer(mapRenderer.getMap());
 
         soundManager = new SoundManager(resourceManager);
+        soundManager.playTitleMusic();
     }
 
     /**

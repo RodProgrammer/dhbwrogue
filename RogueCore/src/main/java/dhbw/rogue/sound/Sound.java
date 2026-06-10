@@ -1,12 +1,13 @@
 package dhbw.rogue.sound;
 
-import javax.sound.sampled.*;
+import dhbw.rogue.utility.Utility;import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
 public class Sound {
 
     private Clip clip;
+    private Clip loopClip;
 
     public Sound(String sound) {
         try {
@@ -14,7 +15,9 @@ public class Sound {
             Clip startClip = AudioSystem.getClip();
             startClip.open(startStream);
             clip = startClip;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.err.println("[ERROR] SOUND: " + e.getMessage());
+        }
     }
 
     public Sound(String start, String loop) {
@@ -22,19 +25,24 @@ public class Sound {
             Clip startClip = createClip(start);
 
             //I know, not the best... but it does kinda make sense? :D
-            try (Clip loopClip = createClip(loop)) {
+            loopClip = createClip(loop);
+            try {
                 startClip.addLineListener(event -> {
-                    if (event.getType() == LineEvent.Type.STOP) {
+                    if (event.getType() == LineEvent.Type.STOP
+                            && startClip.getFramePosition() >= startClip.getFrameLength()) {
                         startClip.close();
+                        Utility.sleep(50);
                         loopClip.setFramePosition(0);
                         loopClip.loop(Clip.LOOP_CONTINUOUSLY);
                     }
                 });
+            } catch (Exception e) {
+                System.err.println("[ERROR] SOUND: " + e.getMessage());
             }
             clip = startClip;
-        } catch (Exception e) {}
-
-
+        } catch (Exception e) {
+            System.err.println("[ERROR] SOUND: " + e.getMessage());
+        }
     }
 
     public void playMusic() {

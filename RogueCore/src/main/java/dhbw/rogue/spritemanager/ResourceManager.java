@@ -56,7 +56,7 @@ public class ResourceManager {
     }
 
     private void loadMusic() {
-        Sound titleMusic = new Sound("resource/music/TITLE_SCREEN_LOOPSTART.wav", "resource/music/TITLE_SCREEN_LOOP.wav");
+        Sound titleMusic = new Sound("resource/audio/music/TITLE_SCREEN_LOOPSTART.wav", "resource/audio/music/TITLE_SCREEN_LOOP.wav");
         sounds.put("title_music", titleMusic);
     }
 }

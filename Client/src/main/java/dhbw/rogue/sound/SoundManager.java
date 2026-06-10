@@ -12,7 +12,7 @@ public class SoundManager {
 
     public void playTitleMusic()
     {
-        resourceManager.getSound("title_music");
+        resourceManager.getSound("title_music").playMusic();
     }
 
     public Sound getSound(String name) {
