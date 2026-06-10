@@ -2,10 +2,19 @@ package dhbw.rogue.utility;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class Utility {
 
     private Utility() {}
+
+    public static void sleep(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            System.err.println("[ERROR] Couldn't get the Thread sleep: " + Arrays.toString(Thread.currentThread().getStackTrace()));
+        }
+    }
 
     /**
      * This exists so the renderer doesn't have to rescale each time it draws the picture,
