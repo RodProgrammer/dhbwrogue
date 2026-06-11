@@ -4,11 +4,11 @@ import dhbw.rogue.controller.Controller;
 import dhbw.rogue.data.Message;
 import dhbw.rogue.functionality.Chat;
 import dhbw.rogue.functionality.RogueKeyListener;
-import dhbw.rogue.connection.ServerConnection;
 import dhbw.rogue.effects.Effect;
 import dhbw.rogue.entity.Dwarf;
 import dhbw.rogue.entity.Entity;
 import dhbw.rogue.entity.Player;
+import dhbw.rogue.graphics.menus.SettingsMenu;
 import dhbw.rogue.mapmanager.MapManager;
 import dhbw.rogue.particle.Particle;
 import dhbw.rogue.sound.SoundManager;
@@ -31,6 +31,8 @@ public class GameCanvas extends Canvas implements Runnable {
     private final List<String> informationMessages;
 
     private final Player player;
+
+    private final SettingsMenu settingsMenu;
 
     private final RogueKeyListener listener;
     private final Chat chat;
@@ -63,10 +65,12 @@ public class GameCanvas extends Canvas implements Runnable {
 
         chat = new Chat(this);
 
+        settingsMenu = new SettingsMenu(resourceManager);
+
         this.resourceManager = resourceManager;
 
         player = new Dwarf(0, 0, resourceManager);
-        listener = new RogueKeyListener(player, chat, particles);
+        listener = new RogueKeyListener(player, chat, settingsMenu, particles);
         addKeyListener(listener);
 
         mapRenderer = new MapRenderer(resourceManager, mapManager);
@@ -196,6 +200,10 @@ public class GameCanvas extends Canvas implements Runnable {
         graphics.drawString("TPS: " + tps, 20, 40);
 
         chat.renderChat(graphics);
+
+        if (listener.isOptionsMenuOpened()) {
+            settingsMenu.render(graphics);
+        }
 
         graphics.dispose();
         bs.show();

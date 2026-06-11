@@ -2,6 +2,7 @@ package dhbw.rogue.functionality;
 
 import dhbw.rogue.entity.Direction;
 import dhbw.rogue.entity.Player;
+import dhbw.rogue.graphics.menus.SettingsMenu;
 import dhbw.rogue.particle.Particle;
 import dhbw.rogue.particle.TextParticle;
 
@@ -16,22 +17,29 @@ public class RogueKeyListener implements KeyListener {
 
     private final Player player;
     private final Chat chat;
+    private final SettingsMenu settingsMenu;
 
     private boolean chatOpened;
+    private boolean optionsMenuOpened;
     private List<Particle> particles;
 
     /**
      * This constructor just takes in all the objects and declares the attributes with it.
      *
-     * @param player    The current Player
-     * @param chat      The Chat
-     * @param particles The particles - TODO: delete later
+     * @param player        The current Player
+     * @param chat          The Chat
+     * @param settingsMenu   The Options Menu
+     * @param particles     The particles - TODO: delete later
      */
-    public RogueKeyListener(Player player, Chat chat, List<Particle> particles) {
+    public RogueKeyListener(Player player, Chat chat, SettingsMenu settingsMenu, List<Particle> particles) {
         this.player = player;
-        chatOpened = false;
         this.chat = chat;
+        this.settingsMenu = settingsMenu;
+
         this.particles = particles;
+
+        chatOpened = false;
+        optionsMenuOpened = false;
     }
 
     /**
@@ -41,7 +49,7 @@ public class RogueKeyListener implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if(!chatOpened) {
+        if(!chatOpened && !optionsMenuOpened) {
             if (KeyEvent.VK_W == e.getKeyCode()) {
                 player.addDirection(Direction.UP);
             }
@@ -59,6 +67,7 @@ public class RogueKeyListener implements KeyListener {
             }
 
             if (KeyEvent.VK_SPACE == e.getKeyCode()) {
+                //TODO: needs to be deleted in the release Version, it only exists for testing purposes
                 particles.add(new TextParticle("Test", player.getX(), player.getY()));
             }
 
@@ -69,6 +78,25 @@ public class RogueKeyListener implements KeyListener {
                 player.removeDirection(Direction.LEFT);
                 player.removeDirection(Direction.RIGHT);
             }
+
+            if(KeyEvent.VK_ESCAPE == e.getKeyCode()) {
+                optionsMenuOpened = !optionsMenuOpened;
+                player.removeDirection(Direction.UP);
+                player.removeDirection(Direction.DOWN);
+                player.removeDirection(Direction.LEFT);
+                player.removeDirection(Direction.RIGHT);
+            }
+
+            return;
+        }
+
+        if (optionsMenuOpened) {
+
+            if (KeyEvent.VK_ESCAPE == e.getKeyCode()) {
+                optionsMenuOpened = false;
+            }
+
+            settingsMenu.changePointer(e);
 
             return;
         }
@@ -119,4 +147,8 @@ public class RogueKeyListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {}
+
+    public boolean isOptionsMenuOpened() {
+        return optionsMenuOpened;
+    }
 }
