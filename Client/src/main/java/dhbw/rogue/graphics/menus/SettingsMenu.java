@@ -53,7 +53,7 @@ public class SettingsMenu {
             case KeyEvent.VK_S -> pointerY++;
             case KeyEvent.VK_A -> pointerX--;
             case KeyEvent.VK_D -> pointerX++;
-            case KeyEvent.VK_ENTER -> System.out.println("NOW DO SMTH");
+            case KeyEvent.VK_ENTER -> updateValue();
         }
 
         if (pointerY < 0){
@@ -76,8 +76,24 @@ public class SettingsMenu {
         }
 
         switch (pointerY) {
-            case 0 -> music = music + (10 * updatedPointerX);
-            case 1 -> soundeffects = soundeffects + (10 * updatedPointerX);
+            case 0 -> {
+                music = music + (10 * updatedPointerX);
+
+                if (music < 0) {
+                    music = 0;
+                } else if (music >= 100) {
+                    music = 100;
+                }
+            }
+            case 1 -> {
+                soundeffects = soundeffects + (10 * updatedPointerX);
+
+                if (soundeffects < 0) {
+                    soundeffects = 0;
+                } else if (soundeffects >= 100) {
+                    soundeffects = 100;
+                }
+            }
         }
     }
 
