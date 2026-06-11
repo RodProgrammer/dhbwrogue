@@ -46,7 +46,9 @@ public class Sound {
     }
 
     public void playMusic() {
-        clip.start();
+        if (clip != null) {
+            clip.start();
+        }
     }
 
     private Clip createClip(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
