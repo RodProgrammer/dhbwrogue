@@ -9,15 +9,26 @@ public class Sound {
     private Clip clip;
     private Clip loopClip;
 
+    private FloatControl volumeControl;
+
+    private int currentPercentage;
+
     public Sound(String sound) {
         try {
             AudioInputStream startStream = AudioSystem.getAudioInputStream(new File(sound));
             Clip startClip = AudioSystem.getClip();
             startClip.open(startStream);
             clip = startClip;
+
+            if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            }
+
         } catch (Exception e) {
             System.err.println("[ERROR] SOUND: " + e.getMessage());
         }
+
+        currentPercentage = 100;
     }
 
     public Sound(String start, String loop) {
@@ -33,6 +44,12 @@ public class Sound {
                         startClip.close();
                         Utility.sleep(50);
                         loopClip.setFramePosition(0);
+
+                        if (loopClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                            volumeControl = (FloatControl) loopClip.getControl(FloatControl.Type.MASTER_GAIN);
+                            changeVolume(currentPercentage);
+                        }
+
                         loopClip.loop(Clip.LOOP_CONTINUOUSLY);
                     }
                 });
@@ -56,6 +73,25 @@ public class Sound {
         Clip clip = AudioSystem.getClip();
         clip.open(startStream);
         return clip;
+    }
+
+    public void changeVolume(int percentage) {
+        if (volumeControl != null) {
+            currentPercentage = percentage;
+            float linearVolume = percentage / 100f;
+
+            float dB;
+            if (linearVolume == 0f)
+                dB = volumeControl.getMinimum();
+            else dB = (float) (Math.log10(linearVolume) * 20.0);
+
+
+            if (dB < volumeControl.getMinimum()) dB = volumeControl.getMinimum();
+            if (dB > volumeControl.getMaximum()) dB = volumeControl.getMaximum();
+
+            volumeControl.setValue(dB);
+        }
+
     }
 
 }

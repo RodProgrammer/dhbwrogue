@@ -1,5 +1,6 @@
 package dhbw.rogue.graphics.menus;
 
+import dhbw.rogue.spritemanager.ResourceManager;
 import dhbw.rogue.utility.Settings;
 
 import java.awt.*;
@@ -11,9 +12,12 @@ public class SettingsMenu {
     private int soundeffects;
     private int pointerX;
     private int pointerY;
-    private String menuText;
+    private final String menuText;
+    private final ResourceManager resourceManager;
 
-    public SettingsMenu() {
+    public SettingsMenu(ResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
+
         music = 100;
         soundeffects = 100;
 
@@ -25,12 +29,15 @@ public class SettingsMenu {
 
     public void render(Graphics2D g) {
         int offset = 10;
-        int x = (Settings.SCREEN_WIDTH / 2) - ((Settings.SCALED_TILE_SIZE * 12) / 2);
+        int x = (Settings.SCREEN_WIDTH / 2) - (Settings.SCALED_TILE_SIZE * 6);
         createMusicSetting(g, x, offset, 1, "Music", music);
         createMusicSetting(g, x, offset, 2, "Sound Effects", soundeffects);
 
         g.setFont(new Font("Arial", Font.PLAIN, 24));
         g.drawString(menuText, (Settings.SCREEN_WIDTH / 2) - menuText.length(), (Settings.SCREEN_HEIGHT / 12) - 24);
+        g.setColor(Color.BLUE);
+        g.drawString(String.valueOf(music), x + (Settings.SCALED_TILE_SIZE * 13), (Settings.SCREEN_HEIGHT / 12) + (Settings.SCALED_TILE_SIZE / 2));
+        g.drawString(String.valueOf(soundeffects), x + (Settings.SCALED_TILE_SIZE * 13), ((Settings.SCREEN_HEIGHT / 6)) + (Settings.SCALED_TILE_SIZE / 2));
 
         //now rendering the Pointer
         g.setColor(Color.RED);
@@ -38,13 +45,16 @@ public class SettingsMenu {
     }
 
     private void createMusicSetting(Graphics2D g, int x, int offset, int index, String name, int amount) {
+        g.setFont(new Font("Arial", Font.PLAIN, 12));
         g.drawString(name, x - (Settings.SCALED_TILE_SIZE * 2), ((Settings.SCREEN_HEIGHT * index) / 12) + (Settings.SCALED_TILE_SIZE / 2));
         g.fillRect(x, (Settings.SCREEN_HEIGHT * index) / 12, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+        createText("-", g, x, (Settings.SCREEN_HEIGHT * index) / 12, 24);
         g.fillRect(x + Settings.SCALED_TILE_SIZE + offset, (Settings.SCREEN_HEIGHT * index) / 12, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+        createText("+", g, x + Settings.SCALED_TILE_SIZE, (Settings.SCREEN_HEIGHT * index) / 12, 24);
         for(int i = 0; i < (amount / 10); i++) {
             g.fillRect(x + (Settings.SCALED_TILE_SIZE * 2) + (offset * 2) + (Settings.SCALED_TILE_SIZE * i), (Settings.SCREEN_HEIGHT * index) / 12, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
         }
-
+        g.drawRect(x + (Settings.SCALED_TILE_SIZE * 2) + (offset * 2), (Settings.SCREEN_HEIGHT * index) / 12, Settings.SCALED_TILE_SIZE * 10, Settings.SCALED_TILE_SIZE);
     }
 
     public void changePointer(KeyEvent e) {
@@ -84,6 +94,8 @@ public class SettingsMenu {
                 } else if (music >= 100) {
                     music = 100;
                 }
+
+                resourceManager.getSound("title_music").changeVolume(music);
             }
             case 1 -> {
                 soundeffects = soundeffects + (10 * updatedPointerX);
@@ -95,6 +107,14 @@ public class SettingsMenu {
                 }
             }
         }
+    }
+
+    private void createText(String text, Graphics2D g, int x, int y, int size) {
+        g.setColor(Color.BLUE);
+        g.setFont(new Font("Arial", Font.PLAIN, size));
+        g.drawString(text, x + (Settings.SCALED_TILE_SIZE / 2), y + (Settings.SCALED_TILE_SIZE / 2));
+        g.setFont(null);
+        g.setColor(Color.WHITE);
     }
 
 }

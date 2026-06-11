@@ -65,7 +65,7 @@ public class GameCanvas extends Canvas implements Runnable {
 
         chat = new Chat(this);
 
-        settingsMenu = new SettingsMenu();
+        settingsMenu = new SettingsMenu(resourceManager);
 
         this.resourceManager = resourceManager;
 
