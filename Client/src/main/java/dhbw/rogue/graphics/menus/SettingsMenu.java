@@ -87,7 +87,7 @@ public class SettingsMenu {
 
         switch (pointerY) {
             case 0 -> {
-                music = music + (10 * updatedPointerX);
+                music = music + (5 * updatedPointerX);
 
                 if (music < 0) {
                     music = 0;
@@ -98,7 +98,7 @@ public class SettingsMenu {
                 resourceManager.getSound("title_music").changeVolume(music);
             }
             case 1 -> {
-                soundeffects = soundeffects + (10 * updatedPointerX);
+                soundeffects = soundeffects + (5 * updatedPointerX);
 
                 if (soundeffects < 0) {
                     soundeffects = 0;
