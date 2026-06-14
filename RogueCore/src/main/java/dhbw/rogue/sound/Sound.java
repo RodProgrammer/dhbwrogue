@@ -1,6 +1,7 @@
 package dhbw.rogue.sound;
 
-import dhbw.rogue.utility.Utility;import javax.sound.sampled.*;
+import dhbw.rogue.utility.Utility;
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -14,6 +15,8 @@ public class Sound {
     private int currentPercentage;
 
     public Sound(String sound) {
+        this.currentPercentage = 100;
+
         try {
             AudioInputStream startStream = AudioSystem.getAudioInputStream(new File(sound));
             Clip startClip = AudioSystem.getClip();
@@ -22,18 +25,29 @@ public class Sound {
 
             if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                 volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                changeVolume(currentPercentage);
+            } else {
+                System.err.println("[ERROR] Volume Control is not supported");
             }
 
         } catch (Exception e) {
             System.err.println("[ERROR] SOUND: " + e.getMessage());
         }
-
-        currentPercentage = 100;
     }
 
     public Sound(String start, String loop) {
+        this.currentPercentage = 100;
+
         try {
             Clip startClip = createClip(start);
+            this.clip = startClip;
+
+            if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                changeVolume(currentPercentage);
+            } else {
+                System.err.println("[ERROR] Volume Control is not supported");
+            }
 
             //I know, not the best... but it does kinda make sense? :D
             loopClip = createClip(loop);
@@ -48,6 +62,8 @@ public class Sound {
                         if (loopClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                             volumeControl = (FloatControl) loopClip.getControl(FloatControl.Type.MASTER_GAIN);
                             changeVolume(currentPercentage);
+                        } else {
+                            System.err.println("[ERROR] Volume Control is not supported");
                         }
 
                         loopClip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -90,6 +106,8 @@ public class Sound {
             if (dB > volumeControl.getMaximum()) dB = volumeControl.getMaximum();
 
             volumeControl.setValue(dB);
+        } else {
+            System.err.println("[ERROR] SOUND: Volume Control is null");
         }
 
     }
