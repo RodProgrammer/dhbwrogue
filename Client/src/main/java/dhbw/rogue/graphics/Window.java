@@ -11,8 +11,8 @@ public class Window extends JFrame {
 
     private final GameCanvas gameCanvas;
 
-    public Window(ResourceManager resourceManager, MapManager mapManager) {
-        gameCanvas = new GameCanvas(resourceManager, mapManager);
+    public Window(ResourceManager resourceManager, MapManager mapManager, String username) {
+        gameCanvas = new GameCanvas(resourceManager, mapManager, username);
         setTitle("Clandestine Dungeons");
         setSize(1280, 720);
         setPreferredSize(new Dimension(1280, 720));

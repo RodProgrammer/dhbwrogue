@@ -51,23 +51,30 @@ public class LobbySelector extends JFrame {
     }
 
     public static void main(String[] args) {
-        String input = JOptionPane.showInputDialog(
-                null
-                , "Please enter your Username"
-                , "Username"
-                , JOptionPane.INFORMATION_MESSAGE
-        );
+        JPanel inputPanel = new JPanel();
+        JLabel usernameLabel = new JLabel("Username: ");
+        inputPanel.add(usernameLabel);
+        JTextField usernameTextField = new JTextField("<Username>", 10);
+        inputPanel.add(usernameTextField);
+        JLabel ipAddressLabel = new JLabel("IP Address: ");
+        inputPanel.add(ipAddressLabel);
+        JTextField ipAddressTextField = new JTextField("localhost", 10);
+        inputPanel.add(ipAddressTextField);
+        JLabel portLabel = new JLabel("Port: ");
+        inputPanel.add(portLabel);
+        JTextField portTextField = new JTextField("4000", 5);
+        inputPanel.add(portTextField);
 
-        if (input != null && !input.isEmpty()) {
-            LobbySelector lobbySelector = new LobbySelector(input);
-            new Client(lobbySelector.username, "localhost", 4000);
-        } else {
-            JOptionPane.showMessageDialog(
-                    null
-                    , "Invalid or Username already in use"
-                    , "ERROR"
-                    , JOptionPane.ERROR_MESSAGE
-            );
+        int result = JOptionPane.showConfirmDialog(null, inputPanel, "Input Values", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            LobbySelector lobbySelector = new LobbySelector(usernameTextField.getText());
+            try {
+                new Client(lobbySelector.username, ipAddressTextField.getText(), Integer.parseInt(portTextField.getText()));
+            } catch (Exception e) {
+
+            }
+
         }
     }
 

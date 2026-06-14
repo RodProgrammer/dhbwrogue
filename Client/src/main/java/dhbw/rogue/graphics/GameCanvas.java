@@ -47,6 +47,8 @@ public class GameCanvas extends Canvas implements Runnable {
     private final ResourceManager resourceManager;
     private final LightRenderer lightRenderer;
 
+    private final String username;
+
     private Controller controller;
 
     /**
@@ -55,8 +57,10 @@ public class GameCanvas extends Canvas implements Runnable {
      * @param resourceManager   The Manager which holds all the Sprites
      * @param mapManager        The Manager that holds all the Maps
      */
-    public GameCanvas(ResourceManager resourceManager, MapManager mapManager) {
+    public GameCanvas(ResourceManager resourceManager, MapManager mapManager, String username) {
         running = true;
+
+        this.username = username;
 
         informationMessages = Collections.synchronizedList(new ArrayList<>());
         players = Collections.synchronizedList(new ArrayList<>());
@@ -70,6 +74,7 @@ public class GameCanvas extends Canvas implements Runnable {
         this.resourceManager = resourceManager;
 
         player = new Dwarf(0, 0, resourceManager);
+        player.setName(this.username);
         listener = new RogueKeyListener(player, chat, settingsMenu, particles);
         addKeyListener(listener);
 
