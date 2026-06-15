@@ -32,6 +32,8 @@ public class Player extends Entity implements Serializable {
     }
 
     public void drawPlayer(Graphics2D graphics, int discrepancyX, int discrepancyY) {
+        int textWidth = graphics.getFontMetrics().stringWidth(name);
+
         graphics.drawImage(
                 images[currentImage][currentDirectionImage]
                 , x - discrepancyX + (Settings.SCREEN_WIDTH / 2)
@@ -41,7 +43,7 @@ public class Player extends Entity implements Serializable {
         graphics.setColor(Color.RED);
         graphics.drawString(
                 name
-                , x - discrepancyX + (Settings.SCREEN_WIDTH / 2) - (name.length() * 2)
+                , x - discrepancyX + (Settings.SCREEN_WIDTH / 2) + (Settings.SCALED_TILE_SIZE / 2) - (textWidth / 2)
                 , y - discrepancyY + (Settings.SCREEN_HEIGHT / 2) - 24
         );
 
@@ -72,6 +74,8 @@ public class Player extends Entity implements Serializable {
 
     @Override
     public void draw(Graphics2D graphics) {
+        int textWidth = graphics.getFontMetrics().stringWidth(name);
+
         graphics.drawImage(
                 images[currentImage][currentDirectionImage]
                 , Settings.SCREEN_WIDTH / 2
@@ -86,7 +90,7 @@ public class Player extends Entity implements Serializable {
         graphics.setColor(Color.RED);
         graphics.drawString(
                 name
-                , (Settings.SCREEN_WIDTH / 2) - (name.length() * 2)
+                , (Settings.SCREEN_WIDTH / 2) + (Settings.SCALED_TILE_SIZE / 2) - (textWidth / 2)
                 , (Settings.SCREEN_HEIGHT / 2) - 8
         );
 

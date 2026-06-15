@@ -18,9 +18,9 @@ public class Controller {
     private ServerConnection serverConnection;
     private Window gameWindow;
 
-    public Controller(ResourceManager resourceManager, MapManager mapManager, Socket socket) {
+    public Controller(ResourceManager resourceManager, MapManager mapManager, Socket socket, String username) {
         //the Controller creates the instances, otherwise something will break in the Connection between the Front- and Back-end
-        gameWindow = new Window(resourceManager, mapManager);
+        this.gameWindow = new Window(resourceManager, mapManager, username);
         this.serverConnection = new ServerConnection(socket, this);
         this.gameCanvas = gameWindow.getGameCanvas();
         gameWindow.setController(this);

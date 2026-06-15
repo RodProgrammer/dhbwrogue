@@ -17,7 +17,7 @@ public class Client {
         MapManager mapManager = new MapManager(resourceManager);
         try {
             socket = new Socket(ip, port);
-            new Controller(resourceManager, mapManager, socket);
+            new Controller(resourceManager, mapManager, socket, username);
         } catch (IOException ex) {
             System.out.println("[ERROR] Couldn't create Socket");
         }
