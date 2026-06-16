@@ -3,6 +3,7 @@ package dhbw.rogue;
 import dhbw.rogue.controller.Controller;
 import dhbw.rogue.mapmanager.MapManager;
 import dhbw.rogue.spritemanager.ResourceManager;
+import dhbw.rogue.utility.Logger;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -19,7 +20,8 @@ public class Client {
             socket = new Socket(ip, port);
             new Controller(resourceManager, mapManager, socket, username);
         } catch (IOException ex) {
-            System.out.println("[ERROR] Couldn't create Socket");
+            Logger.logError("Couldn't create Socket");
+            Logger.logError(ex.getMessage());
         }
     }
 

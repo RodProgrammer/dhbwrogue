@@ -3,6 +3,7 @@ package dhbw.rogue;
 import dhbw.rogue.data.Message;
 import dhbw.rogue.entity.Entity;
 import dhbw.rogue.entity.Player;
+import dhbw.rogue.utility.Logger;
 
 import java.io.*;
 import java.net.Socket;
@@ -81,7 +82,7 @@ public class ClientConnection implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Client connected.");
+        Logger.logInfo("Client connected.");
             try (ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                     ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
@@ -97,10 +98,11 @@ public class ClientConnection implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
             lobby.removeClient(this);
-            System.out.println("Client disconnected.");
+            Logger.logInfo("Client disconnected.");
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
-            System.out.println("Couldn't parse entity.");
+            Logger.logError("Couldn't parse entity.");
+            Logger.logError(ex.getMessage());
         } finally {
             try {
                 isConnected = false;
@@ -109,7 +111,8 @@ public class ClientConnection implements Runnable {
                 e.printStackTrace();
             }
             lobby.removeClient(this);
-            System.out.println("Last Client state: " + lastPlayerState);
+            //Logger.logInfo("Client disconnected.");
+            Logger.logInfo("Last Client state: " + lastPlayerState);
         }
     }
 
@@ -137,7 +140,7 @@ public class ClientConnection implements Runnable {
             try {
                 answer = in.readObject();
             } catch (SocketException | EOFException e) {
-                System.out.println("[ERROR]: " + e.getMessage());
+                Logger.logError(e.getMessage());
                 break;
             }
             switch (answer) {

@@ -4,6 +4,7 @@ import dhbw.rogue.data.Message;
 import dhbw.rogue.entity.Entity;
 import dhbw.rogue.entity.Player;
 import dhbw.rogue.mapmanager.maps.Map;
+import dhbw.rogue.utility.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,7 +125,7 @@ public class Lobby implements Runnable {
 
     public synchronized void removeClient(ClientConnection clientConnection) {
         clients.remove(clientConnection);
-        System.out.println("Client " + clientConnection.getUsername() + " has disconnected from the lobby: " + name + ".");
+        Logger.logInfo("Client " + clientConnection.getUsername() + " has disconnected from the lobby: " + name + ".");
         for (ClientConnection connection : clients) {
             connection.sendInformation("Disconnected: " + clientConnection.getUsername());
             connection.sendMessage(new Message("Disconnected Player", clientConnection.getLastPlayerState()));

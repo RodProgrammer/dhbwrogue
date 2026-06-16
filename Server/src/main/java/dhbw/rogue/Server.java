@@ -1,5 +1,7 @@
 package dhbw.rogue;
 
+import dhbw.rogue.utility.Logger;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,14 +21,15 @@ public class Server {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            System.err.println("[ERROR] Server couldn't create ServerSocket");
+            Logger.logError("[ERROR] Server couldn't create ServerSocket");
+            Logger.logError(e.getMessage());
             System.exit(-1);
         }
         connections = Collections.synchronizedList(new ArrayList<>());
 
         lobbyManager = new LobbyManager();
 
-        System.out.println("[INFO] Server has been started.");
+        Logger.logInfo("Server has been started.");
     }
 
 
@@ -44,7 +47,8 @@ public class Server {
                 }).start();
 
             } catch (IOException e) {
-                System.out.println("[ERROR] Client Connecting error");
+                Logger.logError("Client Connecting error");
+                Logger.logError(e.getMessage());
             }
         }
     }

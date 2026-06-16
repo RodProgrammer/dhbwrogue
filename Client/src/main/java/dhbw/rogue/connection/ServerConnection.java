@@ -5,6 +5,7 @@ import dhbw.rogue.data.Message;
 import dhbw.rogue.graphics.Window;
 import dhbw.rogue.entity.Entity;
 import dhbw.rogue.entity.Player;
+import dhbw.rogue.utility.Logger;
 
 import javax.swing.*;
 import java.io.*;
@@ -34,7 +35,8 @@ public class ServerConnection {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            System.out.println("[ERROR] Couldn't establish connection.");
+            Logger.logError("Couldn't establish connection.");
+            Logger.logError(e.getMessage());
             e.printStackTrace();
             System.exit(0);
             return;
@@ -54,18 +56,18 @@ public class ServerConnection {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("[INFO] Disconnected from server.");
+                Logger.logInfo("Disconnected from server.");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (ArrayStoreException e) {
-                System.err.println("[ERROR] ArrayStoreException while reading object.");
+                Logger.logError("ArrayStoreException while reading object.");
                 e.printStackTrace();
             } finally {
                 try {
                     socket.close();
                 } catch (IOException e) {
-                    System.out.println("[ERROR] " + e.getMessage());
-                    System.out.println("[INFO] Disconnected from Server.");
+                    Logger.logError(e.getMessage());
+                    Logger.logInfo("Disconnected from Server.");
                 }
             }
         }).start();
@@ -86,7 +88,7 @@ public class ServerConnection {
                 default -> {}
             }
         } catch (ClassCastException e) {
-            System.out.println("[ERROR] Can't cast Object" + System.lineSeparator());
+            Logger.logError("Can't cast Object" + System.lineSeparator());
             e.printStackTrace();
         }
     }
@@ -104,9 +106,7 @@ public class ServerConnection {
                     out.writeObject(o);
                     out.flush();
                 } else {
-                    System.out.println("[INFO] Lost connection.");
-
-                    //JOptionPane.showMessageDialog(gameWindow, "Lost connection.", "Server Connection", JOptionPane.WARNING_MESSAGE);
+                    Logger.logError("Lost connection.");
                     System.exit(0);
                 }
             }
