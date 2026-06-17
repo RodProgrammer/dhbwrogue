@@ -36,7 +36,7 @@ jobs:
       
           java -jar "$JAR" Server/src/main/java true 0 false server
           java -jar "$JAR" Client/src/main/java true 0 false client
-          java -jar "$JAR" Core/src/main/java true 0 false core
+          java -jar "$JAR" RogueCore/src/main/java true 0 false core
 
       - name: Show class metrics
         run: |
