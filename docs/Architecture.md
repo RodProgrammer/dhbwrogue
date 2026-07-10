@@ -131,3 +131,26 @@ Score = Wahrscheinlichkeitsklasse × Schadenshöhe
 - Niedrig = 1
 - Mittel = 2
 - Hoch = 3
+
+# Glossar
+| Begriff                                   | Definition                                                                                                                                                            |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Clandestine Dungeons                      | Arbeitstitel des Spiels laut SRS – ein Koop-Roguelike für bis zu 4 Spieler mit stärkerem Fokus auf Spieler-Interaktion als vergleichbare Genre-Vertreter              |
+| Lobby                                     | Bereich, in dem Spieler sich vor dem eigentlichen Spielstart zusammenfinden; kann laut SRS mit einem Passwort geschützt werden, um ungewollten Beitritt zu verhindern |
+| HUD (Head-Up Display)                     | Ingame-Anzeige, die laut SRS Lebens- und Mana-Anzeige sowie Zugriff auf Inventar und Textchat bereitstellt                                                            |
+| Mana                                      | Ressource der Spielfigur, die laut HUD-Feature separat von den Lebenspunkten (HP) angezeigt wird – vermutlich zum Wirken von Fähigkeiten benötigt                     |
+| HP (Lebenspunkte)                         | Wert, der angibt, wie viel Schaden eine Spielfigur oder ein Gegner aushalten kann, bevor sie/er besiegt wird                                                          |
+| XP (Erfahrungspunkte)                     | Werden laut SRS durch das Bekämpfen von Gegnern erbeutet und treiben das Skillsystem/Levelaufstieg an                                                                 |
+| Skillsystem / Skilltree                   | Feature 7 laut SRS: Ermöglicht es, die Spielfigur zu leveln und dabei Fähigkeiten über einen Skilltree freizuschalten                                                 |
+| Lootsystem                                | Feature 8 laut SRS: System zum Erbeuten von Gegenständen, u. a. nach dem Bekämpfen von Gegnern                                                                        |
+| Dungeon                                   | Zufallsgenerierter Bereich, den die Spieler laut SRS gemeinsam erkunden ("Erkunden der Welt", Feature 6)                                                              |
+| Textchat                                  | Kommunikationsmittel zwischen Spielern, Teil des HUD (Feature 4)                                                                                                      |
+| Server-Authoritative Modell               | Laut ADR1 gewählte Architektur: Der Server verwaltet den gültigen Spielzustand, um Cheats zu verhindern und Synchronität zwischen Spielern sicherzustellen            |
+| Client-Authoritative Modell               | Alternative, im ADR1 verworfene Variante, bei der der Client selbst den Spielzustand kontrolliert hätte                                                               |
+| ADR (Architecture Decision Record)        | Dokumentierte Architekturentscheidung inkl. Kontext, betrachteten Varianten und Konsequenzen (siehe Kap. 9 in Architecture.md)                                        |
+| SRS (Software Requirements Specification) | Dokument, das funktionale und nicht-funktionale Anforderungen beschreibt (bereits im SRS.md-Glossar definiert)                                                        |
+| GUI (Graphical User Interface)            | Grafische Benutzeroberfläche (bereits im SRS.md-Glossar definiert)                                                                                                    |
+| YouTrack                                  | Agiles Projektmanagement-Tool, das laut SRS für die Scrum-Organisation des Projekts genutzt wird                                                                      |
+| Bausteinsicht / Komponentendiagramm       | arc42-Kapitel bzw. UML-Diagrammtyp, der die statische Struktur/Komponenten des Systems zeigt (in Architecture.md referenziert)                                        |
+| Paketdiagramm                             | UML-Diagramm zur Darstellung der Paketstruktur des Java-Codes (in Architecture.md referenziert)                                                                       |
+| Sequenzdiagramm                           | UML-Diagramm zur Darstellung zeitlicher Abläufe, z. B. für „Einstellungen ändern“ oder „Spiel beenden“ (in SRS.md referenziert)                                       |
