@@ -71,3 +71,7 @@
 - **Umgebung:** Online-Multiplayer  
 - **Antwort:** Server prüft Gültigkeit und führt nur erlaubte Aktionen aus  
 - **Antwortmaß:** 99% Validierungsquote aller Aktionen
+
+## Baum Diagramm
+<img width="670" height="631" alt="grafik" src="https://github.com/user-attachments/assets/33624f5c-62cd-4a9f-bd5c-8796d9bd6832" />
+
