@@ -83,10 +83,13 @@ Diese Strategie ist geeignet, da ein Roguelike typischerweise viele wiederverwen
 ![Component diagramm](assets/Sequenzdiagramm.png) <br>
 
 # Verteilungssicht
-<i>TODO</i>
+<i>ausgelagert, siehe:</i>
+- Diagramm: https://github.com/RodProgrammer/dhbwrogue/blob/main/docs/ansichten/Verteilungsschichtdiagramm.pdf
+- Beschreibung: https://github.com/RodProgrammer/dhbwrogue/blob/main/docs/ansichten/Verteilungssicht_QuerschnittlicheKonzepte.docx
 
 # Querschnittliche Konzepte
-<i>TODO</i>
+<i>ausgelagert, siehe:</i>
+- https://github.com/RodProgrammer/dhbwrogue/blob/main/docs/ansichten/Verteilungssicht_QuerschnittlicheKonzepte.docx
 
 # Architekturentscheidungen
 
